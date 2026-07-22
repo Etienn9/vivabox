@@ -1,0 +1,123 @@
+import Link from "next/link"
+import { Plus } from "lucide-react"
+import type { LucideIcon } from "lucide-react"
+import { formatPrice } from "@/utils/formatPrice"
+
+type BoxCardProps = {
+  box: {
+    slug: string
+    name: string
+    description: string
+    image: string
+    price: number
+    experiences: number
+    examples: { label: string; icon: LucideIcon }[]
+    ribbon?: {
+      text: string
+      color: string
+    }
+    highlight?: boolean
+  }
+}
+
+export default function BoxCard({ box }: BoxCardProps) {
+
+  const imageSize = box.highlight ? "w-[230px]" : "w-[250px]"
+
+  const cardStyle = box.highlight
+    ? "shadow-[0_25px_60px_rgba(0,0,0,0.16)] md:-mt-6 border border-[#ECECEC]"
+    : "shadow-[0_16px_35px_rgba(0,0,0,0.08)] border border-[#ECECEC]"
+
+  return (
+    <div className="relative pt-16 text-center group">
+
+      {/* IMAGE */}
+
+      <div className="absolute -top-20 left-1/2 -translate-x-1/2 z-10">
+        <img
+          src={box.image}
+          alt={box.name}
+          className={`object-contain max-w-none drop-shadow-xl transition-transform duration-300 group-hover:scale-105 ${imageSize}`}
+        />
+      </div>
+
+      {/* CARD */}
+
+      <div
+        className={`relative overflow-hidden bg-white rounded-[18px] p-8 pt-28 transition hover:-translate-y-2 hover:shadow-[0_30px_60px_rgba(0,0,0,0.12)] ${cardStyle}`}
+      >
+
+        {/* DIAGONAL RIBBON */}
+
+        {box.ribbon && (
+          <div className="absolute bottom-0 right-0 w-24 h-24 pointer-events-none">
+            <div
+  className="absolute bottom-7 right-[-30px] -rotate-45 text-white text-[11px] font-medium tracking-wide w-[140px] text-center py-1 shadow-[0_6px_14px_rgba(0,0,0,0.15)] ring-1 ring-black/5"
+  style={{ backgroundColor: box.ribbon.color }}
+>
+  {box.ribbon.text}
+</div>
+          </div>
+        )}
+
+        {/* TITLE */}
+
+        <h3 className="text-[22px] font-semibold mb-1">
+          {box.name}
+        </h3>
+
+        {/* PRICE */}
+
+        <div className="text-[20px] font-semibold text-[#121212] mb-2">
+          ${formatPrice(box.price)}
+        </div>
+
+        {/* EXPERIENCE COUNT */}
+
+        <div className="text-[14px] text-[#fe842f] font-medium mb-4">
+          Más de {box.experiences} experiencias
+        </div>
+
+        {/* LABEL */}
+
+        <div className="text-[12px] uppercase tracking-wide text-[#9B9B9B] mb-3">
+          Ejemplos de experiencias
+        </div>
+
+        {/* EXPERIENCE LIST */}
+
+        <ul className="text-[14px] text-[#6B6B6B] mb-5 space-y-2">
+
+          {box.examples.map((item, index) => {
+            const Icon = item.icon
+            return (
+              <li key={index} className="flex items-center justify-center gap-2">
+                <Icon size={16} className="text-[#fe842f]" />
+                {item.label}
+              </li>
+            )
+          })}
+
+          {/* MORE EXPERIENCES */}
+
+          <li className="flex items-center justify-center gap-2 text-[#9B9B9B]">
+            <Plus size={16} className="text-[#fe842f]" />
+            muchas más
+          </li>
+
+        </ul>
+
+        {/* CTA */}
+
+        <Link
+          href={`/cajas/${box.slug}`}
+          className="inline-flex items-center justify-center h-12 px-7 rounded-xl bg-[#fe842f] text-white text-[15px] font-semibold transition hover:brightness-95"
+        >
+          Descubrir
+        </Link>
+
+      </div>
+
+    </div>
+  )
+}

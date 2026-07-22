@@ -1,0 +1,102 @@
+You are continuing the Vivabox website project.
+
+Before doing anything, follow these steps carefully.
+
+1. Read all documentation in the `ai-context` folder:
+
+Core context
+- 01_project.md
+- 02_product.md
+- 03_website.md
+- 04_brand.md
+- 05_technical.md
+
+Project state
+- PROJECT_STATE.md
+- TASKS.md
+- DECISIONS.md
+- AI_Rules.md
+
+2. After reading these files, summarize briefly:
+
+- the purpose of the project
+- the product model
+- the website structure
+- the current project state
+- the next tasks
+
+Do not write code yet.
+
+3. Confirm that you understand the project constraints, especially:
+
+- Vivabox is a gift product, not a marketplace of activities
+- the website speaks primarily to the buyer
+- experiences shown on the site are examples, not guaranteed items
+- the product hierarchy is: Gift → Box → Experience
+
+4. Once understanding is confirmed, continue the project by selecting the next highest priority task from TASKS.md.
+
+5. When generating code:
+
+- follow the architecture defined in 05_technical.md
+- reuse existing UI components whenever possible
+- keep components small and reusable
+- avoid unnecessary libraries
+- respect the design system defined in the brand documentation
+
+6. If a decision could affect the architecture or product logic, ask before implementing it.
+
+7. Do not repeat explanations from previous conversations unless necessary.
+
+Proceed step by step and focus on clean, maintainable code.
+
+
+
+
+We are about to end this conversation.
+
+Before finishing, summarize the current state of the project so that work can continue in a new conversation.
+
+Follow these instructions carefully. (outputs must be: .md)
+
+1. Update PROJECT_STATE.md
+
+Describe:
+- what has been completed
+- what is currently in progress
+- what remains to be built
+
+Be precise and concise.
+
+2. Update TASKS.md
+
+Create a clear ordered list of remaining tasks for the project.
+
+Group them by sections:
+- layout
+- components
+- sections
+- pages
+- checkout
+- performance
+- SEO
+
+3. Update DECISIONS.md
+
+List all important architectural or product decisions made during this conversation.
+
+Examples:
+- design decisions
+- UX rules
+- component structure
+- product rules
+
+4. Provide the exact prompt I should use to start the next conversation.
+
+The prompt must instruct the AI to:
+- read the ai-context folder
+- understand the project
+- continue with the next task.
+
+Do not generate code.
+Only generate the updated documentation.

@@ -1,0 +1,258 @@
+@import "tailwindcss";
+
+/* =========================================
+   Base
+========================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: #121212;
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+
+/* =========================================
+   Layout
+========================================= */
+
+.container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+/* Section spacing (more compact vertical rhythm) */
+
+.section {
+  padding-top: 32px;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-top: 44px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .section {
+    padding-top: 56px;
+  }
+}
+
+
+/* =========================================
+   Typography
+========================================= */
+
+.h1 {
+  font-size: 44px;
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  .h1 {
+    font-size: 56px;
+  }
+}
+
+.h2 {
+  font-size: 32px;
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@media (min-width: 768px) {
+  .h2 {
+    font-size: 40px;
+  }
+}
+
+.h3 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .h3 {
+    font-size: 24px;
+  }
+}
+
+
+/* =========================================
+   Scroll utilities
+========================================= */
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* =========================================
+   Benefits Bar Animation
+========================================= */
+
+@keyframes benefits-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-benefits {
+  display: flex;
+  animation: benefits-scroll 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-benefits:hover {
+  animation-play-state: paused;
+}
+
+
+/* =========================================
+   Edge Fade (Premium carousel effect)
+========================================= */
+
+.fade-edges {
+  position: relative;
+}
+
+.fade-edges::before,
+.fade-edges::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.fade-edges::before {
+  left: 0;
+  background: linear-gradient(to right, #F6F7F8, transparent);
+}
+
+.fade-edges::after {
+  right: 0;
+  background: linear-gradient(to left, #F6F7F8, transparent);
+}
+
+
+/* =========================================
+   Hero subtle zoom
+========================================= */
+
+@keyframes heroZoom {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.hero-zoom {
+  animation: heroZoom 18s ease-in-out infinite alternate;
+}
+
+
+/* =========================================
+   Step reveal animation
+========================================= */
+
+@keyframes stepReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-step {
+  animation: stepReveal 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* LID CONTAINER */
+.lid {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 120px;
+  transform-origin: bottom center;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* OUTSIDE (top of box) */
+.lid-outer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+  border-radius: 8px;
+  backface-visibility: hidden;
+  box-shadow:
+    inset 0 2px 4px rgba(255,255,255,0.05),
+    inset 0 -3px 6px rgba(0,0,0,0.6),
+    0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* INSIDE (when opened) */
+.lid-inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #0f0f0f;
+  border-radius: 8px;
+  transform: rotateX(180deg);
+  backface-visibility: hidden;
+  box-shadow:
+    inset 0 2px 6px rgba(255,255,255,0.04),
+    inset 0 -4px 10px rgba(0,0,0,0.8);
+}
+
+/* OPEN STATE */
+.box.open .lid {
+  transform: rotateX(-115deg);
+}
+.camera {
+  transform: rotateX(18deg) translateY(-20px);
+  transform-style: preserve-3d;
+}
