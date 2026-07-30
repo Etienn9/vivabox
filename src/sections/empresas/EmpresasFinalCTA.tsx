@@ -1,23 +1,34 @@
+import Reveal from "@/components/ui/Reveal";
+
 export default function EmpresasFinalCTA() {
   return (
-    <section className="bg-white py-16">
+    <section className="bg-white py-16 md:py-20">
 
-      <div className="max-w-4xl mx-auto px-6 text-center">
+      <div className="max-w-6xl mx-auto px-6">
 
-        <h2 className="text-3xl font-semibold mb-4">
-          Regalos corporativos fáciles de organizar
-        </h2>
+        <Reveal>
+          <div className="bg-primary rounded-[32px] px-8 md:px-16 py-16 md:py-20 text-center">
 
-        <p className="text-[#6B6B6B] mb-8">
-          Vivabox es una forma simple, original y memorable de hacer regalos en tu empresa.
-        </p>
+            <h2 className="text-white text-3xl md:text-4xl font-semibold tracking-[-0.01em] mb-5 max-w-[640px] mx-auto">
+              ¿Listo para sorprender a tu equipo o a tus clientes?
+            </h2>
 
-        <a
-          href="#contacto-empresas"
-          className="inline-flex items-center justify-center h-12 px-8 rounded-xl bg-[#fe842f] text-white font-semibold hover:brightness-95 transition"
-        >
-          Contactar Vivabox Empresas
-        </a>
+            <p className="text-white/90 text-[17px] leading-relaxed mb-10 max-w-[520px] mx-auto">
+              Cuéntanos cuántas personas quieres regalar y te ayudamos a
+              encontrar la mejor solución para tu empresa.
+            </p>
+
+            <a
+              href="https://wa.me/573142590291?text=Hola%2C%20me%20gustar%C3%ADa%20conocer%20las%20opciones%20de%20Vivabox%20para%20mi%20empresa."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center h-14 px-10 rounded-xl bg-white text-primary text-lg font-semibold hover:bg-white/90 transition shadow-lg"
+            >
+              Hablar por WhatsApp
+            </a>
+
+          </div>
+        </Reveal>
 
       </div>
 

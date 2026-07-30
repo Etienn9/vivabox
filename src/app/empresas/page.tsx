@@ -3,12 +3,11 @@ import Footer from "@/components/Footer";
 import WhatsappButton from "@/components/WhatsappButton";
 
 import EmpresasHero from "@/sections/empresas/EmpresasHero";
-import EmpresasProblem from "@/sections/empresas/EmpresasProblem";
-import EmpresasSolution from "@/sections/empresas/EmpresasSolution";
+import EmpresasQuickBenefits from "@/sections/empresas/EmpresasQuickBenefits";
+import EmpresasBenefits from "@/sections/empresas/EmpresasBenefits";
+import EmpresasCustomization from "@/sections/empresas/EmpresasCustomization";
 import EmpresasUseCases from "@/sections/empresas/EmpresasUseCases";
 import EmpresasHowItWorks from "@/sections/empresas/EmpresasHowItWorks";
-import EmpresasOptions from "@/sections/empresas/EmpresasOptions";
-import EmpresasContact from "@/sections/empresas/EmpresasContact";
 import EmpresasFinalCTA from "@/sections/empresas/EmpresasFinalCTA";
 
 export default function EmpresasPage() {
@@ -18,13 +17,17 @@ export default function EmpresasPage() {
 
       <main>
         <EmpresasHero />
-        <EmpresasProblem />
-        <EmpresasSolution />
+        <EmpresasQuickBenefits />
+        <EmpresasBenefits />
+        <EmpresasCustomization />
         <EmpresasUseCases />
         <EmpresasHowItWorks />
-        <EmpresasOptions />
-        <EmpresasContact />
         <EmpresasFinalCTA />
+
+        {/*
+          Empresas que confían en Vivabox — future social proof section.
+          Not populated yet: no logos to show. Add here once available.
+        */}
       </main>
 
       <Footer />
