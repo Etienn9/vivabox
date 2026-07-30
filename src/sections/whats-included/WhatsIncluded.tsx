@@ -104,7 +104,7 @@ export default function WhatsIncluded() {
             Todo en una sola caja.
           </h2>
 
-          <p className="text-ink/60 text-[15px] sm:text-[16px] md:text-[17px] max-w-[420px] mb-6 md:mb-8">
+          <p className="text-ink/60 text-[15px] sm:text-[16px] md:text-[17px] max-w-[420px] mb-2 md:mb-3">
             Caja de regalo con catálogo de experiencias, mensaje personal y código de activación.
           </p>
 
@@ -114,7 +114,7 @@ export default function WhatsIncluded() {
 
         <div className="relative w-screen left-1/2 -translate-x-1/2 px-4 sm:px-6 md:px-10">
 
-          <div className="relative w-full max-w-[1440px] mx-auto pt-4 md:pt-6">
+          <div className="relative w-full max-w-[1440px] mx-auto pt-1 md:pt-2">
 
             <div className="relative w-full aspect-[10/13.5]">
 
@@ -122,12 +122,6 @@ export default function WhatsIncluded() {
               <p className="absolute z-40 left-[4%] top-[16%] w-[13%] text-right font-hand text-ink/90 text-[16px] sm:text-[20px] md:text-[26px] leading-snug -rotate-2">
                 Lista para regalar.
               </p>
-
-              {/* grounding shadow, cast to the bottom-right of the box — sharp and defined, not diffuse */}
-              <div
-                className="absolute left-[38%] top-[47%] w-[32%] h-[6%] rounded-[100%] blur-sm"
-                style={{ background: "radial-gradient(ellipse, rgba(24,20,15,0.38) 0%, rgba(24,20,15,0.12) 60%, transparent 85%)" }}
-              />
 
               {/* BOX — hero, slight 3D perspective, never frontal-flat, centered at 50%/26% */}
 
@@ -139,7 +133,7 @@ export default function WhatsIncluded() {
                   src="/images/box-includes/vivabox-caja-regalo.png"
                   alt="Caja de regalo Vivabox con catálogo de experiencias"
                   fill
-                  className="object-contain drop-shadow-[12px_16px_14px_rgba(24,20,15,0.24)]"
+                  className="object-contain drop-shadow-[18px_10px_14px_rgba(24,20,15,0.22)]"
                   priority
                 />
               </div>
@@ -190,8 +184,8 @@ export default function WhatsIncluded() {
               </div>
 
               {/* Dentro encontrarás — small section lead-in, centered between the box and the three cards */}
-              <p className="absolute z-40 inset-x-0 top-[53%] text-center text-accent-red font-hand text-[18px] sm:text-[22px] md:text-[27px] leading-snug">
-                Dentro encontrarás
+              <p className="absolute z-40 inset-x-0 top-[51%] text-center text-accent-red font-hand text-[18px] sm:text-[22px] md:text-[27px] leading-snug">
+                Dentro <span className="underline">encontrará</span>:
               </p>
 
               {/* Catálogo / De experiencias. — close above the catalogue card (card spans 2%-32%) */}
@@ -236,7 +230,7 @@ export default function WhatsIncluded() {
 
         {/* GROUPING CONTAINER — border only, groups the categories title + grid */}
 
-        <div className="mt-1 md:mt-2 border-2 border-[#3A2E22] rounded-[28px] sm:rounded-[36px] md:rounded-[48px] px-4 pt-3 pb-6 sm:px-8 sm:pt-5 sm:pb-8 md:px-12 md:pt-6 md:pb-10">
+        <div className="-mt-6 sm:-mt-10 md:-mt-14 border-2 border-[#3A2E22] rounded-[28px] sm:rounded-[36px] md:rounded-[48px] px-4 pt-3 pb-6 sm:px-8 sm:pt-5 sm:pb-8 md:px-12 md:pt-6 md:pb-10">
 
           {/* CATALOGUE CONTINUATION — categories read as an extension of "Para elegir.", not a new section */}
 
