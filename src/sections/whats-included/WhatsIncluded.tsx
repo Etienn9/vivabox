@@ -100,7 +100,7 @@ export default function WhatsIncluded() {
 
         <div className="max-w-[1100px] mx-auto px-6">
 
-          <h2 className="text-ink text-[28px] sm:text-[34px] md:text-[42px] font-semibold leading-[1.15] tracking-tight max-w-[420px] mb-2">
+          <h2 className="text-ink text-[34px] sm:text-[42px] md:text-[52px] font-semibold leading-[1.1] tracking-tight max-w-[480px] mb-2">
             Todo en una sola caja.
           </h2>
 
@@ -118,8 +118,8 @@ export default function WhatsIncluded() {
 
             <div className="relative w-full aspect-[10/13.5]">
 
-              {/* Lista para regalar. — to the left of the box, vertically centered on it */}
-              <p className="absolute z-40 left-[-2%] top-[16%] w-[15%] text-right font-hand text-ink/90 text-[16px] sm:text-[20px] md:text-[26px] leading-snug -rotate-2">
+              {/* Lista para regalar. — to the left of the box, vertically centered on it, drawn in closer so it reads as tied to the box */}
+              <p className="absolute z-40 left-[4%] top-[16%] w-[13%] text-right font-hand text-ink/90 text-[16px] sm:text-[20px] md:text-[26px] leading-snug -rotate-2">
                 Lista para regalar.
               </p>
 
@@ -139,7 +139,7 @@ export default function WhatsIncluded() {
                   src="/images/box-includes/vivabox-caja-regalo.png"
                   alt="Caja de regalo Vivabox con catálogo de experiencias"
                   fill
-                  className="object-contain drop-shadow-[16px_22px_16px_rgba(24,20,15,0.34)]"
+                  className="object-contain drop-shadow-[12px_16px_14px_rgba(24,20,15,0.24)]"
                   priority
                 />
               </div>
@@ -189,32 +189,37 @@ export default function WhatsIncluded() {
                 </div>
               </div>
 
+              {/* Dentro encontrarás — small section lead-in, centered between the box and the three cards */}
+              <p className="absolute z-40 inset-x-0 top-[53.5%] text-center text-ink/80 font-sans font-semibold tracking-tight text-[14px] sm:text-[16px] md:text-[19px]">
+                Dentro encontrarás
+              </p>
+
               {/* Catálogo / De experiencias. — close above the catalogue card (card spans 2%-32%) */}
-              <div className="absolute z-40 left-[2%] top-[56.5%] w-[30%] text-center leading-snug">
-                <h3 className="font-sans uppercase tracking-wide font-semibold text-ink/70 text-[11px] sm:text-[13px] md:text-[14px]">
+              <div className="absolute z-40 left-[2%] top-[58.5%] w-[30%] text-center leading-snug">
+                <h3 className="font-sans font-semibold text-ink text-[13px] sm:text-[15px] md:text-[17px] tracking-tight">
                   Catálogo
                 </h3>
-                <p className="font-sans text-ink/65 text-[10px] sm:text-[11px] md:text-[12px] font-normal mt-0.5">
+                <p className="font-sans text-ink/55 text-[11px] sm:text-[12px] md:text-[13px] font-normal mt-0.5 md:mt-1">
                   De experiencias.
                 </p>
               </div>
 
               {/* Mensaje / Personal. — close above the message card (card spans 35%-65%) */}
-              <div className="absolute z-40 left-[35%] top-[56.5%] w-[30%] text-center leading-snug">
-                <h3 className="font-sans uppercase tracking-wide font-semibold text-ink/70 text-[11px] sm:text-[13px] md:text-[14px]">
+              <div className="absolute z-40 left-[35%] top-[58.5%] w-[30%] text-center leading-snug">
+                <h3 className="font-sans font-semibold text-ink text-[13px] sm:text-[15px] md:text-[17px] tracking-tight">
                   Mensaje
                 </h3>
-                <p className="font-sans text-ink/65 text-[10px] sm:text-[11px] md:text-[12px] font-normal mt-0.5">
+                <p className="font-sans text-ink/55 text-[11px] sm:text-[12px] md:text-[13px] font-normal mt-0.5 md:mt-1">
                   Personal.
                 </p>
               </div>
 
               {/* Activación / Código único. — close above the activation card (card spans 68%-98%) */}
-              <div className="absolute z-40 left-[68%] top-[56.5%] w-[30%] text-center leading-snug">
-                <h3 className="font-sans uppercase tracking-wide font-semibold text-ink/70 text-[11px] sm:text-[13px] md:text-[14px]">
+              <div className="absolute z-40 left-[68%] top-[58.5%] w-[30%] text-center leading-snug">
+                <h3 className="font-sans font-semibold text-ink text-[13px] sm:text-[15px] md:text-[17px] tracking-tight">
                   Activación
                 </h3>
-                <p className="font-sans text-ink/65 text-[10px] sm:text-[11px] md:text-[12px] font-normal mt-0.5">
+                <p className="font-sans text-ink/55 text-[11px] sm:text-[12px] md:text-[13px] font-normal mt-0.5 md:mt-1">
                   Código único.
                 </p>
               </div>
