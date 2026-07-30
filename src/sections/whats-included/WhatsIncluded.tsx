@@ -101,7 +101,12 @@ export default function WhatsIncluded() {
         <div className="max-w-[1100px] mx-auto px-6">
 
           <h2 className="text-ink text-[34px] sm:text-[42px] md:text-[52px] font-semibold leading-[1.1] tracking-tight max-w-[480px] mb-2">
-            Todo en una sola caja.
+            Todo en una sola{" "}
+            <span className="text-primary">c</span>
+            <span className="text-accent-red">a</span>
+            <span className="text-accent-green">j</span>
+            <span className="text-accent-blue">a</span>
+            <span className="text-violet-500">.</span>
           </h2>
 
           <p className="text-ink/60 text-[15px] sm:text-[16px] md:text-[17px] max-w-[420px] mb-2 md:mb-3">

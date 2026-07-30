@@ -1,7 +1,5 @@
 "use client";
 
-import BrandDots from "@/components/ui/BrandDots";
-
 export default function Occasions() {
 
   const occasions = [
@@ -41,8 +39,6 @@ export default function Occasions() {
     <section className="bg-ink py-12 md:py-14">
 
       <div className="max-w-6xl mx-auto px-6 mb-6 md:mb-8">
-
-        <BrandDots className="mx-auto justify-center" />
 
         <h2 className="h2 text-white text-center">
           ¿Para qué ocasión regalar una Vivabox?
