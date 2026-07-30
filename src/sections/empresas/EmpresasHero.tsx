@@ -3,7 +3,7 @@ export default function EmpresasHero() {
     <section className="relative h-[70vh] w-full overflow-hidden">
 
       <img
-        src="/images/hero/empresas.jpg"
+        src="/images/hero/hero.png"
         alt="Regalos corporativos Vivabox"
         className="absolute inset-0 w-full h-full object-cover"
       />

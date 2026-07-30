@@ -48,7 +48,10 @@ export async function getExperiencesPreview():Promise<Experience[]> {
 
       idealFor: row.idealFor,
       effortLevel: row.effortLevel,
-      ambiance: row.ambiance
+      ambiance: row.ambiance,
+      environment: row.environment,
+      engagement: row.engagement,
+      vivanote: row.vivanote
 
     }))
   }

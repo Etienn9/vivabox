@@ -5,6 +5,8 @@ import { useState, useEffect, useRef } from "react";
 import { getExperiencesPreview } from "@/services/experiences";
 import ExperienceModal from "@/components/ExperienceModal";
 import type { Experience } from "@/types/experience";
+import { CATEGORY_COLORS, DEFAULT_CATEGORY_COLOR } from "@/data/categories";
+import BrandDots from "@/components/ui/BrandDots";
 
 export default function ExperiencesPreview() {
 
@@ -49,39 +51,24 @@ export default function ExperiencesPreview() {
     }
   }, [experiencesPreview]);
 
-  const categoryBadge: Record<string,string> = {
-    gastronomia: "bg-orange-100 text-orange-600",
-    bienestar: "bg-blue-100 text-blue-600",
-    aventura: "bg-red-100 text-red-600",
-    cultura: "bg-purple-100 text-purple-600",
-    estancias: "bg-green-100 text-green-600",
-  };
-
-  const categoryBar: Record<string,string> = {
-    gastronomia: "bg-orange-500",
-    bienestar: "bg-blue-500",
-    aventura: "bg-red-500",
-    cultura: "bg-purple-500",
-    estancias: "bg-green-500",
-  };
-
   return (
-    <section id="experiencias" className="py-3">
+    <section id="experiencias" className="py-16 md:py-20">
 
       <div className="max-w-[1200px] mx-auto px-6">
 
         <div className="mb-6">
-          <h2 className="text-[36px] font-semibold mb-1">
-            Algunas experiencias disponibles
+          <BrandDots />
+          <h2 className="h2 mb-1">
+            Muchas formas de disfrutar una Vivabox
           </h2>
-          <p className="text-[#6B6B6B]">
-            Ejemplos de experiencias en Bogotá y Cundinamarca.
+          <p className="text-muted">
+            Descubre algunas de las experiencias disponibles.
           </p>
         </div>
 
         {/* LOADING */}
         {loading && (
-          <div className="text-sm text-[#6B6B6B]">
+          <div className="text-sm text-muted">
             Cargando experiencias...
           </div>
         )}
@@ -97,17 +84,17 @@ export default function ExperiencesPreview() {
 
               const categoryKey = exp.category?.toLowerCase() || "";
 
-              const badgeColor =
-                categoryBadge[categoryKey] || "bg-gray-100 text-gray-600";
+              const categoryColor =
+                CATEGORY_COLORS[categoryKey] || DEFAULT_CATEGORY_COLOR;
 
-              const barColor =
-                categoryBar[categoryKey] || "bg-gray-300";
+              const badgeColor = `${categoryColor.bg} ${categoryColor.text}`;
+              const barColor = categoryColor.dot;
 
               const imageSrc =
                 exp.image?.includes("images.pexels.com") ||
                 exp.image?.includes("images.unsplash.com")
                   ? exp.image
-                  : "/images/experience-placeholder.jpg";
+                  : "/images/box-includes/vivabox-caja-regalo.png";
 
               return (
 
@@ -147,14 +134,8 @@ export default function ExperiencesPreview() {
                     </h3>
 
                     {exp.city && (
-                      <p className="text-sm text-[#6B6B6B]">
+                      <p className="text-sm text-muted">
                         {exp.city}
-                      </p>
-                    )}
-
-                    {exp.duration && (
-                      <p className="text-xs text-gray-500 mt-[2px]">
-                        {exp.duration} min
                       </p>
                     )}
 
@@ -179,11 +160,9 @@ export default function ExperiencesPreview() {
                 />
 
                 <div className="absolute left-0 top-0 bottom-0 w-[6px] flex flex-col z-10">
-                  <div className="flex-1 bg-orange-500"></div>
-                  <div className="flex-1 bg-blue-500"></div>
-                  <div className="flex-1 bg-red-500"></div>
-                  <div className="flex-1 bg-purple-500"></div>
-                  <div className="flex-1 bg-green-500"></div>
+                  {Object.values(CATEGORY_COLORS).map((c) => (
+                    <div key={c.dot} className={`flex-1 ${c.dot}`}></div>
+                  ))}
                 </div>
 
               </div>
@@ -191,11 +170,11 @@ export default function ExperiencesPreview() {
               <div className="p-4 text-center">
 
                 <h3 className="font-semibold mb-1">
-                  Y muchas más experiencias
+                  Y muchas más por descubrir
                 </h3>
 
-                <p className="text-sm text-[#6B6B6B]">
-                  Nuestra selección evoluciona constantemente.
+                <p className="text-sm text-muted">
+                  Siempre estamos incorporando nuevas experiencias.
                 </p>
 
               </div>
@@ -205,8 +184,8 @@ export default function ExperiencesPreview() {
           </div>
         )}
 
-        <p className="text-sm text-[#6B6B6B] mt-3">
-          Más de 350 experiencias disponibles.
+        <p className="text-sm text-muted mt-3">
+          En Bogotá y Cundinamarca.
         </p>
 
       </div>

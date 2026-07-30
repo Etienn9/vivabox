@@ -2,13 +2,15 @@
 
 import { useEffect, useRef } from "react";
 import {
-  Zap,
   Calendar,
   RefreshCw,
   Clock,
   MapPin,
   Truck
 } from "lucide-react";
+import { boxes } from "@/data/boxes";
+
+const vivabox = boxes[0];
 
 export default function BenefitsBar() {
 
@@ -16,11 +18,10 @@ export default function BenefitsBar() {
 
   const items = [
     { icon: Truck, text: "Envío gratis" },
-    { icon: Zap, text: "E-box instantánea" },
     { icon: Calendar, text: "Reserva fácil" },
     { icon: RefreshCw, text: "Cambio gratuito" },
-    { icon: Clock, text: "12 meses" },
-    { icon: MapPin, text: "+350 experiencias" },
+    { icon: Clock, text: `Validez: ${vivabox.validityMonths} meses` },
+    { icon: MapPin, text: `${vivabox.experiences}+ experiencias` },
   ];
 
   const loopItems = [...items, ...items, ...items];
@@ -31,19 +32,32 @@ export default function BenefitsBar() {
 
     const itemWidth = container.scrollWidth / 3;
 
-    // start in the middle
-    container.scrollLeft = itemWidth;
+    // internal floating-point accumulator — the DOM scrollLeft rounds to
+    // whole pixels, so reading it back every frame loses sub-pixel deltas
+    // and slow speeds appear to freeze
+    let pos = itemWidth;
+    container.scrollLeft = pos;
 
     let paused = false;
+    let rafId: number;
 
     const autoScroll = () => {
       if (!paused) {
-        container.scrollLeft += 0.35;
+        pos += 0.12;
+
+        if (pos >= itemWidth * 2) {
+          pos -= itemWidth;
+        }
+
+        container.scrollLeft = pos;
+      } else {
+        pos = container.scrollLeft;
       }
-      requestAnimationFrame(autoScroll);
+
+      rafId = requestAnimationFrame(autoScroll);
     };
 
-    requestAnimationFrame(autoScroll);
+    rafId = requestAnimationFrame(autoScroll);
 
     const pause = () => (paused = true);
     const resume = () => (paused = false);
@@ -53,21 +67,8 @@ export default function BenefitsBar() {
     container.addEventListener("mouseenter", pause);
     container.addEventListener("mouseleave", resume);
 
-    const handleScroll = () => {
-
-      if (container.scrollLeft <= 0) {
-        container.scrollLeft = itemWidth;
-      }
-
-      if (container.scrollLeft >= itemWidth * 2) {
-        container.scrollLeft = itemWidth;
-      }
-    };
-
-    container.addEventListener("scroll", handleScroll);
-
     return () => {
-      container.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(rafId);
       container.removeEventListener("touchstart", pause);
       container.removeEventListener("touchend", resume);
       container.removeEventListener("mouseenter", pause);
@@ -77,7 +78,7 @@ export default function BenefitsBar() {
   }, []);
 
   return (
-    <div className="bg-[#F7F7F7] border-y">
+    <div className="bg-surface border-y-2 border-[#3A2E22]">
 
       <div className="max-w-7xl mx-auto">
 
@@ -97,7 +98,7 @@ export default function BenefitsBar() {
                 <Icon
                   size={18}
                   strokeWidth={1.8}
-                  className="text-[#fe842f]"
+                  className="text-primary"
                 />
                 <span>{item.text}</span>
               </div>
@@ -118,7 +119,7 @@ export default function BenefitsBar() {
                 <Icon
                   size={18}
                   strokeWidth={1.8}
-                  className="text-[#fe842f]"
+                  className="text-primary"
                 />
                 <span>{item.text}</span>
               </div>

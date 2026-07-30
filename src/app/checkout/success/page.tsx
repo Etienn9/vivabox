@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { Suspense, useState, useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import { User, Gift, Package } from "lucide-react"
 import CheckoutProgress from "../CheckoutProgress"
@@ -11,6 +11,14 @@ import TimePickerModal from "@/components/ui/TimePickerModal"
 type Type = "self" | "gift"
 
 export default function SuccessPage() {
+  return (
+    <Suspense fallback={null}>
+      <SuccessPageContent />
+    </Suspense>
+  )
+}
+
+function SuccessPageContent() {
   const searchParams = useSearchParams()
 
   const ventaId = searchParams.get("ventaId") || ""

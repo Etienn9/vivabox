@@ -21,7 +21,7 @@ export default function Testimonials() {
       type: "gift",
       name: "Andrés",
       city: "Bogotá",
-      label: "Vivabox Selecta",
+      label: "Vivabox",
       text: "Se la regalé a mis padres y les encantó poder elegir la experiencia."
     },
     {
@@ -36,7 +36,7 @@ export default function Testimonials() {
       type: "gift",
       name: "Natalia",
       city: "Bogotá",
-      label: "Vivabox Esencia",
+      label: "Vivabox",
       text: "Quería un regalo diferente y fue perfecto."
     },
     {
@@ -51,7 +51,7 @@ export default function Testimonials() {
       type: "gift",
       name: "Carlos",
       city: "Chía",
-      label: "Vivabox Selecta",
+      label: "Vivabox",
       text: "Fue un regalo muy original y fácil de entregar."
     },
     {
@@ -66,7 +66,7 @@ export default function Testimonials() {
       type: "gift",
       name: "Paula",
       city: "Bogotá",
-      label: "Vivabox Excepcion",
+      label: "Vivabox",
       text: "Un regalo elegante y diferente."
     },
     {
@@ -81,7 +81,7 @@ export default function Testimonials() {
       type: "gift",
       name: "Laura",
       city: "Chía",
-      label: "Vivabox Selecta",
+      label: "Vivabox",
       text: "Un regalo fácil de ofrecer y que siempre sorprende."
     }
   ];
@@ -105,11 +105,11 @@ export default function Testimonials() {
   }
 
   return (
-    <section className="bg-[#F7F7F7] py-3">
+    <section className="bg-surface py-16 md:py-20">
 
       <div className="max-w-6xl mx-auto px-6">
 
-        <h2 className="text-3xl font-semibold text-center mb-6">
+        <h2 className="h2 text-center mb-6">
           Lo que dicen quienes ya vivieron Vivabox
         </h2>
 
@@ -134,21 +134,21 @@ export default function Testimonials() {
 
                 <div className="flex items-center flex-wrap gap-3 text-sm mb-2">
 
-                  <div className="flex items-center gap-[2px] text-[#fe842f]">
+                  <div className="flex items-center gap-[2px] text-primary">
   {Array.from({ length: 5 }).map((_, i) => (
     <Star key={i} size={14} fill="currentColor" strokeWidth={0} />
   ))}
 </div>
 
                   {t.type === "experience" && Icon && (
-                    <div className="flex items-center gap-1 text-[#fe842f]">
+                    <div className="flex items-center gap-1 text-primary">
                       <Icon size={14} />
                       {t.label}
                     </div>
                   )}
 
                   {t.type === "gift" && (
-                    <div className="flex items-center gap-1 text-[#fe842f]">
+                    <div className="flex items-center gap-1 text-primary">
 
                       <Image
                         src="/icons/logo.png"
@@ -170,7 +170,7 @@ export default function Testimonials() {
 
                 {/* text */}
 
-                <p className="text-[#6B6B6B] text-sm leading-relaxed">
+                <p className="text-muted text-sm leading-relaxed">
                   “{t.text}”
                 </p>
 

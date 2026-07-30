@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import {
+  Gift,
   HelpCircle,
   Heart,
-  Clock,
+  CalendarCheck,
   RefreshCw,
+  Clock,
   MapPin,
+  Repeat,
   ChevronDown
 } from "lucide-react";
 
@@ -14,49 +17,67 @@ export default function FAQ() {
 
   const faqs = [
     {
+      icon: Gift,
+      question: "¿Qué incluye una Vivabox?",
+      answer:
+        "Una Vivabox incluye una caja de regalo, un catálogo de experiencias, un mensaje personal (opcional) y un código de activación único. Quien la recibe activa su Vivabox, descubre las experiencias disponibles, elige una y el equipo Vivabox acompaña la reserva.",
+    },
+    {
       icon: HelpCircle,
       question: "¿Cómo funciona Vivabox?",
       answer:
-        "Regalas una Vivabox. La persona activa el código online y elige la experiencia que más le guste.",
+        "Tú compras la Vivabox y la regalas. La persona que la recibe activa el código, descubre todas las experiencias disponibles, elige su favorita y reserva con el acompañamiento del equipo Vivabox.",
     },
     {
       icon: Heart,
-      question: "¿La persona puede elegir la experiencia que quiera?",
+      question: "¿La persona puede elegir cualquier experiencia?",
       answer:
-        "Sí. La persona que recibe la Vivabox puede elegir libremente entre todas las experiencias disponibles en su caja.",
+        "Sí. Puede elegir libremente entre todas las experiencias disponibles incluidas en la Vivabox que recibió.",
     },
     {
-      icon: Clock,
-      question: "¿Cuánto tiempo es válida?",
+      icon: CalendarCheck,
+      question: "¿Cómo se reserva una experiencia?",
       answer:
-        "Tienes tiempo de sobra para usar tu Vivabox. Podrás elegir la experiencia y reservar cuando quieras dentro del periodo de validez.",
+        "Después de activar la Vivabox, la persona elige una experiencia y el equipo Vivabox acompaña todo el proceso de reserva con el prestador.",
     },
     {
       icon: RefreshCw,
       question: "¿Qué pasa si una experiencia no está disponible?",
       answer:
-        "No pasa nada. Siempre hay muchas otras experiencias disponibles para elegir.",
+        "Si una experiencia no tiene disponibilidad, podrá elegir otra opción disponible. El equipo Vivabox acompañará el proceso para encontrar la mejor alternativa.",
+    },
+    {
+      icon: Clock,
+      question: "¿Cuánto tiempo es válida una Vivabox?",
+      answer:
+        "Cada Vivabox tiene una vigencia de seis meses desde la fecha de compra.",
     },
     {
       icon: MapPin,
       question: "¿Dónde se pueden usar las experiencias?",
       answer:
-        "Las experiencias están disponibles en Bogotá y Cundinamarca. Seguimos ampliando nuevas ciudades.",
+        "Actualmente las experiencias están disponibles en Bogotá y Cundinamarca. La selección continúa creciendo constantemente.",
+    },
+    {
+      icon: Repeat,
+      question: "¿Qué pasa si la persona cambia de opinión?",
+      answer:
+        "Mientras no haya reservado, puede cambiar su elección y seleccionar otra experiencia disponible dentro de su Vivabox.",
     },
   ];
 
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="bg-[#F7F7F7] py-3">
+    <section className="bg-ink py-16 md:py-20">
 
       <div className="container max-w-[760px]">
 
-        <h2 className="text-3xl font-semibold text-center mb-8">
+        <h2 className="h2 text-white text-center mb-8">
           Preguntas frecuentes
         </h2>
 
-        <div className="divide-y">
+        <div className="divide-y divide-white/10">
 
           {faqs.map((faq, i) => {
 
@@ -67,7 +88,7 @@ export default function FAQ() {
 
               <div
                 key={i}
-                className="py-5 transition-colors hover:bg-[#fafafa]"
+                className="py-5 transition-colors hover:bg-white/5"
               >
 
                 <button
@@ -79,10 +100,10 @@ export default function FAQ() {
 
                     <Icon
                       size={18}
-                      className="text-[#fe842f]"
+                      className="text-primary"
                     />
 
-                    <span className="font-medium">
+                    <span className="font-medium text-white">
                       {faq.question}
                     </span>
 
@@ -90,8 +111,8 @@ export default function FAQ() {
 
                   <ChevronDown
                     size={20}
-                    className={`transition-transform duration-300 ${
-                      isOpen ? "rotate-180 text-[#fe842f]" : ""
+                    className={`transition-transform duration-300 text-white/40 ${
+                      isOpen ? "rotate-180 text-primary" : ""
                     }`}
                   />
 
@@ -105,7 +126,7 @@ export default function FAQ() {
                   }`}
                 >
 
-                  <p className="text-[#6B6B6B] text-sm leading-relaxed pl-7">
+                  <p className="text-white/60 text-sm leading-relaxed pl-7">
                     {faq.answer}
                   </p>
 

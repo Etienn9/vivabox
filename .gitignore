@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+vivabox-coming-soon/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -16,6 +17,7 @@
 # next.js
 /.next/
 /out/
+vivabox-coming-soon/.next/
 
 # production
 /build

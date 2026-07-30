@@ -2,45 +2,55 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import WhatsappButton from "@/components/WhatsappButton";
 import Hero from "../sections/hero/Hero";
-import Boxes from "../sections/boxes/Boxes";
-import HowItWorks from "../sections/how-it-works/HowItWorks";
+import HeroGuideArrow from "@/components/ui/HeroGuideArrow";
+import WhatsIncluded from "../sections/whats-included/WhatsIncluded";
 import ExperiencesPreview from "../sections/experiences-preview/ExperiencesPreview";
 import Occasions from "../sections/occasions/Occasions";
 import Testimonials from "../sections/testimonials/Testimonials";
 import FAQ from "../sections/faq/FAQ";
 import FinalCTA from "../sections/final-cta/FinalCTA";
 
-import BenefitsBar from "@/components/BenefitsBar";
+import BrandRibbon from "@/components/ui/BrandRibbon";
+import { getFAQPageSchema } from "@/data/faqSchema";
 
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getFAQPageSchema()) }}
+      />
+
       <Navbar />
 
       <main>
 
-        <Hero />
+        <div className="relative">
+          <Hero />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 max-w-[1200px] mx-auto">
+            <HeroGuideArrow />
+          </div>
+        </div>
 
-        <BenefitsBar />
+        <section id="incluye" className="scroll-mt-24">
+          <WhatsIncluded />
+        </section>
 
-        <section id="cajas" className="scroll-mt-24">
-  <Boxes />
-</section>
+        <section id="experiencias" className="scroll-mt-24">
+          <ExperiencesPreview />
+        </section>
 
-<section id="como-funciona" className="scroll-mt-24">
-  <HowItWorks />
-</section>
+        <Occasions />
 
-<section id="experiencias" className="scroll-mt-24">
-  <ExperiencesPreview />
-</section>
+        <BrandRibbon />
 
-<Occasions />
-<Testimonials />
+        <Testimonials />
 
-<section id="faq" className="scroll-mt-24">
-  <FAQ />
-</section>
+        <section id="faq" className="scroll-mt-24">
+          <FAQ />
+        </section>
+
+        <BrandRibbon />
 
         <FinalCTA />
 

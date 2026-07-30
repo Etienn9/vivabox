@@ -1,77 +1,82 @@
+"use client";
+
+import BrandDots from "@/components/ui/BrandDots";
+
 export default function Occasions() {
 
   const occasions = [
     {
       name: "Cumpleaños",
-      subtitle: "Un regalo que no se olvida",
       image: "/images/occasions/cumpleanos.jpg",
+      ariaLabel: "Regalo de cumpleaños",
     },
     {
       name: "Aniversario",
-      subtitle: "Un momento especial para dos",
       image: "/images/occasions/aniversario.jpg",
+      ariaLabel: "Regalo de aniversario",
     },
     {
       name: "Agradecimiento",
-      subtitle: "Para decir gracias de una forma única",
       image: "/images/occasions/agradecimiento.jpg",
+      ariaLabel: "Regalo de agradecimiento",
     },
     {
       name: "Matrimonio",
-      subtitle: "Para celebrar el amor",
       image: "/images/occasions/boda.jpg",
+      ariaLabel: "Regalo de matrimonio",
     },
     {
       name: "Para dos",
-      subtitle: "Experiencias para compartir",
       image: "/images/occasions/pareja.jpg",
+      ariaLabel: "Regalo para parejas",
     },
     {
-      name: "Regalo Empresarial",
-      subtitle: "Para agradecer y reconocer",
+      name: "Empresas",
       image: "/images/occasions/empresarial.jpg",
+      ariaLabel: "Regalos empresariales",
     },
   ];
 
   return (
-    <section className="bg-white py-3">
+    <section className="bg-ink py-12 md:py-14">
 
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6 mb-6 md:mb-8">
 
-        <h2 className="text-3xl font-semibold text-center mb-3">
-          Un regalo para cualquier ocasión
+        <BrandDots className="mx-auto justify-center" />
+
+        <h2 className="h2 text-white text-center">
+          ¿Para qué ocasión regalar una Vivabox?
         </h2>
-        
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+
+      </div>
+
+      {/* CAROUSEL — first card fully visible, next peeks in to invite swiping */}
+
+      <div className="max-w-6xl mx-auto">
+
+        <div className="flex gap-4 md:gap-5 overflow-x-auto px-6 pb-2 no-scrollbar snap-x snap-mandatory scroll-smooth">
 
           {occasions.map((item) => (
+
             <div
               key={item.name}
-              tabIndex={0}
-              className="relative rounded-lg overflow-hidden group cursor-pointer focus:outline-none"
+              className="relative shrink-0 w-[70%] sm:w-[300px] aspect-[3/4] rounded-[24px] overflow-hidden snap-start"
+              aria-label={item.ariaLabel}
             >
 
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-full h-[190px] object-cover transition duration-300 group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent transition duration-300 group-hover:from-black/85" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/0 to-transparent" />
 
-              <div className="absolute bottom-3 left-3 right-3 text-white">
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
 
-                <h3 className="text-base font-semibold transition-transform duration-300
-                  group-hover:-translate-y-4
-                  group-focus:-translate-y-4">
+                <h3 className="text-white text-[20px] md:text-[22px] font-semibold leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,.25)]">
                   {item.name}
                 </h3>
-
-                <p className="text-xs mt-[2px] opacity-0 transition-all duration-300
-                  group-hover:opacity-100
-                  group-focus:opacity-100">
-                  {item.subtitle}
-                </p>
 
               </div>
 

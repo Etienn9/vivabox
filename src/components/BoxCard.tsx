@@ -25,8 +25,8 @@ export default function BoxCard({ box }: BoxCardProps) {
   const imageSize = box.highlight ? "w-[230px]" : "w-[250px]"
 
   const cardStyle = box.highlight
-    ? "shadow-[0_25px_60px_rgba(0,0,0,0.16)] md:-mt-6 border border-[#ECECEC]"
-    : "shadow-[0_16px_35px_rgba(0,0,0,0.08)] border border-[#ECECEC]"
+    ? "shadow-[0_25px_60px_rgba(0,0,0,0.16)] md:-mt-6 border border-border"
+    : "shadow-[0_16px_35px_rgba(0,0,0,0.08)] border border-border"
 
   return (
     <div className="relative pt-16 text-center group">
@@ -68,31 +68,31 @@ export default function BoxCard({ box }: BoxCardProps) {
 
         {/* PRICE */}
 
-        <div className="text-[20px] font-semibold text-[#121212] mb-2">
+        <div className="text-[20px] font-semibold text-foreground mb-2">
           ${formatPrice(box.price)}
         </div>
 
         {/* EXPERIENCE COUNT */}
 
-        <div className="text-[14px] text-[#fe842f] font-medium mb-4">
+        <div className="text-[14px] text-primary font-medium mb-4">
           Más de {box.experiences} experiencias
         </div>
 
         {/* LABEL */}
 
-        <div className="text-[12px] uppercase tracking-wide text-[#9B9B9B] mb-3">
+        <div className="text-[12px] uppercase tracking-wide text-muted mb-3">
           Ejemplos de experiencias
         </div>
 
         {/* EXPERIENCE LIST */}
 
-        <ul className="text-[14px] text-[#6B6B6B] mb-5 space-y-2">
+        <ul className="text-[14px] text-muted mb-5 space-y-2">
 
           {box.examples.map((item, index) => {
             const Icon = item.icon
             return (
               <li key={index} className="flex items-center justify-center gap-2">
-                <Icon size={16} className="text-[#fe842f]" />
+                <Icon size={16} className="text-primary" />
                 {item.label}
               </li>
             )
@@ -100,8 +100,8 @@ export default function BoxCard({ box }: BoxCardProps) {
 
           {/* MORE EXPERIENCES */}
 
-          <li className="flex items-center justify-center gap-2 text-[#9B9B9B]">
-            <Plus size={16} className="text-[#fe842f]" />
+          <li className="flex items-center justify-center gap-2 text-muted">
+            <Plus size={16} className="text-primary" />
             muchas más
           </li>
 
@@ -111,7 +111,7 @@ export default function BoxCard({ box }: BoxCardProps) {
 
         <Link
           href={`/cajas/${box.slug}`}
-          className="inline-flex items-center justify-center h-12 px-7 rounded-xl bg-[#fe842f] text-white text-[15px] font-semibold transition hover:brightness-95"
+          className="inline-flex items-center justify-center h-12 px-7 rounded-xl bg-primary text-white text-[15px] font-semibold transition hover:brightness-95"
         >
           Descubrir
         </Link>

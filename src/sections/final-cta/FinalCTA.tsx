@@ -1,23 +1,55 @@
+import Image from "next/image";
+
 export default function FinalCTA() {
   return (
-    <section className="bg-[#fff4ec] py-3">
+    <section className="relative w-screen left-1/2 -translate-x-1/2 bg-white overflow-hidden">
 
-      <div className="max-w-4xl mx-auto px-6 text-center">
+      <div className="max-w-[1200px] mx-auto grid grid-cols-2 items-stretch h-[480px] sm:h-[520px] md:h-[560px] lg:h-[620px]">
 
-        <h2 className="text-3xl font-semibold mb-3">
-          Elige tu Vivabox
-        </h2>
+        {/* PHOTO */}
 
-        <p className="text-[#6B6B6B] mb-6">
-          Regala una experiencia que se recordará siempre.
-        </p>
+        <div className="relative w-full h-full">
+          <Image
+            src="/images/final-cta/persona-regalando-vivabox.png"
+            alt="Persona regalando una caja de regalo Vivabox"
+            fill
+            className="object-cover"
+          />
+        </div>
 
-        <a
-          href="#cajas"
-          className="inline-flex items-center justify-center h-11 px-6 rounded-xl bg-[#fe842f] text-white font-semibold transition hover:brightness-95"
-        >
-          Ver cajas
-        </a>
+        {/* TEXT */}
+
+        <div className="flex flex-col items-center justify-center px-4 sm:px-8 md:px-14 lg:px-20 text-center">
+
+          <h2 className="text-ink text-[28px] sm:text-[34px] md:text-[46px] lg:text-[54px] font-semibold leading-[1.1] tracking-tight mb-5 md:mb-7">
+            Regalar.
+            <br />
+            Sorprender.
+            <br />
+            ¡Qué nota!
+          </h2>
+
+          <Image
+            src="/icons/vivabox.png"
+            alt="Vivabox, caja de regalo de experiencias"
+            width={170}
+            height={43}
+            className="mb-6 md:mb-8"
+          />
+
+          <p className="text-muted text-[13px] sm:text-[14px] mb-6 md:mb-8">
+            La forma más fácil de regalar experiencias.
+          </p>
+
+          <a
+            href="/proximamente"
+            aria-label="Comprar Vivabox"
+            className="px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-xl bg-primary text-white text-[15px] sm:text-[16px] md:text-[17px] font-semibold inline-flex items-center justify-center text-center leading-snug transition hover:bg-primary-hover shadow-[0_10px_35px_rgba(254,132,47,.35)]"
+          >
+            Comprar Vivabox
+          </a>
+
+        </div>
 
       </div>
 

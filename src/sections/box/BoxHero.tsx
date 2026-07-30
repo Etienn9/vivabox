@@ -1,15 +1,14 @@
 "use client"
 
+import { useEffect } from "react"
 import Image from "next/image"
-import { useEffect, useState, useMemo } from "react"
 import { formatPrice } from "@/utils/formatPrice"
 import { Check } from "lucide-react"
-import { kalam } from "@/lib/fonts"
 import { useRouter } from "next/navigation"
+import { useCheckoutStore } from "@/features/checkout/checkoutStore"
 
 type BoxHeroProps = {
   name: string
-  description: string
   price: number
   experiences: number
   image: string
@@ -19,7 +18,6 @@ type BoxHeroProps = {
 
 export default function BoxHero({
   name,
-  description,
   price,
   experiences,
   image,
@@ -28,54 +26,40 @@ export default function BoxHero({
 }: BoxHeroProps) {
 
   const router = useRouter()
-  const [index, setIndex] = useState(0)
-
-  const heroImages = useMemo(() => [
-    `/images/hero/${slug}-1.jpg`,
-    `/images/hero/${slug}-2.jpg`,
-    `/images/hero/${slug}-3.jpg`,
-    `/images/hero/${slug}-4.jpg`,
-    `/images/hero/${slug}-5.jpg`,
-  ], [slug])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % heroImages.length)
-    }, 8000)
-
-    return () => clearInterval(interval)
-  }, [heroImages])
 
   const parts = name.split(" ")
   const brand = parts[0]
-  const boxName = parts[1] ?? ""
+  const boxName = parts.slice(1).join(" ")
 
-  const scrollToIncludes = () => {
-    const el = document.getElementById("box-includes")
-    if (el) el.scrollIntoView({ behavior: "smooth" })
-  }
+  const quantity = useCheckoutStore((s) => s.quantity)
+  const setQuantity = useCheckoutStore((s) => s.setQuantity)
+  const setBox = useCheckoutStore((s) => s.setBox)
+
+  useEffect(() => {
+    setBox({ slug, name, price })
+  }, [slug, name, price, setBox])
+
+  const increase = () => setQuantity(Math.min(10, quantity + 1))
+  const decrease = () => setQuantity(Math.max(1, quantity - 1))
+
+  const subtotal = price * quantity
 
   const handleCheckout = () => {
     router.push(`/checkout/${slug}`)
   }
 
   return (
-    <section className="relative overflow-hidden py-24">
+    <section className="relative overflow-hidden py-20 md:py-24">
 
-      {/* BACKGROUND IMAGES */}
+      {/* BACKGROUND IMAGE */}
       <div className="absolute inset-0 -z-10">
-        {heroImages.map((src, i) => (
-          <Image
-            key={src}
-            src={src}
-            alt="Experiencias Vivabox"
-            fill
-            priority={i === 0}
-            className={`object-cover blur-[5px] brightness-[0.8] scale-110 transition-opacity duration-[4000ms] ease-in-out ${
-              i === index ? "opacity-100" : "opacity-0"
-            }`}
-          />
-        ))}
+        <Image
+          src="/images/hero/hero.png"
+          alt="Experiencias Vivabox"
+          fill
+          priority
+          className="object-cover blur-[5px] brightness-[0.8] scale-110"
+        />
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
@@ -84,74 +68,110 @@ export default function BoxHero({
         {/* TEXT */}
         <div className="text-white">
 
-          <h1 className="text-[42px] md:text-[52px] font-semibold mb-1">
-            {brand}{" "}
-            <span
-              className={`${kalam.className} font-bold text-[1.15em]`}
-              style={{ color: signatureColor }}
-            >
-              {boxName}
-            </span>
+          <h1 className="h1 mb-4 max-w-[440px]">
+            Tu regalo ya casi está listo.
           </h1>
 
-          <p className="text-[20px] text-white/80 mb-2 max-w-[460px]">
-            {description}
-          </p>
+          {/* PRODUCT SUMMARY */}
+          <div className="flex items-center flex-wrap gap-x-3 gap-y-1 mb-6">
+            <span className="text-[19px] font-semibold">
+              {brand}{" "}
+              <span
+                className="font-accent font-bold"
+                style={{ color: signatureColor }}
+              >
+                {boxName}
+              </span>
+            </span>
+            <span className="text-white/40">·</span>
+            <span className="text-[19px] font-semibold">
+              ${formatPrice(price)} COP
+            </span>
+          </div>
 
           {/* BOX MOBILE */}
-          <div className="flex justify-center my-1 md:hidden">
+          <div className="flex justify-center my-2 md:hidden">
             <Image
               src={image}
               alt={name}
-              width={260}
-              height={260}
+              width={220}
+              height={220}
               className="object-contain drop-shadow-[0_50px_70px_rgba(0,0,0,0.55)]"
             />
           </div>
 
-          {/* EXPERIENCES */}
-          <div className="text-[20px] font-semibold text-[#E67626] mb-3">
-            Más de {experiences} experiencias para elegir
+          {/* GIFT CONFIGURATION CARD */}
+          <div className="bg-white/95 text-foreground rounded-2xl p-5 md:p-6 mb-6 shadow-2xl">
+
+            <p className="text-[14px] font-medium text-muted mb-3">
+              ¿Cuántas Vivabox quieres regalar?
+            </p>
+
+            <div className="flex items-center gap-4 mb-4">
+              <button
+                onClick={decrease}
+                aria-label="Restar"
+                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-[18px] font-semibold hover:bg-surface transition"
+              >
+                –
+              </button>
+
+              <span className="text-[20px] font-semibold w-6 text-center">
+                {quantity}
+              </span>
+
+              <button
+                onClick={increase}
+                aria-label="Sumar"
+                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-[18px] font-semibold hover:bg-surface transition"
+              >
+                +
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between pt-4 border-t border-border">
+              <span className="text-[14px] text-muted">
+                Subtotal
+              </span>
+              <span className="text-[18px] font-semibold">
+                ${formatPrice(subtotal)} COP
+              </span>
+            </div>
+
           </div>
 
-          {/* TRUST */}
+          {/* CHECKLIST */}
           <div className="space-y-2 mb-8 text-[15px] text-white/80">
             <div className="flex items-center gap-2">
-              <Check size={18} className="text-[#E67626]" />
-              Entrega física o digital
+              <Check size={18} className="text-primary-hover" />
+              Más de {experiences} experiencias
             </div>
             <div className="flex items-center gap-2">
-              <Check size={18} className="text-[#E67626]" />
-              Válida por 12 meses
+              <Check size={18} className="text-primary-hover" />
+              La persona elige la experiencia
             </div>
             <div className="flex items-center gap-2">
-              <Check size={18} className="text-[#E67626]" />
-              La persona elige su experiencia
+              <Check size={18} className="text-primary-hover" />
+              Vigencia 6 meses
             </div>
-          </div>
-
-          {/* PRICE */}
-          <div className="text-[30px] font-semibold mb-6">
-            ${formatPrice(price)}
+            <div className="flex items-center gap-2">
+              <Check size={18} className="text-primary-hover" />
+              Envío gratis
+            </div>
           </div>
 
           {/* CTA */}
-          <div className="flex flex-col sm:flex-row gap-4 items-start">
+          <button
+            onClick={handleCheckout}
+            className="w-full sm:w-auto h-14 px-12 rounded-xl bg-primary-hover text-white font-semibold text-[17px] hover:brightness-95 transition shadow-xl"
+          >
+            Comprar ahora
+          </button>
 
-            <button
-              onClick={handleCheckout}
-              className="h-12 px-10 rounded-xl bg-[#E67626] text-white font-semibold text-[16px] hover:brightness-95 transition shadow-xl"
-            >
-              Comprar Vivabox
-            </button>
-
-            <button
-              onClick={scrollToIncludes}
-              className="h-12 px-8 rounded-xl border border-white/40 text-white text-[15px] hover:bg-white/10 transition"
-            >
-              ¿Qué incluye?
-            </button>
-
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-4 text-[13px] text-white/60">
+            <span>Compra segura</span>
+            <span>Pago protegido</span>
+            <span>Envío gratis</span>
           </div>
 
         </div>
@@ -161,8 +181,8 @@ export default function BoxHero({
           <Image
             src={image}
             alt={name}
-            width={440}
-            height={440}
+            width={420}
+            height={420}
             className="object-contain drop-shadow-[0_60px_80px_rgba(0,0,0,0.55)]"
           />
         </div>

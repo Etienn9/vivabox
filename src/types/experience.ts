@@ -11,4 +11,7 @@ export type Experience = {
   idealFor?: string
   effortLevel?: string
   ambiance?: string
+  environment?: string
+  engagement?: string
+  vivanote?: string
 }

@@ -5,16 +5,9 @@ import Footer from "@/components/Footer"
 import WhatsappButton from "@/components/WhatsappButton"
 
 import BoxHero from "@/sections/box/BoxHero"
-import BoxGiftMoment from "@/sections/box/BoxGiftMoment"
-import BoxIncludes from "@/sections/box/BoxIncludes"
-import BoxOccasions from "@/sections/box/BoxOccasions"
-
-import ExperiencesPreview from "@/sections/experiences-preview/ExperiencesPreview"
-import HowItWorks from "@/sections/how-it-works/HowItWorks"
-import Testimonials from "@/sections/testimonials/Testimonials"
-import FinalCTA from "@/sections/final-cta/FinalCTA"
-
-import BoxesComparison from "@/sections/boxes-comparison/BoxesComparison"
+import Occasions from "@/sections/occasions/Occasions"
+import BoxReassurance from "@/sections/box/BoxReassurance"
+import BoxFinalCTA from "@/sections/box/BoxFinalCTA"
 
 import { boxes } from "@/data/boxes"
 
@@ -44,7 +37,6 @@ export default async function BoxPage({ params }: PageProps) {
 
         <BoxHero
           name={box.name}
-          description={box.description}
           price={box.price}
           experiences={box.experiences}
           image={box.image}
@@ -52,21 +44,11 @@ export default async function BoxPage({ params }: PageProps) {
           slug={box.slug}
         />
 
-        <BoxGiftMoment />
+        <Occasions />
 
-<BoxIncludes />
+        <BoxReassurance />
 
-<ExperiencesPreview />
-
-<HowItWorks />
-
-<BoxOccasions />
-
-<BoxesComparison />
-
-<Testimonials />
-
-<FinalCTA />
+        <BoxFinalCTA price={box.price} slug={box.slug} />
 
       </main>
 

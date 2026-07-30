@@ -52,8 +52,8 @@ export default function Navbar() {
 
             <button
               onClick={() => setMenuOpen(true)}
-              className={`md:hidden transition hover:scale-105 ${
-                solid ? "text-[#121212]" : "text-white"
+              className={`md:hidden transition hover:scale-105 translate-y-[2px] ${
+                solid ? "text-foreground" : "text-white"
               }`}
             >
               <Menu size={28} />
@@ -86,14 +86,14 @@ export default function Navbar() {
           {/* NAV DESKTOP */}
           <div
             className={`hidden md:flex gap-8 text-[15px] transition-colors ${
-              solid ? "text-[#152f40]" : "text-white"
+              solid ? "text-ink" : "text-white"
             }`}
           >
-            <Link href="/#como-funciona">Cómo funciona</Link>
-            <Link href="/#cajas">Cajas</Link>
+            <Link href="/#incluye">Cómo funciona</Link>
+            <Link href="/#incluye">Cajas</Link>
             <Link href="/#experiencias">Experiencias</Link>
-            <Link href="/empresas">Empresas</Link>
-            <Link href="/nuestra-historia">Nuestra historia</Link>
+            <Link href="/proximamente">Empresas</Link>
+            <Link href="/proximamente">Nuestra historia</Link>
           </div>
 
           {/* ACTIONS */}
@@ -101,32 +101,32 @@ export default function Navbar() {
 
             {/* CTA SECONDARY (activation) */}
             <Link
-              href="/activar"
+              href="/proximamente"
               className={`
                 inline-flex items-center gap-2
-                h-9 md:h-10 px-3 md:px-4
+                h-10 px-3.5 md:px-4
                 rounded-full border-2
-                text-xs md:text-sm font-semibold
+                text-sm font-semibold
                 whitespace-nowrap shrink-0
                 transition-all duration-200
                 ${
                   solid
-                    ? "border-[#152f40] text-[#152f40] hover:bg-[#fe842f] hover:text-white"
-                    : "border-white text-white hover:bg-white hover:text-[#fe842f]"
+                    ? "border-ink text-ink hover:bg-primary hover:text-white"
+                    : "border-white text-white hover:bg-white hover:text-primary"
                 }
               `}
             >
-              <QrCode size={14} className="md:w-4 md:h-4" />
+              <QrCode size={16} />
               <span className="hidden sm:inline">Activar mi box</span>
               <span className="sm:hidden">Activar</span>
             </Link>
 
             {/* CART */}
             <Link
-              href="/carrito"
+              href="/proximamente"
               className={`p-2 rounded-full transition ${
                 solid
-                  ? "text-[#fe842f] hover:bg-black/5"
+                  ? "text-ink hover:bg-black/5"
                   : "text-white hover:bg-white/20"
               }`}
             >
@@ -155,7 +155,7 @@ export default function Navbar() {
 
   {/* PANEL */}
   <div
-    className={`absolute left-0 top-0 h-full w-[300px] bg-[#f8f6f3] shadow-[0_20px_60px_rgba(0,0,0,0.12)] transform transition-transform duration-300 ${
+    className={`absolute left-0 top-0 h-full w-[300px] bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.12)] transform transition-transform duration-300 ${
       menuOpen ? "translate-x-0" : "-translate-x-full"
     }`}
   >
@@ -164,7 +164,7 @@ export default function Navbar() {
 
       {/* HEADER */}
       <div className="flex items-center justify-between mb-10">
-        <p className="text-[18px] font-medium text-[#121212]">
+        <p className="text-[18px] font-medium text-foreground">
           Vivabox
         </p>
 
@@ -178,13 +178,13 @@ export default function Navbar() {
 
       {/* CTA PRIMARY */}
 <Link
-  href="/#cajas"
+  href="/#incluye"
   onClick={() => setMenuOpen(false)}
   className="
     mb-4 h-12 flex items-center justify-center
     rounded-full
     bg-white
-    text-[#121212]
+    text-foreground
     font-medium
     border border-black/10
     active:scale-[0.97]
@@ -196,13 +196,13 @@ export default function Navbar() {
 
 {/* CTA SECONDARY */}
 <Link
-  href="/activar"
+  href="/proximamente"
   onClick={() => setMenuOpen(false)}
   className="
     mb-10 h-12 flex items-center justify-center gap-2
     rounded-full
-    border border-[#fe842f]/50
-    text-[#fe842f]
+    border border-primary/50
+    text-primary
     font-medium
     active:scale-[0.97]
     transition
@@ -213,9 +213,9 @@ export default function Navbar() {
 </Link>
 
       {/* NAV */}
-      <div className="flex flex-col gap-7 text-[16px] text-[#121212]">
+      <div className="flex flex-col gap-7 text-[16px] text-foreground">
 
-        <Link href="/#como-funciona" onClick={() => setMenuOpen(false)}>
+        <Link href="/#incluye" onClick={() => setMenuOpen(false)}>
           Cómo funciona
         </Link>
 
@@ -223,7 +223,7 @@ export default function Navbar() {
           Experiencias
         </Link>
 
-        <Link href="/empresas" onClick={() => setMenuOpen(false)}>
+        <Link href="/proximamente" onClick={() => setMenuOpen(false)}>
           Empresas
         </Link>
 
@@ -235,11 +235,11 @@ export default function Navbar() {
       {/* SECONDARY */}
       <div className="flex flex-col gap-5 text-[15px] text-gray-500">
 
-        <Link href="/nuestra-historia" onClick={() => setMenuOpen(false)}>
+        <Link href="/proximamente" onClick={() => setMenuOpen(false)}>
           Nuestra historia
         </Link>
 
-        <Link href="/carrito" onClick={() => setMenuOpen(false)}>
+        <Link href="/proximamente" onClick={() => setMenuOpen(false)}>
           Carrito
         </Link>
 
@@ -247,7 +247,7 @@ export default function Navbar() {
 
       {/* TRUST (minimal) */}
       <div className="mt-auto pt-6 text-xs text-gray-400">
-        +350 experiencias · Confirmación rápida
+        +20 experiencias · Confirmación rápida
       </div>
 
     </div>

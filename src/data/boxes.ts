@@ -4,9 +4,6 @@ import {
   Coffee,
   Sparkles,
   Mountain,
-  Utensils,
-  Hotel,
-  Plane
 } from "lucide-react"
 
 export type Vivabox = {
@@ -45,15 +42,15 @@ export type Vivabox = {
 export const boxes: Vivabox[] = [
 
   {
-    slug: "esencia",
+    slug: "vivabox",
     name: "Vivabox Esencia",
 
-    signatureColor: "#00aba4",
+    signatureColor: "#fe842f",
 
-    price: 185000,
-    experiences: 120,
+    price: 195000,
+    experiences: 20,
 
-    validityMonths: 12,
+    validityMonths: 6,
 
     delivery: {
       physical: true,
@@ -62,7 +59,7 @@ export const boxes: Vivabox[] = [
 
     ribbon: {
       text: "Super detalle",
-      color: "#00aba4"
+      color: "#fe842f"
     },
 
     examples: [
@@ -75,95 +72,14 @@ export const boxes: Vivabox[] = [
       "Gastronomía",
       "Bienestar",
       "Aventura",
-      "Cultura"
-    ],
-
-    description:
-      "Experiencias agradables para sorprender con un regalo original.",
-
-    image: "/images/boxes/esencia.png",
-  },
-
-  {
-    slug: "selecta",
-    name: "Vivabox Selecta",
-
-    signatureColor: "#cb2033",
-
-    price: 395000,
-    experiences: 350,
-
-    validityMonths: 12,
-
-    delivery: {
-      physical: true,
-      digital: true
-    },
-
-    ribbon: {
-      text: "Más elegida",
-      color: "#cb2033"
-    },
-
-    examples: [
-      { label: "Cenas especiales", icon: Utensils },
-      { label: "Spa premium", icon: Sparkles },
-      { label: "Aventuras", icon: Mountain },
-    ],
-
-    categories: [
-      "Gastronomía",
-      "Bienestar",
-      "Aventura",
       "Cultura",
       "Estancias"
     ],
 
     description:
-      "Experiencias memorables para un regalo que realmente impresiona.",
+      "Un regalo que deja elegir entre más de 20 experiencias en Bogotá y Cundinamarca.",
 
-    image: "/images/boxes/selecta.png",
-  },
-
-  {
-    slug: "excepcion",
-    name: "Vivabox Excep",
-
-    signatureColor: "#c6a45b",
-
-    price: 875000,
-    experiences: 700,
-
-    validityMonths: 12,
-
-    delivery: {
-      physical: true,
-      digital: true
-    },
-
-    ribbon: {
-      text: "Momento especial",
-      color: "#000000"
-    },
-
-    examples: [
-      { label: "Hoteles boutique", icon: Hotel },
-      { label: "Paracaidismo", icon: Plane },
-      { label: "Alta gastronomía", icon: Utensils },
-    ],
-
-    categories: [
-      "Gastronomía",
-      "Bienestar",
-      "Aventura",
-      "Cultura",
-      "Estancias"
-    ],
-
-    description:
-      "Experiencias extraordinarias para ocasiones especiales.",
-
-    image: "/images/boxes/excepcional.png",
+    image: "/images/boxes/vivabox.png",
   },
 
 ]

@@ -1,27 +1,29 @@
 "use client";
 
-import {
-  X,
-  MapPin,
-  Clock,
-  Tag,
-  Leaf,
-  Target,
-  Activity
-} from "lucide-react";
+import { X, MapPin, Clock } from "lucide-react";
 import Image from "next/image";
+import {
+  CATEGORY_COLORS,
+  DEFAULT_CATEGORY_COLOR,
+  CATEGORY_DESCRIPTIONS,
+  DEFAULT_CATEGORY_DESCRIPTION,
+  CATEGORY_WHY_VIVABOX,
+  DEFAULT_WHY_VIVABOX,
+  getExperienceHighlights,
+  formatDuration,
+} from "@/data/categories";
 
 type Experience = {
   title: string
   city?: string
   category: string
   image?: string
-  duration?: string
-  zone?: string
   shortDescription?: string
+  duration?: string
   ambiance?: string
-  idealFor?: string
-  effortLevel?: string
+  environment?: string
+  engagement?: string
+  vivanote?: string
 }
 
 type Props = {
@@ -35,30 +37,21 @@ export default function ExperienceModal({ experience, onClose }: Props) {
 
   const categoryKey = experience.category?.toLowerCase() || ""
 
-  const categoryBar: Record<string,string> = {
-    gastronomia: "bg-orange-500",
-    bienestar: "bg-blue-500",
-    aventura: "bg-red-500",
-    cultura: "bg-purple-500",
-    estancias: "bg-green-500",
-  }
+  const categoryColor = CATEGORY_COLORS[categoryKey] || DEFAULT_CATEGORY_COLOR
 
-  const categoryBadge: Record<string,string> = {
-    gastronomia: "bg-orange-100 text-orange-700",
-    bienestar: "bg-blue-100 text-blue-700",
-    aventura: "bg-red-100 text-red-700",
-    cultura: "bg-purple-100 text-purple-700",
-    estancias: "bg-green-100 text-green-700",
-  }
+  const barColor = categoryColor.dot
+  const badgeColor = `${categoryColor.bg} ${categoryColor.text}`
 
-  const barColor = categoryBar[categoryKey] || "bg-gray-300"
-  const badgeColor = categoryBadge[categoryKey] || "bg-gray-100 text-gray-700"
+  const description = CATEGORY_DESCRIPTIONS[categoryKey] || DEFAULT_CATEGORY_DESCRIPTION
+  const highlights = getExperienceHighlights(experience)
+  const whyVivabox = experience.vivanote?.trim() || CATEGORY_WHY_VIVABOX[categoryKey] || DEFAULT_WHY_VIVABOX
+  const duration = formatDuration(experience.duration)
 
   const imageSrc =
     experience.image?.includes("images.pexels.com") ||
     experience.image?.includes("images.unsplash.com")
       ? experience.image
-      : "/images/experience-placeholder.jpg"
+      : "/images/box-includes/vivabox-caja-regalo.png"
 
   return (
 
@@ -81,7 +74,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
         </button>
 
         {/* image */}
-        <div className="relative w-full h-[200px] overflow-hidden">
+        <div className="relative w-full h-[160px] overflow-hidden">
 
           <Image
             src={imageSrc}
@@ -109,68 +102,68 @@ export default function ExperienceModal({ experience, onClose }: Props) {
         </div>
 
         {/* content */}
-        <div className="p-7">
+        <div className="p-5 sm:p-6">
 
-          <h3 className="text-xl font-semibold mb-1">
+          <h3 className="text-lg font-semibold mb-0.5">
             {experience.title}
           </h3>
 
-          {experience.city && (
-            <p className="text-gray-500 mb-5">
-              {experience.city}
-            </p>
+          {/* PRACTICAL INFO — secondary, single line */}
+          {(experience.city || duration) && (
+            <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
+              {experience.city && (
+                <span className="flex items-center gap-1">
+                  <MapPin size={12} strokeWidth={2} />
+                  {experience.city}
+                </span>
+              )}
+              {duration && (
+                <span className="flex items-center gap-1">
+                  <Clock size={12} strokeWidth={2} />
+                  {duration}
+                </span>
+              )}
+            </div>
           )}
 
-          {/* key info grid */}
-          <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-sm mb-6">
-
-            {experience.zone && (
-              <div className="flex items-center gap-3">
-                <MapPin size={16}/>
-                {experience.zone}
-              </div>
-            )}
-
-            {experience.duration && (
-              <div className="flex items-center gap-3">
-                <Clock size={16}/>
-                {experience.duration} min
-              </div>
-            )}
-
-            {experience.ambiance && (
-              <div className="flex items-center gap-3">
-                <Leaf size={16}/>
-                {experience.ambiance}
-              </div>
-            )}
-
-            {experience.idealFor && (
-              <div className="flex items-center gap-3">
-                <Target size={16}/>
-                {experience.idealFor}
-              </div>
-            )}
-
-            {experience.effortLevel && (
-              <div className="flex items-center gap-3">
-                <Activity size={16}/>
-                {experience.effortLevel}
-              </div>
-            )}
-
+          {/* HIGHLIGHTS — unique to this experience, scannable at a glance */}
+          <div className="flex flex-wrap gap-2 mb-3">
+            {highlights.map((highlight, i) => {
+              const Icon = highlight.icon
+              return (
+                <span
+                  key={i}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-1 text-xs font-medium text-ink"
+                >
+                  <Icon size={13} className="text-primary" strokeWidth={1.75} />
+                  {highlight.label}
+                </span>
+              )
+            })}
           </div>
 
-          {experience.shortDescription && (
-            <p className="text-sm text-gray-600 mb-6">
-              {experience.shortDescription}
-            </p>
-          )}
-
-          <p className="text-sm text-gray-500">
-            Forma parte de la selección de experiencias Vivabox.
-            Las opciones pueden variar según la caja.
+          {/* EMOTIONAL SENTENCE */}
+          <p className="text-sm text-gray-600 mb-3">
+            {description}
           </p>
+
+          {/* WHY VIVABOX — curated editorial block */}
+          <div className="flex items-center gap-3 bg-surface rounded-xl p-3">
+
+            <Image src="/icons/logo.png" alt="Vivabox" width={26} height={26} className="shrink-0" />
+
+            <div className="w-px self-stretch bg-ink/10 shrink-0" />
+
+            <div>
+              <p className="text-xs font-semibold text-ink mb-0.5">
+                Elegida por Vivabox
+              </p>
+              <p className="text-xs text-muted leading-snug">
+                {whyVivabox}
+              </p>
+            </div>
+
+          </div>
 
         </div>
 

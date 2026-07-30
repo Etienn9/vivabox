@@ -1,36 +1,37 @@
 "use client"
 
+import BrandRibbon from "@/components/ui/BrandRibbon"
+
 export default function Hero() {
   return (
     <section className="relative h-[78vh] md:h-[82vh] min-h-[620px] overflow-hidden">
 
-      {/* IMAGE */}
+      {/* VIDEO */}
 
-      <img
-        src="/images/hero/hero.png"
-        alt="Persona recibiendo una Vivabox como regalo"
+      <video
+        src="/videos/hero/hero.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-label="Persona recibiendo una Vivabox como regalo"
         className="
           absolute inset-0
           w-full h-full
           object-cover
-          object-[74%_center]
-          md:object-center
+          object-center
         "
       />
 
-      {/* LEFT OVERLAY */}
+      {/* SUBTLE READABILITY GRADIENT */}
 
       <div
-        className="
-          absolute
-          inset-y-0
-          left-0
-          w-[58%]
-          bg-gradient-to-r
-          from-black/72
-          via-black/28
-          to-transparent
-        "
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(0,0,0,.40) 0%, rgba(0,0,0,.15) 30%, rgba(0,0,0,0) 55%)",
+        }}
       />
 
       {/* TOP OVERLAY */}
@@ -40,107 +41,104 @@ export default function Hero() {
           absolute
           inset-x-0
           top-0
-          h-[170px]
+          h-[130px]
           bg-gradient-to-b
-          from-black/35
-          via-black/10
+          from-ink/25
+          via-ink/5
           to-transparent
         "
       />
 
       {/* CONTENT */}
 
-      <div className="relative h-full max-w-[1200px] mx-auto px-7 md:px-10">
+      <div className="relative h-full max-w-[1200px] mx-auto px-7 md:px-10 flex flex-col">
 
-        <div className="flex flex-col h-full pt-[120px]">
+        {/* FLEXIBLE SPACE */}
 
-          {/* TEXT */}
+        <div className="flex-1" />
 
-          <div className="max-w-[355px] md:max-w-[520px]">
+        {/* HEADLINE */}
 
-            <h1
+        <h1
+          className="
+            h1
+            text-white
+            [text-shadow:0_2px_16px_rgba(0,0,0,.35)]
+          "
+        >
+          El regalo que
+          <br />
+          deja elegir.
+        </h1>
+
+        {/* SUBTITLE */}
+
+        <p
+          className="
+            relative z-10
+            mt-2
+            max-w-[480px]
+            text-white/90
+            text-[16px]
+            md:text-[18px]
+            [text-shadow:0_2px_16px_rgba(0,0,0,.35)]
+          "
+        >
+          Vivabox es una caja de regalo de experiencias.
+        </p>
+
+        {/* CTA */}
+
+        <div className="relative z-10 mt-4 pb-6 md:pb-8">
+
+          <div className="flex items-center gap-3">
+
+            {/* PRIMARY */}
+
+            <a
+              href="/proximamente"
               className="
+                flex-[1.25]
+                h-[54px]
+                rounded-xl
+                bg-primary
                 text-white
+                text-[17px]
                 font-semibold
-                text-[37px]
-                md:text-[64px]
-                leading-[1.04]
-                tracking-[-0.025em]
+                inline-flex
+                items-center
+                justify-center
+                shadow-[0_10px_35px_rgba(254,132,47,.35)]
+                transition
+                hover:bg-primary-hover
               "
             >
-              El mejor regalo
-              <br />
-              deja elegir.
-            </h1>
+              Comprar Vivabox
+            </a>
 
-            <p className="mt-7 text-[17px] md:text-[22px] leading-relaxed text-white/90">
-              <span className="font-semibold text-white">
-                Regalas una Vivabox.
-              </span>
+            {/* SECONDARY */}
 
-              <br />
-
-              Quien la recibe elige
-              <br />
-              la experiencia.
-            </p>
-
-          </div>
-
-          {/* CTA */}
-
-          <div className="mt-auto pb-[68px]">
-
-            <div className="flex items-center gap-3">
-
-              {/* PRIMARY */}
-
-              <a
-                href="#comprar"
-                className="
-                  flex-[1.25]
-                  h-[54px]
-                  rounded-xl
-                  bg-[#FE842F]
-                  text-white
-                  text-[17px]
-                  font-semibold
-                  inline-flex
-                  items-center
-                  justify-center
-                  shadow-[0_10px_35px_rgba(254,132,47,.35)]
-                  transition
-                  hover:bg-[#E67629]
-                "
-              >
-                Regalar Vivabox
-              </a>
-
-              {/* SECONDARY */}
-
-              <a
-                href="#incluye"
-                className="
-                  flex-1
-                  h-[54px]
-                  rounded-xl
-                  border
-                  border-white/45
-                  bg-transparent
-                  text-white
-                  text-[16px]
-                  font-medium
-                  inline-flex
-                  items-center
-                  justify-center
-                  transition
-                  hover:bg-white/8
-                "
-              >
-                Cómo funciona
-              </a>
-
-            </div>
+            <a
+              href="#incluye"
+              className="
+                flex-1
+                h-[54px]
+                rounded-xl
+                border-2
+                border-white/70
+                bg-white/5
+                text-white
+                text-[16px]
+                font-medium
+                inline-flex
+                items-center
+                justify-center
+                transition
+                hover:bg-white/15
+              "
+            >
+              Cómo funciona
+            </a>
 
           </div>
 
@@ -148,10 +146,10 @@ export default function Hero() {
 
       </div>
 
-      {/* SCROLL */}
+      {/* BRAND RIBBON */}
 
-      <div className="absolute bottom-7 left-1/2 -translate-x-1/2 text-sm text-white/70 animate-bounce">
-        ↓ Descubre más
+      <div className="absolute inset-x-0 bottom-0">
+        <BrandRibbon />
       </div>
 
     </section>
