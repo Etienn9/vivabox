@@ -92,7 +92,7 @@ export default function BoxCard({ box }: BoxCardProps) {
             const Icon = item.icon
             return (
               <li key={index} className="flex items-center justify-center gap-2">
-                <Icon size={16} className="text-primary" />
+                <Icon size={16} strokeWidth={1.5} className="text-primary" />
                 {item.label}
               </li>
             )
@@ -101,7 +101,7 @@ export default function BoxCard({ box }: BoxCardProps) {
           {/* MORE EXPERIENCES */}
 
           <li className="flex items-center justify-center gap-2 text-muted">
-            <Plus size={16} className="text-primary" />
+            <Plus size={16} strokeWidth={1.5} className="text-primary" />
             muchas más
           </li>
 

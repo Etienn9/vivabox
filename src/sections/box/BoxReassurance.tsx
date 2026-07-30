@@ -21,7 +21,7 @@ export default function BoxReassurance() {
 
           {items.map((text) => (
             <div key={text} className="flex items-center gap-2 text-[15px]">
-              <Check size={16} className="text-primary-hover shrink-0" />
+              <Check size={16} strokeWidth={1.5} className="text-primary-hover shrink-0" />
               {text}
             </div>
           ))}

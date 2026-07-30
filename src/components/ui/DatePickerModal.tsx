@@ -72,7 +72,7 @@ export default function DatePickerModal({ onClose, onSelect }: Props) {
         {/* HEADER */}
         <div style={header}>
           <button onClick={() => changeMonth(-1)}>
-            <ChevronLeft size={20} />
+            <ChevronLeft size={20} strokeWidth={1.5} />
           </button>
 
           <div style={monthLabel}>
@@ -80,7 +80,7 @@ export default function DatePickerModal({ onClose, onSelect }: Props) {
           </div>
 
           <button onClick={() => changeMonth(1)}>
-            <ChevronRight size={20} />
+            <ChevronRight size={20} strokeWidth={1.5} />
           </button>
         </div>
 

@@ -49,7 +49,7 @@ export default function WhatsappButton() {
         aria-label="Contactar por WhatsApp"
         className="flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg hover:scale-105 transition"
       >
-        <MessageCircle size={26} />
+        <MessageCircle size={26} strokeWidth={1.5} />
       </a>
 
     </div>

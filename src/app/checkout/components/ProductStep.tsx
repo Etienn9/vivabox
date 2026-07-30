@@ -219,7 +219,7 @@ export default function ProductStep({ box }: Props) {
                     checked={deliveryType === "digital"}
                     onChange={() => setDelivery({ type: "digital", speed: null })}
                   />
-                  <Zap size={16} />
+                  <Zap size={16} strokeWidth={1.5} />
                   <div>
                     <div className="text-sm font-medium">Digital</div>
                     <div className="text-xs text-[#6B6B6B]">Llega al instante</div>
@@ -232,7 +232,7 @@ export default function ProductStep({ box }: Props) {
                     checked={deliveryType === "physical"}
                     onChange={() => setDelivery({ type: "physical", speed: "standard" })}
                   />
-                  <Package size={16} />
+                  <Package size={16} strokeWidth={1.5} />
                   <div>
                     <div className="text-sm font-medium">Caja física</div>
                     <div className="text-xs text-[#6B6B6B]">Se envía después</div>

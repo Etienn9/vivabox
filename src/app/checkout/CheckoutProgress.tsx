@@ -49,7 +49,7 @@ export default function CheckoutProgress({ current }: { current: Step }) {
                   `}
                 >
                   {state === "done" ? (
-                    <Check className="w-3 h-3" />
+                    <Check className="w-3 h-3" strokeWidth={1.5} />
                   ) : (
                     index + 1
                   )}

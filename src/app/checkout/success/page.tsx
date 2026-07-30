@@ -185,7 +185,7 @@ contacto: contacto || "",
         <div className="text-center space-y-2">
           <p className="text-sm text-green-600 font-medium">Pago confirmado</p>
           <h1 className="text-2xl font-semibold flex items-center justify-center gap-2">
-            <Package size={20} />
+            <Package size={20} strokeWidth={1.5} />
             {type === "self"
               ? "Tu Vivabox está lista"
               : "Tu regalo está listo"}
@@ -203,7 +203,7 @@ contacto: contacto || "",
                 type === "self" ? "bg-orange-50 border-[#fe842f]" : ""
               }`}
             >
-              <User size={16} /> Para mí
+              <User size={16} strokeWidth={1.5} /> Para mí
             </button>
 
             <button
@@ -212,7 +212,7 @@ contacto: contacto || "",
                 type === "gift" ? "bg-orange-50 border-[#fe842f]" : ""
               }`}
             >
-              <Gift size={16} /> Es un regalo
+              <Gift size={16} strokeWidth={1.5} /> Es un regalo
             </button>
           </div>
         </div>

@@ -100,6 +100,7 @@ export default function FAQ() {
 
                     <Icon
                       size={18}
+                      strokeWidth={1.5}
                       className="text-primary"
                     />
 
@@ -111,6 +112,7 @@ export default function FAQ() {
 
                   <ChevronDown
                     size={20}
+                    strokeWidth={1.5}
                     className={`transition-transform duration-300 text-white/40 ${
                       isOpen ? "rotate-180 text-primary" : ""
                     }`}

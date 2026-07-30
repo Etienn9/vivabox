@@ -56,7 +56,7 @@ export default function Navbar() {
                 solid ? "text-foreground" : "text-white"
               }`}
             >
-              <Menu size={28} />
+              <Menu size={28} strokeWidth={1.5} />
             </button>
 
             <Link href="/" className="flex items-center gap-2 py-2 pr-2 group">
@@ -116,7 +116,7 @@ export default function Navbar() {
                 }
               `}
             >
-              <QrCode size={16} />
+              <QrCode size={16} strokeWidth={1.5} />
               <span className="hidden sm:inline">Activar mi box</span>
               <span className="sm:hidden">Activar</span>
             </Link>
@@ -130,7 +130,7 @@ export default function Navbar() {
                   : "text-white hover:bg-white/20"
               }`}
             >
-              <ShoppingCart size={24} />
+              <ShoppingCart size={24} strokeWidth={1.5} />
             </Link>
 
           </div>
@@ -172,7 +172,7 @@ export default function Navbar() {
           onClick={() => setMenuOpen(false)}
           className="p-1 opacity-70 hover:opacity-100 transition"
         >
-          <X size={24} />
+          <X size={24} strokeWidth={1.5} />
         </button>
       </div>
 
@@ -208,7 +208,7 @@ export default function Navbar() {
     transition
   "
 >
-  <QrCode size={15} />
+  <QrCode size={15} strokeWidth={1.5} />
   Activar mi box
 </Link>
 

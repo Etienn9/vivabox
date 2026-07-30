@@ -70,7 +70,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
           onClick={onClose}
           className="absolute top-4 right-4 bg-white rounded-full p-2 shadow z-20"
         >
-          <X size={18}/>
+          <X size={18} strokeWidth={1.5}/>
         </button>
 
         {/* image */}
@@ -113,13 +113,13 @@ export default function ExperienceModal({ experience, onClose }: Props) {
             <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
               {experience.city && (
                 <span className="flex items-center gap-1">
-                  <MapPin size={12} strokeWidth={2} />
+                  <MapPin size={12} strokeWidth={1.5} />
                   {experience.city}
                 </span>
               )}
               {duration && (
                 <span className="flex items-center gap-1">
-                  <Clock size={12} strokeWidth={2} />
+                  <Clock size={12} strokeWidth={1.5} />
                   {duration}
                 </span>
               )}
@@ -135,7 +135,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
                   key={i}
                   className="inline-flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-1 text-xs font-medium text-ink"
                 >
-                  <Icon size={13} className="text-primary" strokeWidth={1.75} />
+                  <Icon size={13} className="text-primary" strokeWidth={1.5} />
                   {highlight.label}
                 </span>
               )

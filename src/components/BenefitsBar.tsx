@@ -97,7 +97,7 @@ export default function BenefitsBar() {
               >
                 <Icon
                   size={18}
-                  strokeWidth={1.8}
+                  strokeWidth={1.5}
                   className="text-primary"
                 />
                 <span>{item.text}</span>
@@ -118,7 +118,7 @@ export default function BenefitsBar() {
               >
                 <Icon
                   size={18}
-                  strokeWidth={1.8}
+                  strokeWidth={1.5}
                   className="text-primary"
                 />
                 <span>{item.text}</span>

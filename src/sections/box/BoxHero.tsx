@@ -143,19 +143,19 @@ export default function BoxHero({
           {/* CHECKLIST */}
           <div className="space-y-2 mb-8 text-[15px] text-white/80">
             <div className="flex items-center gap-2">
-              <Check size={18} className="text-primary-hover" />
+              <Check size={18} strokeWidth={1.5} className="text-primary-hover" />
               Más de {experiences} experiencias
             </div>
             <div className="flex items-center gap-2">
-              <Check size={18} className="text-primary-hover" />
+              <Check size={18} strokeWidth={1.5} className="text-primary-hover" />
               La persona elige la experiencia
             </div>
             <div className="flex items-center gap-2">
-              <Check size={18} className="text-primary-hover" />
+              <Check size={18} strokeWidth={1.5} className="text-primary-hover" />
               Vigencia 6 meses
             </div>
             <div className="flex items-center gap-2">
-              <Check size={18} className="text-primary-hover" />
+              <Check size={18} strokeWidth={1.5} className="text-primary-hover" />
               Envío gratis
             </div>
           </div>

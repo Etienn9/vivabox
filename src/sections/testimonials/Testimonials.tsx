@@ -142,7 +142,7 @@ export default function Testimonials() {
 
                   {t.type === "experience" && Icon && (
                     <div className="flex items-center gap-1 text-primary">
-                      <Icon size={14} />
+                      <Icon size={14} strokeWidth={1.5} />
                       {t.label}
                     </div>
                   )}
