@@ -190,7 +190,7 @@ export default function WhatsIncluded() {
               </div>
 
               {/* Dentro encontrarás — small section lead-in, centered between the box and the three cards */}
-              <p className="absolute z-40 inset-x-0 top-[53.5%] text-center text-ink/80 font-sans font-semibold tracking-tight text-[14px] sm:text-[16px] md:text-[19px]">
+              <p className="absolute z-40 inset-x-0 top-[53%] text-center text-accent-red font-hand text-[18px] sm:text-[22px] md:text-[27px] leading-snug">
                 Dentro encontrarás
               </p>
 
