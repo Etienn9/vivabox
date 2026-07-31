@@ -2,8 +2,6 @@
 
 import Image from "next/image"
 import { ArrowRight, CalendarCheck, User } from "lucide-react"
-import { boxes } from "@/data/boxes"
-import { formatPrice } from "@/utils/formatPrice"
 import BrandRibbon from "@/components/ui/BrandRibbon"
 import BenefitsBar from "@/components/BenefitsBar"
 
@@ -35,8 +33,6 @@ const CATEGORIES = [
 ] as const
 
 export default function WhatsIncluded() {
-
-  const box = boxes[0]
 
   return (
     <section className="bg-surface">
@@ -274,20 +270,15 @@ export default function WhatsIncluded() {
           Más de 20 experiencias en Bogotá y Cundinamarca.
         </p>
 
-        {/* PRICE — editorial, the price itself is the focal point, no card */}
+        {/* CTA — editorial, no price shown here */}
 
         <div className="mt-6 md:mt-8 flex flex-col items-center text-center">
 
           <div className="w-10 h-px bg-ink/10 mb-3 md:mb-4" />
 
-          <p className="text-muted text-[15px] md:text-[17px] mb-2">
+          <p className="text-muted text-[15px] md:text-[17px] mb-4 md:mb-5">
             Una experiencia a elegir.
           </p>
-
-          <div className="text-[44px] sm:text-[52px] md:text-[64px] font-semibold text-ink leading-none tracking-tight mb-4 md:mb-5">
-            ${formatPrice(box.price)}
-            <span className="text-[20px] sm:text-[24px] md:text-[30px] align-baseline"> COP</span>
-          </div>
 
           <a
             href="/proximamente"
