@@ -1,27 +1,42 @@
+import Reveal from "@/components/ui/Reveal";
+
 export default function StoryWhy() {
   return (
-    <section className="bg-white py-16">
+    <section className="bg-ink py-20 md:py-[120px]">
 
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-[640px] mx-auto px-6">
 
-        <h2 className="text-3xl font-semibold mb-6">
-          Por qué existe Vivabox
-        </h2>
+        <Reveal duration={400}>
+          <h2 className="h2 text-white mb-8">
+            Todo empezó con una pregunta.
+          </h2>
+        </Reveal>
 
-        <p className="text-[#6B6B6B] mb-4">
-          Regalar no siempre es fácil. Muchas veces terminamos regalando cosas
-          que la persona no usa, que no necesita o que simplemente se olvidan.
-        </p>
+        <Reveal duration={400} delay={80}>
+          <div>
+            <p className="text-white/70 leading-relaxed mb-4">
+              Regalar nunca ha sido tan fácil como parece.
+            </p>
 
-        <p className="text-[#6B6B6B] mb-4">
-          También existen bonos o dinero, pero muchas veces son impersonales
-          y no generan un recuerdo especial.
-        </p>
+            <p className="text-white/70 leading-relaxed mb-4">
+              Queremos sorprender a alguien, pero siempre aparece la misma
+              duda:
+            </p>
 
-        <p className="text-[#6B6B6B]">
-          Pensamos que tenía que existir una forma más fácil, más bonita y más
-          memorable de regalar.
-        </p>
+            <p className="text-xl md:text-2xl font-semibold text-white mb-4">
+              ¿Y si no le gusta?
+            </p>
+
+            <p className="text-white/70 leading-relaxed mb-4">
+              Muchas veces terminamos regalando algo que la otra persona ya
+              tiene, no necesita o simplemente no era lo que esperaba.
+            </p>
+
+            <p className="text-white/70 leading-relaxed">
+              Pensamos que tenía que existir una mejor forma.
+            </p>
+          </div>
+        </Reveal>
 
       </div>
 

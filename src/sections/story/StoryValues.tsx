@@ -1,41 +1,48 @@
+import Image from "next/image";
+import Reveal from "@/components/ui/Reveal";
+
 export default function StoryValues() {
   return (
-    <section className="bg-white py-16">
+    <section className="bg-[#F7F7F7] py-20 md:py-[120px]">
 
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-[1040px] mx-auto px-6">
 
-        <h2 className="text-3xl font-semibold text-center mb-10">
-          Cómo trabajamos
-        </h2>
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
 
-        <div className="grid md:grid-cols-3 gap-8 text-center">
+          <Reveal duration={400} className="order-2 md:order-1">
+            <div>
+              <h2 className="h2 mb-6">
+                Hecha en Colombia
+              </h2>
 
-          <div>
-            <h3 className="font-semibold mb-2">
-              Simplicidad
-            </h3>
-            <p className="text-[#6B6B6B] text-sm">
-              Queremos que regalar y usar Vivabox sea muy fácil.
-            </p>
-          </div>
+              <p className="text-muted leading-relaxed mb-4">
+                Vivabox nació en Colombia y sigue creciendo aquí.
+              </p>
 
-          <div>
-            <h3 className="font-semibold mb-2">
-              Buen servicio
-            </h3>
-            <p className="text-[#6B6B6B] text-sm">
-              Acompañamos a nuestros clientes y a las personas que usan Vivabox.
-            </p>
-          </div>
+              <p className="text-muted leading-relaxed mb-4">
+                Trabajamos con empresas locales porque creemos que las
+                mejores experiencias nacen de personas apasionadas por lo que
+                hacen.
+              </p>
 
-          <div>
-            <h3 className="font-semibold mb-2">
-              Experiencias locales
-            </h3>
-            <p className="text-[#6B6B6B] text-sm">
-              Trabajamos con experiencias y empresas locales.
-            </p>
-          </div>
+              <p className="text-muted leading-relaxed">
+                Cada Vivabox busca conectar a quien regala, a quien recibe y
+                a quienes hacen posible cada experiencia.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal duration={400} delay={100} className="order-1 md:order-2">
+            <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.1)]">
+              <Image
+                src="/images/occasions/pareja.jpg"
+                alt="Momento compartido gracias a una experiencia Vivabox"
+                fill
+                sizes="(max-width: 768px) 100vw, 480px"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
 
         </div>
 
