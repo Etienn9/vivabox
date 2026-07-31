@@ -90,9 +90,9 @@ export default function WhatsIncluded() {
 
       </div>
 
-      {/* QUÉ INCLUYE — the box dominates, three objects rest beside it as if just lifted out */}
+      {/* QUÉ INCLUYE (mobile/tablet) — the box dominates, three objects rest beside it as if just lifted out. Desktop (lg+) gets its own dedicated layout below. */}
 
-      <div className="pt-10 md:pt-14 pb-2 md:pb-3">
+      <div className="lg:hidden pt-10 md:pt-14 pb-2 md:pb-3">
 
         <div className="max-w-[1100px] mx-auto px-6">
 
@@ -227,7 +227,7 @@ export default function WhatsIncluded() {
 
       </div>
 
-      <div className="max-w-[1100px] mx-auto px-6">
+      <div className="lg:hidden max-w-[1100px] mx-auto px-6">
 
         {/* GROUPING CONTAINER — border only, groups the categories title + grid */}
 
@@ -290,6 +290,157 @@ export default function WhatsIncluded() {
           <p className="mt-5 md:mt-6 mb-6 md:mb-8 text-muted text-[13px] md:text-[14px]">
             Compra segura. Sin costos ocultos.
           </p>
+
+        </div>
+
+      </div>
+
+      {/* QUÉ INCLUYE (desktop) — editorial product-reveal layout: one focal point per stage, reading top to bottom */}
+
+      <div className="hidden lg:block pt-24 xl:pt-28 pb-20">
+
+        <div className="max-w-[1200px] mx-auto px-8 xl:px-12">
+
+          {/* STAGE 1+2 — headline and the box, side by side, nothing else competing */}
+
+          <div className="grid grid-cols-[2fr_3fr] gap-16 xl:gap-24 items-center">
+
+            <div>
+              <h2 className="text-ink text-[54px] xl:text-[62px] font-semibold leading-[1.05] tracking-tight mb-6">
+                Todo en una sola{" "}
+                <span className="text-primary">c</span>
+                <span className="text-accent-red">a</span>
+                <span className="text-accent-green">j</span>
+                <span className="text-accent-blue">a</span>
+                <span className="text-violet-500">.</span>
+              </h2>
+
+              <p className="text-ink/50 text-[18px] leading-relaxed max-w-[340px]">
+                Caja de regalo con catálogo de experiencias, mensaje personal y código de activación.
+              </p>
+            </div>
+
+            <div className="relative">
+
+              <p className="absolute -top-8 left-4 z-10 font-hand text-ink/70 text-[20px] leading-snug -rotate-2">
+                Lista para regalar.
+              </p>
+
+              <div
+                className="relative w-full max-w-[440px] xl:max-w-[480px] mx-auto aspect-square"
+                style={{ transform: "perspective(1400px) rotateX(6deg) rotateY(-8deg) rotate(-2deg)" }}
+              >
+                <Image
+                  src="/images/box-includes/vivabox-caja-regalo.png"
+                  alt="Caja de regalo Vivabox con catálogo de experiencias"
+                  fill
+                  className="object-contain drop-shadow-[0_30px_36px_rgba(24,20,15,0.16)]"
+                  priority
+                />
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* STAGE 3 — what's inside, as one clean product system: same size, same radius, same shadow, aligned on a grid */}
+
+          <div className="mt-24 xl:mt-28">
+
+            <p className="text-center text-ink/40 text-[13px] font-semibold tracking-[0.16em] uppercase mb-10">
+              Dentro encontrarás
+            </p>
+
+            <div className="grid grid-cols-3 gap-8 xl:gap-10 max-w-[760px] mx-auto">
+
+              {[
+                {
+                  title: "Catálogo",
+                  desc: "De experiencias.",
+                  src: "/images/box-includes/vivabox-catalogo-experiencias.png",
+                  alt: "Catálogo de experiencias Vivabox",
+                },
+                {
+                  title: "Mensaje",
+                  desc: "Personal.",
+                  src: "/images/box-includes/vivabox-dedicatoria-personal.png",
+                  alt: "Dedicatoria personalizada Vivabox",
+                },
+                {
+                  title: "Activación",
+                  desc: "Código único.",
+                  src: "/images/box-includes/vivabox-codigo-activacion.png",
+                  alt: "Código de activación Vivabox",
+                },
+              ].map((item) => (
+                <div key={item.title} className="text-center">
+                  <div className="relative w-full aspect-square rounded-2xl overflow-hidden shadow-[0_10px_28px_rgba(24,20,15,0.12)] mb-4">
+                    <Image src={item.src} alt={item.alt} fill className="object-cover" />
+                  </div>
+                  <h3 className="font-sans font-semibold text-ink text-[18px] tracking-tight">
+                    {item.title}
+                  </h3>
+                  <p className="font-sans text-ink/50 text-[14px] mt-1">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+
+            </div>
+
+          </div>
+
+          {/* STAGE 4 — experience categories, same bordered grouping as the mobile version */}
+
+          <div className="mt-28 xl:mt-32 max-w-[960px] mx-auto border-2 border-[#3A2E22] rounded-[48px] px-12 py-8 xl:px-14 xl:py-9 text-center">
+
+            <p className="text-ink text-[30px] xl:text-[34px] font-semibold tracking-tight mb-8">
+              ¿Qué experiencias podrá elegir?
+            </p>
+
+            <div className="flex justify-center gap-20 xl:gap-24">
+              {CATEGORIES.map((cat) => (
+                <div key={cat.label} className="flex flex-col items-center">
+                  <div className="h-[84px] flex items-end justify-center mb-4">
+                    <div className="relative w-[70px] h-[70px]">
+                      <Image src={cat.src} alt={`Categoría ${cat.label}`} fill className="object-contain" />
+                    </div>
+                  </div>
+                  <span className="text-ink text-[16px] font-medium">
+                    {cat.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+          </div>
+
+          <p className="mt-4 text-muted text-[14px] text-center">
+            Más de 20 experiencias en Bogotá y Cundinamarca.
+          </p>
+
+          {/* STAGE 5 — the purchase action, only after the product has been understood */}
+
+          <div className="mt-20 flex flex-col items-center text-center">
+
+            <div className="w-10 h-px bg-ink/10 mb-5" />
+
+            <p className="text-muted text-[17px] mb-5">
+              Una experiencia a elegir.
+            </p>
+
+            <a
+              href="/proximamente"
+              className="h-[54px] px-10 rounded-xl bg-primary text-white text-[17px] font-semibold inline-flex items-center justify-center transition hover:bg-primary-hover shadow-[0_10px_35px_rgba(254,132,47,.35)]"
+            >
+              Comprar Vivabox
+            </a>
+
+            <p className="mt-6 text-muted text-[14px]">
+              Compra segura. Sin costos ocultos.
+            </p>
+
+          </div>
 
         </div>
 

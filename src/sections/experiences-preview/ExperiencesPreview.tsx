@@ -73,11 +73,11 @@ export default function ExperiencesPreview() {
           </div>
         )}
 
-        {/* SCROLL CONTAINER */}
+        {/* SCROLL CONTAINER on mobile/tablet — grid from lg up, where horizontal scroll has no discoverable affordance with a mouse */}
         {!loading && (
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto pb-2 scroll-pl-4 no-scrollbar snap-x snap-mandatory scroll-smooth"
+            className="flex gap-4 overflow-x-auto pb-2 scroll-pl-4 no-scrollbar snap-x snap-mandatory scroll-smooth lg:grid lg:grid-cols-4 xl:grid-cols-5 lg:overflow-visible lg:pb-0"
           >
 
             {experiencesPreview.map((exp, index) => {
@@ -101,7 +101,7 @@ export default function ExperiencesPreview() {
                 <div
                   key={index}
                   onClick={() => setSelectedExperience(exp)}
-                  className="group cursor-pointer snap-start min-w-[260px] bg-white rounded-[18px] shadow-[0_8px_22px_rgba(0,0,0,0.05)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.1)] hover:-translate-y-[2px] transition-all duration-300 overflow-hidden"
+                  className="group cursor-pointer snap-start min-w-[260px] lg:min-w-0 bg-white rounded-[18px] shadow-[0_8px_22px_rgba(0,0,0,0.05)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.1)] hover:-translate-y-[2px] transition-all duration-300 overflow-hidden"
                 >
 
                   {/* IMAGE */}
@@ -147,7 +147,7 @@ export default function ExperiencesPreview() {
             })}
 
             {/* LAST CARD */}
-            <div className="group snap-start min-w-[260px] bg-white rounded-[18px] shadow-[0_8px_22px_rgba(0,0,0,0.05)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.1)] hover:-translate-y-[2px] transition-all duration-300 overflow-hidden">
+            <div className="group snap-start min-w-[260px] lg:min-w-0 bg-white rounded-[18px] shadow-[0_8px_22px_rgba(0,0,0,0.05)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.1)] hover:-translate-y-[2px] transition-all duration-300 overflow-hidden">
 
               <div className="relative w-full h-[160px] overflow-hidden rounded-t-[18px] bg-gradient-to-br from-[#fff4ec] to-[#f7f7f7] flex items-center justify-center">
 

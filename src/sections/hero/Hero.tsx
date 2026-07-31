@@ -98,8 +98,9 @@ export default function Hero() {
             <a
               href="/proximamente"
               className="
-                flex-[1.25]
+                flex-[1.25] md:flex-none
                 h-[54px]
+                md:px-10
                 rounded-xl
                 bg-primary
                 text-white
@@ -121,8 +122,9 @@ export default function Hero() {
             <a
               href="#incluye"
               className="
-                flex-1
+                flex-1 md:flex-none
                 h-[54px]
+                md:px-8
                 rounded-xl
                 border-2
                 border-white/70
