@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { boxes } from "@/data/boxes"
-import { supabase } from "@/services/supabase"
+import { getSupabase } from "@/services/supabase"
 
 function computeDelivery(type: string, speed: string | null) {
   if (type === "physical" && speed === "outside") return 15000
@@ -38,6 +38,8 @@ export async function POST(req: Request) {
     const subtotal = box.price * quantity
     const deliveryPrice = computeDelivery(delivery.type, delivery.speed || null)
     const total = subtotal + deliveryPrice
+
+    const supabase = getSupabase()
 
     const { data, error } = await supabase
       .from("ventas")

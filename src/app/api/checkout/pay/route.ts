@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { supabase } from "@/services/supabase"
+import { getSupabase } from "@/services/supabase"
 
 const RESERVATION_TTL_MS = 30 * 60 * 1000 // 30 min
 
@@ -11,6 +11,8 @@ export async function POST(req: Request) {
     if (!ventaId) {
       return NextResponse.json({ ok: false, error: "MISSING_VENTA_ID" })
     }
+
+    const supabase = getSupabase()
 
     const { data: venta, error: fetchError } = await supabase
       .from("ventas")

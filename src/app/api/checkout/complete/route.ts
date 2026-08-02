@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { supabase } from "@/services/supabase"
+import { getSupabase } from "@/services/supabase"
 
 function normalizeDeliveryType(type: any) {
   if (!type) return null
@@ -51,6 +51,8 @@ export async function POST(req: Request) {
     // ======================
     // VENTA LOOKUP
     // ======================
+
+    const supabase = getSupabase()
 
     const { data: venta, error: fetchError } = await supabase
       .from("ventas")

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { supabase } from "@/services/supabase"
+import { getSupabase } from "@/services/supabase"
 import { generateWelcomeCode } from "@/features/promotions/generateWelcomeCode"
 
 const EXPIRATION_DAYS = 30
@@ -24,6 +24,8 @@ export async function POST(req: Request) {
     if (!consent) {
       return NextResponse.json({ ok: false, error: "CONSENT_REQUIRED" })
     }
+
+    const supabase = getSupabase()
 
     const { error: contactError } = await supabase
       .from("contacts")
