@@ -1,3 +1,6 @@
+import fs from "node:fs"
+import path from "node:path"
+import crypto from "node:crypto"
 import { getSheetData } from "./sheet"
 import type { Experience } from "@/types/experience"
 
@@ -7,6 +10,24 @@ const categoryMap: Record<string,string> = {
   aventura: "aventura",
   cultura: "cultura",
   estancias: "estancias"
+}
+
+const PLACEHOLDER_IMAGE = "/images/box-includes/vivabox-caja-regalo.png"
+const LOCAL_CACHE_DIR = path.join(process.cwd(), "public", "images", "experiences")
+
+function isRemoteExperienceImage(url?: string): url is string {
+  return !!url && (url.includes("images.pexels.com") || url.includes("images.unsplash.com"))
+}
+
+// Must stay in sync with localFileNameFor() in scripts/cache-experience-images.mjs
+function resolveExperienceImage(url?: string): string {
+  if (!isRemoteExperienceImage(url)) return PLACEHOLDER_IMAGE
+
+  const hash = crypto.createHash("sha1").update(url).digest("hex").slice(0, 16)
+  const ext = path.extname(new URL(url).pathname) || ".jpg"
+  const localPath = path.join(LOCAL_CACHE_DIR, `${hash}${ext}`)
+
+  return fs.existsSync(localPath) ? `/images/experiences/${hash}${ext}` : url
 }
 
 function shuffle<T>(array:T[]):T[] {
@@ -40,7 +61,7 @@ export async function getExperiencesPreview():Promise<Experience[]> {
       title: row.title,
       city: row.city,
       category: cat,
-      image: row.image,
+      image: resolveExperienceImage(row.image),
 
       duration: row.duration,
       zone: row.zone,

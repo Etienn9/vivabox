@@ -7,8 +7,8 @@ type CheckoutBox = {
   price: number
 }
 
-export type DeliveryType = "digital" | "physical"
-export type DeliverySpeed = "standard" | "express" | "outside" | null
+export type DeliveryMethod = "domicilio" | "retiro" | "digital"
+export type DeliveryDestination = "self" | "recipient" | null
 
 type Pricing = {
   subtotal: number
@@ -27,8 +27,21 @@ type CheckoutState = {
   buyerEmail: string
 
   // DELIVERY
-  deliveryType: DeliveryType
-  deliverySpeed: DeliverySpeed
+  deliveryMethod: DeliveryMethod
+  deliveryDestination: DeliveryDestination
+
+  recipientName: string
+  recipientPhone: string
+  address: string
+  city: string
+  addressExtra: string
+
+  // PROMOTIONS (mock, only one active at a time)
+  promoCode: string
+  promoApplied: boolean
+
+  firstPurchaseEmail: string
+  firstPurchaseApplied: boolean
 
   // BACKEND DATA (SOURCE OF TRUTH)
   pricing: Pricing | null
@@ -56,10 +69,14 @@ type CheckoutState = {
     email: string
   }) => void
 
-  setDelivery: (data: {
-    type: DeliveryType
-    speed: DeliverySpeed
-  }) => void
+  setDeliveryMethod: (method: DeliveryMethod) => void
+  setDestination: (destination: DeliveryDestination) => void
+
+  setRecipientInfo: (data: { name: string; phone: string }) => void
+  setAddressInfo: (data: { address: string; city: string; addressExtra: string }) => void
+
+  setPromo: (code: string, applied: boolean) => void
+  setFirstPurchase: (email: string, applied: boolean) => void
 
   setMultiBeneficiary: (value: boolean) => void
 
@@ -88,8 +105,20 @@ export const useCheckoutStore = create<CheckoutState>()(
       buyerPhone: "",
       buyerEmail: "",
 
-      deliveryType: "digital",
-      deliverySpeed: null,
+      deliveryMethod: "domicilio",
+      deliveryDestination: null,
+
+      recipientName: "",
+      recipientPhone: "",
+      address: "",
+      city: "",
+      addressExtra: "",
+
+      promoCode: "",
+      promoApplied: false,
+
+      firstPurchaseEmail: "",
+      firstPurchaseApplied: false,
 
       pricing: null,
       pricingUpdatedAt: null,
@@ -126,12 +155,34 @@ export const useCheckoutStore = create<CheckoutState>()(
           buyerEmail: email,
         }),
 
-      setDelivery: ({ type, speed }) =>
+      setDeliveryMethod: (method) =>
         set({
-          deliveryType: type,
-          deliverySpeed: speed,
+          deliveryMethod: method,
+          deliveryDestination: method === "domicilio" ? get().deliveryDestination : null,
           pricing: null,
           pricingUpdatedAt: null,
+        }),
+
+      setDestination: (destination) => set({ deliveryDestination: destination }),
+
+      setRecipientInfo: ({ name, phone }) =>
+        set({ recipientName: name, recipientPhone: phone }),
+
+      setAddressInfo: ({ address, city, addressExtra }) =>
+        set({ address, city, addressExtra }),
+
+      setPromo: (code, applied) =>
+        set({
+          promoCode: code,
+          promoApplied: applied,
+          firstPurchaseApplied: applied ? false : get().firstPurchaseApplied,
+        }),
+
+      setFirstPurchase: (email, applied) =>
+        set({
+          firstPurchaseEmail: email,
+          firstPurchaseApplied: applied,
+          promoApplied: applied ? false : get().promoApplied,
         }),
 
       setMultiBeneficiary: (value) =>
@@ -161,17 +212,24 @@ export const useCheckoutStore = create<CheckoutState>()(
         const {
           box,
           buyerName,
-          buyerPhone,
           buyerEmail,
-          deliveryType,
-          deliverySpeed,
+          deliveryMethod,
+          deliveryDestination,
+          address,
+          city,
+          recipientName,
+          recipientPhone,
           pricing,
         } = get()
 
         if (!box) return false
-        if (!buyerName || !buyerPhone || !buyerEmail) return false
+        if (!buyerName || !buyerEmail) return false
 
-        if (deliveryType === "physical" && !deliverySpeed) return false
+        if (deliveryMethod === "domicilio") {
+          if (!deliveryDestination) return false
+          if (!address || !city) return false
+          if (deliveryDestination === "recipient" && (!recipientName || !recipientPhone)) return false
+        }
 
         // 🔥 IMPORTANT: pricing still required for payment step
         if (!pricing) return false
@@ -190,8 +248,21 @@ export const useCheckoutStore = create<CheckoutState>()(
           buyerName: "",
           buyerPhone: "",
           buyerEmail: "",
-          deliveryType: "digital",
-          deliverySpeed: null,
+
+          deliveryMethod: "domicilio",
+          deliveryDestination: null,
+
+          recipientName: "",
+          recipientPhone: "",
+          address: "",
+          city: "",
+          addressExtra: "",
+
+          promoCode: "",
+          promoApplied: false,
+
+          firstPurchaseEmail: "",
+          firstPurchaseApplied: false,
 
           pricing: null,
           pricingUpdatedAt: null,

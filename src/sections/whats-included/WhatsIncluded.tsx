@@ -1,9 +1,61 @@
 "use client"
 
 import Image from "next/image"
+import { useEffect, useRef, useState } from "react"
 import { ArrowRight, CalendarCheck, User } from "lucide-react"
 import BrandRibbon from "@/components/ui/BrandRibbon"
 import BenefitsBar from "@/components/BenefitsBar"
+
+// Scales its content to the exact font-size that fills the container width
+// on a single line — measured live, so it always fits regardless of glyph
+// metrics (colored per-letter spans break normal kerning estimates).
+function FitLine({
+  children,
+  min,
+  max,
+  className = "",
+}: {
+  children: React.ReactNode
+  min: number
+  max: number
+  className?: string
+}) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLSpanElement>(null)
+  const [fontSize, setFontSize] = useState(max)
+
+  useEffect(() => {
+    const container = containerRef.current
+    const text = textRef.current
+    if (!container || !text) return
+
+    const fit = () => {
+      const containerWidth = container.clientWidth
+      text.style.fontSize = `${max}px`
+      const naturalWidth = text.scrollWidth
+      if (naturalWidth === 0) return
+      const scale = containerWidth / naturalWidth
+      setFontSize(Math.min(max, Math.max(min, max * scale)))
+    }
+
+    fit()
+    const ro = new ResizeObserver(fit)
+    ro.observe(container)
+    return () => ro.disconnect()
+  }, [min, max])
+
+  return (
+    <div ref={containerRef} className="w-full">
+      <span
+        ref={textRef}
+        className={`inline-block whitespace-nowrap ${className}`}
+        style={{ fontSize }}
+      >
+        {children}
+      </span>
+    </div>
+  )
+}
 
 function IncludedCard({
   src,
@@ -96,13 +148,25 @@ export default function WhatsIncluded() {
 
         <div className="max-w-[1100px] mx-auto px-6">
 
-          <h2 className="text-ink text-[34px] sm:text-[42px] md:text-[52px] font-semibold leading-[1.1] tracking-tight max-w-[480px] mb-2">
-            Todo en una sola{" "}
-            <span className="text-primary">c</span>
-            <span className="text-accent-red">a</span>
-            <span className="text-accent-green">j</span>
-            <span className="text-accent-blue">a</span>
-            <span className="text-violet-500">.</span>
+          <h2 className="text-ink font-semibold leading-[1.1] tracking-tight mb-2">
+            <div className="sm:hidden">
+              <FitLine max={34} min={18}>
+                Todo en una sola{" "}
+                <span className="text-primary">c</span>
+                <span className="text-accent-red">a</span>
+                <span className="text-accent-green">j</span>
+                <span className="text-accent-blue">a</span>
+                <span className="text-violet-500">.</span>
+              </FitLine>
+            </div>
+            <div className="hidden sm:block text-[42px] md:text-[52px] whitespace-nowrap">
+              Todo en una sola{" "}
+              <span className="text-primary">c</span>
+              <span className="text-accent-red">a</span>
+              <span className="text-accent-green">j</span>
+              <span className="text-accent-blue">a</span>
+              <span className="text-violet-500">.</span>
+            </div>
           </h2>
 
           <p className="text-ink/60 text-[15px] sm:text-[16px] md:text-[17px] max-w-[420px] mb-2 md:mb-3">
@@ -115,7 +179,7 @@ export default function WhatsIncluded() {
 
         <div className="relative w-screen left-1/2 -translate-x-1/2 px-4 sm:px-6 md:px-10">
 
-          <div className="relative w-full max-w-[1440px] mx-auto pt-1 md:pt-2">
+          <div className="relative w-full max-w-[1440px] mx-auto pt-0 md:pt-1">
 
             <div className="relative w-full aspect-[10/13.5]">
 
@@ -127,7 +191,7 @@ export default function WhatsIncluded() {
               {/* BOX — hero, slight 3D perspective, never frontal-flat, centered at 50%/26% */}
 
               <div
-                className="absolute left-[15%] top-0 w-[70%] aspect-square z-10"
+                className="absolute left-[12%] top-[-3.5%] w-[76%] aspect-square z-10"
                 style={{ transform: "perspective(1400px) rotateX(7deg) rotateY(-9deg) rotate(-3deg)" }}
               >
                 <Image
@@ -141,7 +205,7 @@ export default function WhatsIncluded() {
 
               {/* CATALOGUE — left card, nearly at the frame's left edge */}
 
-              <div className="absolute left-[2%] top-[66%] w-[30%] aspect-square z-10">
+              <div className="absolute left-[2%] top-[67%] w-[34%] aspect-square z-10">
                 <div
                   className="absolute inset-x-[18%] -bottom-[3%] h-[7%] rounded-[100%] blur-[3px]"
                   style={{ background: "radial-gradient(ellipse, rgba(24,20,15,0.35) 0%, transparent 80%)" }}
@@ -156,7 +220,7 @@ export default function WhatsIncluded() {
 
               {/* PERSONAL MESSAGE — center card, real gaps on both sides */}
 
-              <div className="absolute left-[35%] top-[67%] w-[30%] aspect-square z-20">
+              <div className="absolute left-[33%] top-[68%] w-[34%] aspect-square z-20">
                 <div
                   className="absolute inset-x-[18%] -bottom-[3%] h-[7%] rounded-[100%] blur-[3px]"
                   style={{ background: "radial-gradient(ellipse, rgba(24,20,15,0.35) 0%, transparent 80%)" }}
@@ -171,7 +235,7 @@ export default function WhatsIncluded() {
 
               {/* ACTIVATION CARD — right card, nearly at the frame's right edge */}
 
-              <div className="absolute left-[68%] top-[66.5%] w-[30%] aspect-square z-10">
+              <div className="absolute left-[64%] top-[67.5%] w-[34%] aspect-square z-10">
                 <div
                   className="absolute inset-x-[18%] -bottom-[3%] h-[7%] rounded-[100%] blur-[3px]"
                   style={{ background: "radial-gradient(ellipse, rgba(24,20,15,0.35) 0%, transparent 80%)" }}
@@ -184,13 +248,21 @@ export default function WhatsIncluded() {
                 </div>
               </div>
 
+              {/* CONNECTOR ARROWS — hand-drawn curves, pulled outward past the box's edges so they clear it, pointing down to introduce "Dentro encontrará" */}
+              <div className="absolute z-30 left-[9%] top-[44%] w-[14%] aspect-[184/177] -rotate-[24deg] pointer-events-none">
+                <Image src="/images/box-includes/arrow-curv-left.png" alt="" fill className="object-contain" aria-hidden="true" />
+              </div>
+              <div className="absolute z-30 left-[79%] top-[44%] w-[14%] aspect-[184/177] rotate-[24deg] pointer-events-none">
+                <Image src="/images/box-includes/arrow-curv-right.png" alt="" fill className="object-contain" aria-hidden="true" />
+              </div>
+
               {/* Dentro encontrarás — small section lead-in, centered between the box and the three cards */}
-              <p className="absolute z-40 inset-x-0 top-[51%] text-center text-accent-red font-hand text-[18px] sm:text-[22px] md:text-[27px] leading-snug">
+              <p className="absolute z-40 inset-x-0 top-[51.2%] text-center text-accent-red font-hand text-[18px] sm:text-[22px] md:text-[27px] leading-snug">
                 Dentro <span className="underline">encontrará</span>:
               </p>
 
-              {/* Catálogo / De experiencias. — close above the catalogue card (card spans 2%-32%) */}
-              <div className="absolute z-40 left-[2%] top-[58.5%] w-[30%] text-center leading-snug">
+              {/* Catálogo / De experiencias. — close above the catalogue card (card spans 2%-36%) */}
+              <div className="absolute z-40 left-[2%] top-[59.5%] w-[34%] text-center leading-snug">
                 <h3 className="font-sans font-semibold text-ink text-[13px] sm:text-[15px] md:text-[17px] tracking-tight">
                   Catálogo
                 </h3>
@@ -199,8 +271,8 @@ export default function WhatsIncluded() {
                 </p>
               </div>
 
-              {/* Mensaje / Personal. — close above the message card (card spans 35%-65%) */}
-              <div className="absolute z-40 left-[35%] top-[58.5%] w-[30%] text-center leading-snug">
+              {/* Mensaje / Personal. — close above the message card (card spans 33%-67%) */}
+              <div className="absolute z-40 left-[33%] top-[59.5%] w-[34%] text-center leading-snug">
                 <h3 className="font-sans font-semibold text-ink text-[13px] sm:text-[15px] md:text-[17px] tracking-tight">
                   Mensaje
                 </h3>
@@ -209,8 +281,8 @@ export default function WhatsIncluded() {
                 </p>
               </div>
 
-              {/* Activación / Código único. — close above the activation card (card spans 68%-98%) */}
-              <div className="absolute z-40 left-[68%] top-[58.5%] w-[30%] text-center leading-snug">
+              {/* Activación / Código único. — close above the activation card (card spans 64%-98%) */}
+              <div className="absolute z-40 left-[64%] top-[59.5%] w-[34%] text-center leading-snug">
                 <h3 className="font-sans font-semibold text-ink text-[13px] sm:text-[15px] md:text-[17px] tracking-tight">
                   Activación
                 </h3>
@@ -237,7 +309,7 @@ export default function WhatsIncluded() {
 
           <div className="max-w-[720px]">
 
-            <p className="text-ink text-[22px] sm:text-[26px] md:text-[32px] font-semibold tracking-tight">
+            <p className="text-ink text-[clamp(15px,4.5vw,22px)] sm:text-[26px] md:text-[32px] font-semibold tracking-tight whitespace-nowrap">
               ¿Qué experiencias podrá elegir?
             </p>
 

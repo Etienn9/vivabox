@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server"
+import { supabase } from "@/services/supabase"
 
 function normalizeDeliveryType(type: any) {
   if (!type) return null
 
   const t = String(type).toLowerCase()
 
-  if (t === "physical" || t === "fisico") return "fisico"
+  if (t === "physical" || t === "fisico") return "physical"
   if (t === "digital") return "digital"
 
   return null
@@ -17,7 +18,6 @@ export async function POST(req: Request) {
 
     const { ventaId, items, delivery } = body
 
-    // 🔥 FIX ICI
     const deliveryType = normalizeDeliveryType(
       delivery?.type || body.deliveryType
     )
@@ -43,57 +43,67 @@ export async function POST(req: Request) {
         return NextResponse.json({ ok: false, error: "INVALID_ITEM_FIELDS" })
       }
 
-      if (deliveryType === "fisico") {
-        if (!item.direccion || !item.ciudad) {
-          return NextResponse.json({ ok: false, error: "MISSING_ADDRESS" })
-        }
+      if (deliveryType === "physical" && (!item.direccion || !item.ciudad)) {
+        return NextResponse.json({ ok: false, error: "MISSING_ADDRESS" })
       }
     }
 
     // ======================
-    // NORMALISATION
+    // VENTA LOOKUP
     // ======================
 
-    const cleanItems = items.map((item: any) => ({
-  para: item.para || "",
-  de: item.de || "",
+    const { data: venta, error: fetchError } = await supabase
+      .from("ventas")
+      .select("id, status")
+      .eq("id", ventaId)
+      .single()
 
-  beneficiario: item.beneficiario || "",
-  contacto: item.contacto || "",
+    if (fetchError || !venta) {
+      return NextResponse.json({ ok: false, error: "NOT_FOUND" })
+    }
 
-  mensaje: item.mensaje || "",
-
-  direccion: item.direccion || "",
-  ciudad: item.ciudad || "",
-  detalles: item.detalles || "",
-
-  programado: !!item.programado,
-  fecha_envio: item.fecha_envio || null,
-  hora_envio: item.hora_envio || null,
-}))
+    if (venta.status !== "paid") {
+      return NextResponse.json({ ok: false, error: "NOT_PAID" })
+    }
 
     // ======================
-    // CALL GAS
+    // UPDATE
     // ======================
 
-    const response = await fetch(process.env.APPS_SCRIPT_URL!, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        action: "complete",
-        ventaId,
-        delivery: { type: deliveryType }, // 🔥 aligné avec GAS
-        items: cleanItems,
-      }),
-    })
+    const item = items[0]
 
-    const data = await response.json()
+    const { error: updateError } = await supabase
+      .from("ventas")
+      .update({
+        status: "completed",
+        completed_at: new Date().toISOString(),
 
-    return NextResponse.json(data)
+        recipient_name: item.beneficiario || "",
+        recipient_contact: item.contacto || "",
+
+        message_para: item.para || "",
+        message_de: item.de || "",
+        message_mensaje: item.mensaje || "",
+
+        delivery_direccion: item.direccion || "",
+        delivery_ciudad: item.ciudad || "",
+        delivery_detalles: item.detalles || "",
+
+        scheduled: !!item.programado,
+        scheduled_date: item.fecha_envio || null,
+        scheduled_time: item.hora_envio || null,
+      })
+      .eq("id", ventaId)
+
+    if (updateError) {
+      console.error("SUPABASE UPDATE ERROR:", updateError)
+      return NextResponse.json({ ok: false, error: "SERVER_ERROR" })
+    }
+
+    return NextResponse.json({ ok: true })
 
   } catch (error) {
+    console.error("COMPLETE ERROR:", error)
     return NextResponse.json({ ok: false, error: "SERVER_ERROR" })
   }
 }

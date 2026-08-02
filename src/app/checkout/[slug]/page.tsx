@@ -34,7 +34,7 @@ export default async function CheckoutProductPage({
   return (
     <>
       {/* Progress bar */}
-      <CheckoutProgress current="elegir" />
+      <CheckoutProgress current="elegir" subStep={1} />
 
       {/* Content */}
       <div className="max-w-[1100px] mx-auto px-4 py-6">

@@ -12,8 +12,10 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
+  const isCheckout = pathname.startsWith("/checkout")
+
   const forceSolid =
-    pathname.startsWith("/checkout") ||
+    isCheckout ||
     pathname.startsWith("/experiencias") ||
     pathname.startsWith("/carrito") ||
     pathname.startsWith("/activar") ||
@@ -97,43 +99,45 @@ export default function Navbar() {
           </div>
 
           {/* ACTIONS */}
-          <div className="flex items-center gap-2 md:gap-3">
+          {!isCheckout && (
+            <div className="flex items-center gap-2 md:gap-3">
 
-            {/* CTA SECONDARY (activation) */}
-            <Link
-              href="/proximamente"
-              className={`
-                inline-flex items-center gap-2
-                h-10 px-3.5 md:px-4
-                rounded-full border-2
-                text-sm font-semibold
-                whitespace-nowrap shrink-0
-                transition-all duration-200
-                ${
+              {/* CTA SECONDARY (activation) */}
+              <Link
+                href="/proximamente"
+                className={`
+                  inline-flex items-center gap-2
+                  h-10 px-3.5 md:px-4
+                  rounded-full border-2
+                  text-sm font-semibold
+                  whitespace-nowrap shrink-0
+                  transition-all duration-200
+                  ${
+                    solid
+                      ? "border-ink text-ink hover:bg-primary hover:text-white"
+                      : "border-white text-white hover:bg-white hover:text-primary"
+                  }
+                `}
+              >
+                <QrCode size={16} strokeWidth={1.5} />
+                <span className="hidden sm:inline">Activar mi box</span>
+                <span className="sm:hidden">Activar</span>
+              </Link>
+
+              {/* CART */}
+              <Link
+                href="/proximamente"
+                className={`p-2 rounded-full transition ${
                   solid
-                    ? "border-ink text-ink hover:bg-primary hover:text-white"
-                    : "border-white text-white hover:bg-white hover:text-primary"
-                }
-              `}
-            >
-              <QrCode size={16} strokeWidth={1.5} />
-              <span className="hidden sm:inline">Activar mi box</span>
-              <span className="sm:hidden">Activar</span>
-            </Link>
+                    ? "text-ink hover:bg-black/5"
+                    : "text-white hover:bg-white/20"
+                }`}
+              >
+                <ShoppingCart size={24} strokeWidth={1.5} />
+              </Link>
 
-            {/* CART */}
-            <Link
-              href="/proximamente"
-              className={`p-2 rounded-full transition ${
-                solid
-                  ? "text-ink hover:bg-black/5"
-                  : "text-white hover:bg-white/20"
-              }`}
-            >
-              <ShoppingCart size={24} strokeWidth={1.5} />
-            </Link>
-
-          </div>
+            </div>
+          )}
 
         </nav>
       </header>
@@ -195,22 +199,24 @@ export default function Navbar() {
 </Link>
 
 {/* CTA SECONDARY */}
-<Link
-  href="/proximamente"
-  onClick={() => setMenuOpen(false)}
-  className="
-    mb-10 h-12 flex items-center justify-center gap-2
-    rounded-full
-    border border-primary/50
-    text-primary
-    font-medium
-    active:scale-[0.97]
-    transition
-  "
->
-  <QrCode size={15} strokeWidth={1.5} />
-  Activar mi box
-</Link>
+{!isCheckout && (
+  <Link
+    href="/proximamente"
+    onClick={() => setMenuOpen(false)}
+    className="
+      mb-10 h-12 flex items-center justify-center gap-2
+      rounded-full
+      border border-primary/50
+      text-primary
+      font-medium
+      active:scale-[0.97]
+      transition
+    "
+  >
+    <QrCode size={15} strokeWidth={1.5} />
+    Activar mi box
+  </Link>
+)}
 
       {/* NAV */}
       <div className="flex flex-col gap-7 text-[16px] text-foreground">
@@ -239,9 +245,11 @@ export default function Navbar() {
           Nuestra historia
         </Link>
 
-        <Link href="/proximamente" onClick={() => setMenuOpen(false)}>
-          Carrito
-        </Link>
+        {!isCheckout && (
+          <Link href="/proximamente" onClick={() => setMenuOpen(false)}>
+            Carrito
+          </Link>
+        )}
 
       </div>
 

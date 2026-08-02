@@ -38,6 +38,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# experience images cached from the Google Sheet at build time (see scripts/cache-experience-images.mjs)
+/public/images/experiences/*
+!/public/images/experiences/.gitkeep
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

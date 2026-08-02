@@ -10,12 +10,17 @@ const steps: { key: Step; label: string }[] = [
   { key: "enviar", label: "Enviar" },
 ]
 
-export default function CheckoutProgress({ current }: { current: Step }) {
+type Props = {
+  current: Step
+  subStep?: 1 | 2
+}
+
+export default function CheckoutProgress({ current, subStep }: Props) {
 
   const order: Step[] = ["elegir", "pagar", "enviar"]
 
   return (
-    <div className="bg-white border-b">
+    <div className="bg-card border-b border-[#ECECEC]">
       <div className="max-w-[1100px] mx-auto px-6 py-4 flex items-center justify-between">
 
         {steps.map((step, index) => {
@@ -38,13 +43,13 @@ export default function CheckoutProgress({ current }: { current: Step }) {
 
                 <div
                   className={`
-                    w-6 h-6 rounded-full flex items-center justify-center text-xs
+                    w-6 h-6 rounded-full flex items-center justify-center text-xs transition-colors duration-300
                     ${
                       state === "done"
-                        ? "bg-green-600 text-white"
+                        ? "bg-primary text-white"
                         : state === "active"
-                        ? "border-2 border-black text-black"
-                        : "border text-gray-400"
+                        ? "border-2 border-ink text-ink"
+                        : "border border-[#ECECEC] text-gray-400"
                     }
                   `}
                 >
@@ -55,24 +60,32 @@ export default function CheckoutProgress({ current }: { current: Step }) {
                   )}
                 </div>
 
-                <span
-                  className={`
-                    text-sm
-                    ${
-                      state === "active"
-                        ? "font-medium text-black"
-                        : "text-gray-500"
-                    }
-                  `}
-                >
-                  {step.label}
-                </span>
+                <div className="flex flex-col leading-tight">
+                  <span
+                    className={`
+                      text-sm
+                      ${
+                        state === "active"
+                          ? "font-medium text-ink"
+                          : "text-gray-500"
+                      }
+                    `}
+                  >
+                    {step.label}
+                  </span>
+
+                  {step.key === "elegir" && current === "elegir" && subStep && (
+                    <span className="text-[11px] text-[#6B6B6B]">
+                      Paso {subStep} de 2
+                    </span>
+                  )}
+                </div>
 
               </div>
 
               {/* LINE */}
               {index < steps.length - 1 && (
-                <div className="flex-1 h-[1px] bg-gray-300 mx-3" />
+                <div className="flex-1 h-[1px] bg-[#ECECEC] mx-3" />
               )}
 
             </div>

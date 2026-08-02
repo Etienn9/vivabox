@@ -15,8 +15,7 @@ export default function PagoPage() {
   const box = useCheckoutStore(s => s.box)
   const quantity = useCheckoutStore(s => s.quantity)
 
-  const deliveryType = useCheckoutStore(s => s.deliveryType)
-  const deliverySpeed = useCheckoutStore(s => s.deliverySpeed)
+  const deliveryMethod = useCheckoutStore(s => s.deliveryMethod)
 
   const ventaId = useCheckoutStore(s => s.ventaId)
   const pricing = useCheckoutStore(s => s.pricing)
@@ -53,11 +52,9 @@ export default function PagoPage() {
   // LABEL
   // ======================
   function getDeliveryLabel() {
-    if (deliveryType === "digital") return "Digital"
-    if (deliverySpeed === "standard") return "Física (Estándar)"
-    if (deliverySpeed === "express") return "Física (Rápida)"
-    if (deliverySpeed === "outside") return "Física (Fuera cobertura)"
-    return "Física"
+    if (deliveryMethod === "digital") return "Digital"
+    if (deliveryMethod === "retiro") return "Retiro"
+    return "Domicilio"
   }
 
   // ======================
@@ -71,10 +68,12 @@ async function handleFakePayment() {
     return
   }
 
-  if (!quantity || !deliveryType) {
+  if (!quantity || !deliveryMethod) {
     alert("Error interno: datos incompletos")
     return
   }
+
+  const urlDeliveryType = deliveryMethod === "digital" ? "digital" : "physical"
 
   setLoading(true)
 
@@ -105,7 +104,7 @@ async function handleFakePayment() {
 
       if (data.error === "ALREADY_PAID") {
         router.replace(
-          `/checkout/success?ventaId=${ventaId}&quantity=${quantity}&deliveryType=${deliveryType}`
+          `/checkout/success?ventaId=${ventaId}&quantity=${quantity}&deliveryType=${urlDeliveryType}`
         )
         return
       }
@@ -120,7 +119,7 @@ async function handleFakePayment() {
     // ======================
 
     router.replace(
-      `/checkout/success?ventaId=${ventaId}&quantity=${quantity}&deliveryType=${deliveryType}`
+      `/checkout/success?ventaId=${ventaId}&quantity=${quantity}&deliveryType=${urlDeliveryType}`
     )
 
   } catch (error) {

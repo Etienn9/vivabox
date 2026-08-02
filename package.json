@@ -5,10 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "prebuild": "node scripts/cache-experience-images.mjs",
+    "cache:images": "node scripts/cache-experience-images.mjs",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.111.0",
     "lucide-react": "^0.577.0",
     "next": "16.1.6",
     "papaparse": "^5.5.3",

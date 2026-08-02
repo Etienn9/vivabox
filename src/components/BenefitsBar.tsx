@@ -6,7 +6,7 @@ import {
   RefreshCw,
   Clock,
   MapPin,
-  Truck
+  Package
 } from "lucide-react";
 import { boxes } from "@/data/boxes";
 
@@ -17,7 +17,7 @@ export default function BenefitsBar() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const items = [
-    { icon: Truck, text: "Envío gratis" },
+    { icon: Package, text: "Caja física incluida" },
     { icon: Calendar, text: "Reserva fácil" },
     { icon: RefreshCw, text: "Cambio gratuito" },
     { icon: Clock, text: `Validez: ${vivabox.validityMonths} meses` },

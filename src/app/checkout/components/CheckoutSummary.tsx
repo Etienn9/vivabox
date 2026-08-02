@@ -2,6 +2,7 @@
 
 import { useCheckoutStore } from "@/features/checkout/checkoutStore"
 import { formatPrice } from "@/utils/formatPrice"
+import BrandDots from "@/components/ui/BrandDots"
 
 type Pricing = {
   subtotal: number
@@ -17,8 +18,9 @@ export default function CheckoutSummary({ estimatedPricing }: Props) {
 
   const box = useCheckoutStore(s => s.box)
   const quantity = useCheckoutStore(s => s.quantity)
-  const deliveryType = useCheckoutStore(s => s.deliveryType)
-  const deliverySpeed = useCheckoutStore(s => s.deliverySpeed)
+  const deliveryMethod = useCheckoutStore(s => s.deliveryMethod)
+  const promoApplied = useCheckoutStore(s => s.promoApplied)
+  const firstPurchaseApplied = useCheckoutStore(s => s.firstPurchaseApplied)
   const pricing = useCheckoutStore(s => s.pricing)
   const hasHydrated = useCheckoutStore(s => s.hasHydrated)
 
@@ -28,7 +30,7 @@ export default function CheckoutSummary({ estimatedPricing }: Props) {
 
   if (!hasHydrated || !box) {
     return (
-      <div className="bg-white rounded-[18px] border p-6">
+      <div className="checkout-card p-4">
         <p className="text-sm text-[#6B6B6B]">Cargando...</p>
       </div>
     )
@@ -40,39 +42,30 @@ export default function CheckoutSummary({ estimatedPricing }: Props) {
 
   const finalPricing = pricing ?? estimatedPricing
   const isEstimated = !pricing
-
-  function getDeliveryLabel() {
-    if (deliveryType === "digital") return "Digital"
-    if (deliverySpeed === "standard") return "Física (Estándar)"
-    if (deliverySpeed === "express") return "Física (Rápida)"
-    if (deliverySpeed === "outside") return "Física (Fuera cobertura)"
-    return "Física"
-  }
+  const hasBenefit = isEstimated && (promoApplied || firstPurchaseApplied) && deliveryMethod === "domicilio"
 
   const { subtotal, delivery, total } = finalPricing
+  const discount = hasBenefit ? delivery : 0
+  const displayTotal = total - discount
 
   return (
-    <div className="bg-white rounded-[18px] border border-[#ECECEC] p-6 shadow-[0_16px_35px_rgba(0,0,0,0.08)] sticky top-24 space-y-4">
+    <div className="checkout-card p-4 sticky top-24 space-y-3">
 
-      <h3 className="h3">Resumen de compra</h3>
-
-      <div className="text-sm">
-        <p className="font-medium">{box.name}</p>
-        <p className="text-[#6B6B6B]">
-          ${formatPrice(box.price)}
-        </p>
+      <div>
+        <BrandDots />
+        <h3 className="text-sm font-medium text-[#6B6B6B]">Resumen de compra</h3>
       </div>
 
-      <div className="space-y-2 text-sm text-[#6B6B6B]">
+      <div className="space-y-1.5 text-sm text-[#6B6B6B]/90">
+
+        <div className="flex justify-between">
+          <span>Vivabox</span>
+          <span>${formatPrice(box.price)}</span>
+        </div>
 
         <div className="flex justify-between">
           <span>Cantidad</span>
           <span>{quantity}</span>
-        </div>
-
-        <div className="flex justify-between">
-          <span>Entrega</span>
-          <span>{getDeliveryLabel()}</span>
         </div>
 
         <div className="flex justify-between">
@@ -84,19 +77,19 @@ export default function CheckoutSummary({ estimatedPricing }: Props) {
           </span>
         </div>
 
+        {hasBenefit && (
+          <div className="flex justify-between text-green-700">
+            <span>Beneficio</span>
+            <span>−${formatPrice(discount)}</span>
+          </div>
+        )}
+
       </div>
 
-      <div className="border-t pt-4 flex justify-between font-semibold text-[18px]">
-        <span>Total</span>
-        <span>${formatPrice(total)}</span>
+      <div className="rounded-2xl bg-[#FFF4EC] px-4 py-3 flex items-center justify-between">
+        <span className="text-sm font-medium text-ink">Total</span>
+        <span className="text-2xl font-semibold text-ink tracking-tight">${formatPrice(displayTotal)}</span>
       </div>
-
-      {/* 🔥 UX SIGNAL */}
-      {isEstimated && (
-        <p className="text-xs text-[#6B6B6B]">
-          Precio estimado — se confirma al pagar
-        </p>
-      )}
 
     </div>
   )

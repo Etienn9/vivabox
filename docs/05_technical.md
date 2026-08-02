@@ -57,8 +57,12 @@ Architecture should flex for: additional cities, expanded experience catalog, lo
 
 Edge-first hosting (Vercel), continuous deployment for rapid updates.
 
+## Backend
+
+- **Ventas (orders):** Supabase (PostgreSQL), table `ventas` — created/read/updated exclusively from Next.js API routes (`src/app/api/checkout/*`) via a service-role client (`src/services/supabase.ts`). RLS enabled with no public policies; the browser never talks to Supabase directly. Schema lives in `supabase/schema.sql`.
+- **Boxes (product catalog):** stays static/local data (`src/data/boxes.ts`) — no need for a database table at this stage.
+
 ## Roadmap (post-MVP)
 
-- Backend: Supabase, PostgreSQL.
-
-MVP frontend logic can stay on static/local data (see `data/` in Project Structure). This migration is not required to ship the MVP — noted here so future backend work doesn't start from scratch or contradict the current stack.
+- Real payment provider (Wompi) instead of the current mock payment screen.
+- Backend-validated promo codes / first-purchase benefit (currently mocked client-side).

@@ -1,9 +1,10 @@
 "use client"
 
-import { Suspense, useState, useRef } from "react"
+import { Suspense, useState, useRef, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { User, Gift, Package } from "lucide-react"
 import CheckoutProgress from "../CheckoutProgress"
+import { useCheckoutStore } from "@/features/checkout/checkoutStore"
 
 import DatePickerModal from "@/components/ui/DatePickerModal"
 import TimePickerModal from "@/components/ui/TimePickerModal"
@@ -23,12 +24,28 @@ function SuccessPageContent() {
 
   const ventaId = searchParams.get("ventaId") || ""
 
-  // 🔥 NORMALIZACIÓN CRÍTICA
+  // 🔥 NORMALIZACIÓN CRÍTICA (fallback si el store no está disponible)
   const deliveryTypeRaw = searchParams.get("deliveryType") || "digital"
-  const deliveryType =
-    deliveryTypeRaw === "physical" ? "fisico" : "digital"
+  const urlIsPhysical = deliveryTypeRaw === "physical"
 
-  const isPhysical = deliveryType === "fisico"
+  const hasHydrated = useCheckoutStore(s => s.hasHydrated)
+  const storeDeliveryMethod = useCheckoutStore(s => s.deliveryMethod)
+  const storeDestination = useCheckoutStore(s => s.deliveryDestination)
+  const storeRecipientName = useCheckoutStore(s => s.recipientName)
+  const storeRecipientPhone = useCheckoutStore(s => s.recipientPhone)
+  const storeAddress = useCheckoutStore(s => s.address)
+  const storeCity = useCheckoutStore(s => s.city)
+  const storeAddressExtra = useCheckoutStore(s => s.addressExtra)
+
+  // Vivabox física (domicilio o retiro) vs digital — usado para el payload
+  const isPhysicalBox = hasHydrated
+    ? storeDeliveryMethod !== "digital"
+    : urlIsPhysical
+
+  // Necesita dirección de envío — solo domicilio la requiere (retiro no)
+  const needsAddress = hasHydrated
+    ? storeDeliveryMethod === "domicilio"
+    : urlIsPhysical
 
   const [type, setType] = useState<Type | null>(null)
 
@@ -55,6 +72,26 @@ function SuccessPageContent() {
 
   const [loading, setLoading] = useState(false)
 
+  // Prellenar con lo ya capturado en el paso "Entrega" — nunca pedir dos veces
+  useEffect(() => {
+    if (!hasHydrated || type) return
+
+    if (storeDestination === "recipient") {
+      setType("gift")
+      setNombre(storeRecipientName)
+      setContacto(storeRecipientPhone)
+    } else if (storeDestination === "self") {
+      setType("self")
+    }
+
+    if (storeDeliveryMethod === "domicilio") {
+      setCity(storeCity)
+      setAddress(storeAddress)
+      setAddressExtra(storeAddressExtra)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasHydrated])
+
   const idempotencyKeyRef = useRef<string | null>(null)
   const isSubmittingRef = useRef(false)
 
@@ -72,9 +109,9 @@ function SuccessPageContent() {
 
     if (type === "self" && !contacto) return false
 
-    if (isPhysical && (!city || !address)) return false
+    if (needsAddress && (!city || !address)) return false
 
-    if (!isPhysical && schedule && (!selectedDate || !selectedTime)) return false
+    if (!needsAddress && schedule && (!selectedDate || !selectedTime)) return false
 
     return true
   }
@@ -104,7 +141,7 @@ fecha_envio = `${year}-${month}-${day}`
   return {
     ventaId,
 
-    deliveryType: isPhysical ? "physical" : "digital",
+    deliveryType: isPhysicalBox ? "physical" : "digital",
 
     items: [
       {
@@ -120,8 +157,8 @@ contacto: contacto || "",
 
         mensaje: mensaje || "",
 
-        direccion: isPhysical ? address : "",
-        ciudad: isPhysical ? city : "",
+        direccion: needsAddress ? address : "",
+        ciudad: needsAddress ? city : "",
         detalles: addressExtra || "",
 
         programado: schedule,
@@ -171,7 +208,7 @@ contacto: contacto || "",
   }
 
   const ctaLabel =
-    deliveryType === "digital" && !schedule
+    !isPhysicalBox && !schedule
       ? "Enviar ahora"
       : "Confirmar envío"
 
@@ -222,7 +259,7 @@ contacto: contacto || "",
           <div className="bg-white border rounded-2xl p-5 space-y-4">
 
             <p className="font-semibold">
-              {isPhysical
+              {needsAddress
                 ? "¿A quién y a dónde enviamos?"
                 : "¿A quién enviamos?"}
             </p>
@@ -253,7 +290,7 @@ contacto: contacto || "",
     className="w-full border px-3 py-2 rounded-lg"
   />
 )}
-            {isPhysical && (
+            {needsAddress && (
               <>
                 <div className="pt-2" />
 
@@ -280,7 +317,7 @@ contacto: contacto || "",
               </>
             )}
 
-            {!isPhysical && (
+            {!needsAddress && (
               <>
                 <div className="grid grid-cols-2 gap-3">
                   <button
