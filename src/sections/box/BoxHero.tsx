@@ -58,6 +58,7 @@ export default function BoxHero({
           alt="Experiencias Vivabox"
           fill
           priority
+          sizes="100vw"
           className="object-cover blur-[5px] brightness-[0.8] scale-110"
         />
         <div className="absolute inset-0 bg-black/40" />

@@ -80,6 +80,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
             src={imageSrc}
             alt={experience.title}
             fill
+            sizes="(min-width: 576px) 576px, 100vw"
             className="object-cover"
           />
 

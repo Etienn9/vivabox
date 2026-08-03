@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Plus } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { formatPrice } from "@/utils/formatPrice"
@@ -34,10 +35,13 @@ export default function BoxCard({ box }: BoxCardProps) {
       {/* IMAGE */}
 
       <div className="absolute -top-20 left-1/2 -translate-x-1/2 z-10">
-        <img
+        <Image
           src={box.image}
           alt={box.name}
-          className={`object-contain max-w-none drop-shadow-xl transition-transform duration-300 group-hover:scale-105 ${imageSize}`}
+          width={700}
+          height={700}
+          sizes="(min-width: 768px) 250px, 40vw"
+          className={`h-auto object-contain max-w-none drop-shadow-xl transition-transform duration-300 group-hover:scale-105 ${imageSize}`}
         />
       </div>
 

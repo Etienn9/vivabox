@@ -65,6 +65,7 @@ export default function EmpresasCustomization() {
                 src="/images/box-includes/vivabox-caja-regalo.png"
                 alt="Vivabox personalizable para empresas"
                 fill
+                sizes="(min-width: 440px) 352px, 80vw"
                 className="object-contain drop-shadow-[18px_10px_20px_rgba(0,0,0,0.45)]"
               />
             </div>

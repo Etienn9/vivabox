@@ -15,6 +15,7 @@ export default function BoxFinalCTA({ price, slug }: Props) {
           src="/images/final-cta/persona-regalando-vivabox.png"
           alt="Persona recibiendo una Vivabox"
           fill
+          sizes="100vw"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-black/10 to-transparent" />

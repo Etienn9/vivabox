@@ -1,10 +1,23 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import BrandRibbon from "@/components/ui/BrandRibbon"
+
+const DESKTOP_SRC = "/videos/hero/hero.mp4"
+const MOBILE_SRC = "/videos/hero/hero-mobile.mp4"
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
+  // Defaults to desktop for SSR/first paint; swapped in effect below once
+  // we can read the viewport. `<source media="...">` looks like the right
+  // tool for this but iOS WebKit resolves it inconsistently between Safari
+  // and Chrome-for-iOS, so the source is picked in JS instead.
+  const [src, setSrc] = useState(DESKTOP_SRC)
+
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 767px)")
+    setSrc(mql.matches ? MOBILE_SRC : DESKTOP_SRC)
+  }, [])
 
   useEffect(() => {
     const video = videoRef.current
@@ -12,10 +25,14 @@ export default function Hero() {
 
     // iOS Safari checks the `muted` attribute at parse time, before React
     // hydration has a chance to set it as a JS property — without this,
-    // autoplay can silently fail on iPhone.
+    // autoplay can silently fail on iPhone. Retried on loadedmetadata since
+    // play() can reject if called before the new source is ready.
     video.muted = true
-    video.play().catch(() => {})
-  }, [])
+    const tryPlay = () => video.play().catch(() => {})
+    tryPlay()
+    video.addEventListener("loadedmetadata", tryPlay)
+    return () => video.removeEventListener("loadedmetadata", tryPlay)
+  }, [src])
 
   return (
     <section className="relative h-[78vh] md:h-[82vh] min-h-[620px] overflow-hidden">
@@ -23,7 +40,9 @@ export default function Hero() {
       {/* VIDEO */}
 
       <video
+        key={src}
         ref={videoRef}
+        src={src}
         autoPlay
         muted
         loop
@@ -36,10 +55,7 @@ export default function Hero() {
           object-cover
           object-center
         "
-      >
-        <source src="/videos/hero/hero-mobile.mp4" media="(max-width: 767px)" />
-        <source src="/videos/hero/hero.mp4" />
-      </video>
+      />
 
       {/* SUBTLE READABILITY GRADIENT */}
 

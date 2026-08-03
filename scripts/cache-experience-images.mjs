@@ -9,11 +9,17 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import Papa from "papaparse";
+import sharp from "sharp";
 
 const SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vR4Jf6eOcGsbnRYIPVP60JVWDp1KkqZMGdcj3t8ABR9hdaFY9t3bLcvqgVjTVWVtz9GFUDtWADB_iLx/pub?output=csv";
 
 const OUTPUT_DIR = path.join(process.cwd(), "public", "images", "experiences");
+
+// Cards only ever display these at a few hundred px wide — asking the
+// source for a smaller render (and re-encoding as a safety net below) is
+// what keeps this folder from ballooning back to multi-MB originals.
+const MAX_WIDTH = 900;
 
 function isCacheableImage(url) {
   return typeof url === "string" && (
@@ -25,6 +31,19 @@ function localFileNameFor(url) {
   const hash = crypto.createHash("sha1").update(url).digest("hex").slice(0, 16);
   const ext = path.extname(new URL(url).pathname) || ".jpg";
   return `${hash}${ext}`;
+}
+
+function downscaledUrl(url) {
+  const parsed = new URL(url);
+  if (parsed.hostname.includes("images.pexels.com")) {
+    parsed.searchParams.set("auto", "compress");
+    parsed.searchParams.set("cs", "tinysrgb");
+    parsed.searchParams.set("w", String(MAX_WIDTH));
+  } else if (parsed.hostname.includes("images.unsplash.com")) {
+    parsed.searchParams.set("w", String(MAX_WIDTH));
+    parsed.searchParams.set("q", "80");
+  }
+  return parsed.toString();
 }
 
 async function main() {
@@ -52,9 +71,18 @@ async function main() {
     }
 
     try {
-      const imgRes = await fetch(url);
+      const imgRes = await fetch(downscaledUrl(url));
       if (!imgRes.ok) throw new Error(`HTTP ${imgRes.status}`);
-      const buffer = Buffer.from(await imgRes.arrayBuffer());
+      const rawBuffer = Buffer.from(await imgRes.arrayBuffer());
+
+      // Safety net in case the source ignored the resize params and
+      // returned a full-resolution original anyway.
+      const metadata = await sharp(rawBuffer).metadata();
+      const buffer =
+        metadata.width && metadata.width > MAX_WIDTH
+          ? await sharp(rawBuffer).resize({ width: MAX_WIDTH, withoutEnlargement: true }).toBuffer()
+          : rawBuffer;
+
       fs.writeFileSync(filePath, buffer);
       downloaded++;
     } catch (err) {

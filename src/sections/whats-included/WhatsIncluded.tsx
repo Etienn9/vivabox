@@ -57,6 +57,8 @@ function FitLine({
   )
 }
 
+const INCLUDED_CARD_SIZES = "(min-width: 1024px) 240px, 34vw"
+
 function IncludedCard({
   src,
   alt,
@@ -70,6 +72,7 @@ function IncludedCard({
         src={src}
         alt={alt}
         fill
+        sizes={INCLUDED_CARD_SIZES}
         className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
       />
     </div>
@@ -198,6 +201,7 @@ export default function WhatsIncluded() {
                   src="/images/box-includes/vivabox-caja-regalo.png"
                   alt="Caja de regalo Vivabox con catálogo de experiencias"
                   fill
+                  sizes="76vw"
                   className="object-contain drop-shadow-[18px_10px_14px_rgba(24,20,15,0.22)]"
                   priority
                 />
@@ -250,10 +254,10 @@ export default function WhatsIncluded() {
 
               {/* CONNECTOR ARROWS — hand-drawn curves, pulled outward past the box's edges so they clear it, pointing down to introduce "Dentro encontrará" */}
               <div className="absolute z-30 left-[9%] top-[44%] w-[14%] aspect-[184/177] -rotate-[24deg] pointer-events-none">
-                <Image src="/images/box-includes/arrow-curv-left.png" alt="" fill className="object-contain" aria-hidden="true" />
+                <Image src="/images/box-includes/arrow-curv-left.png" alt="" fill sizes="14vw" className="object-contain" aria-hidden="true" />
               </div>
               <div className="absolute z-30 left-[79%] top-[44%] w-[14%] aspect-[184/177] rotate-[24deg] pointer-events-none">
-                <Image src="/images/box-includes/arrow-curv-right.png" alt="" fill className="object-contain" aria-hidden="true" />
+                <Image src="/images/box-includes/arrow-curv-right.png" alt="" fill sizes="14vw" className="object-contain" aria-hidden="true" />
               </div>
 
               {/* Dentro encontrarás — small section lead-in, centered between the box and the three cards */}
@@ -323,7 +327,7 @@ export default function WhatsIncluded() {
                 <div key={cat.label} className={`flex flex-col items-center text-center ${cat.offset}`} aria-label={`Categoría ${cat.label}`}>
                   <div className="h-[50px] sm:h-[68px] md:h-[92px] flex items-end justify-center mb-0.5 md:mb-1">
                     <div className={`relative ${cat.size}`}>
-                      <Image src={cat.src} alt={`Categoría ${cat.label}`} fill className="object-contain" />
+                      <Image src={cat.src} alt={`Categoría ${cat.label}`} fill sizes="92px" className="object-contain" />
                     </div>
                   </div>
                   <span className="text-ink text-[12px] sm:text-[16px] md:text-[20px] font-medium leading-tight">
@@ -406,6 +410,7 @@ export default function WhatsIncluded() {
                   src="/images/box-includes/vivabox-caja-regalo.png"
                   alt="Caja de regalo Vivabox con catálogo de experiencias"
                   fill
+                  sizes="(min-width: 1280px) 480px, 440px"
                   className="object-contain drop-shadow-[0_30px_36px_rgba(24,20,15,0.16)]"
                   priority
                 />
@@ -447,7 +452,7 @@ export default function WhatsIncluded() {
               ].map((item) => (
                 <div key={item.title} className="text-center">
                   <div className="relative w-full aspect-square rounded-2xl overflow-hidden shadow-[0_10px_28px_rgba(24,20,15,0.12)] mb-4">
-                    <Image src={item.src} alt={item.alt} fill className="object-cover" />
+                    <Image src={item.src} alt={item.alt} fill sizes="230px" className="object-cover" />
                   </div>
                   <h3 className="font-sans font-semibold text-ink text-[18px] tracking-tight">
                     {item.title}
@@ -475,7 +480,7 @@ export default function WhatsIncluded() {
                 <div key={cat.label} className="flex flex-col items-center">
                   <div className="h-[84px] flex items-end justify-center mb-4">
                     <div className="relative w-[70px] h-[70px]">
-                      <Image src={cat.src} alt={`Categoría ${cat.label}`} fill className="object-contain" />
+                      <Image src={cat.src} alt={`Categoría ${cat.label}`} fill sizes="70px" className="object-contain" />
                     </div>
                   </div>
                   <span className="text-ink text-[16px] font-medium">
@@ -531,6 +536,7 @@ export default function WhatsIncluded() {
               src="/images/app-phone/vivabox-app-experiencias.png"
               alt="App Vivabox mostrando experiencias disponibles en Bogotá y Cundinamarca"
               fill
+              sizes="(min-width: 1200px) 600px, 50vw"
               className="object-cover"
             />
           </div>

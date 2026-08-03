@@ -13,6 +13,7 @@ export default function FinalCTA() {
             src="/images/final-cta/persona-regalando-vivabox.png"
             alt="Persona regalando una caja de regalo Vivabox"
             fill
+            sizes="(min-width: 1200px) 600px, 50vw"
             className="object-cover"
           />
         </div>

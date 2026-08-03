@@ -52,6 +52,7 @@ export default function EmpresasHero() {
             alt="Empresa regalando una Vivabox a un colaborador"
             fill
             priority
+            sizes="(min-width: 768px) 570px, 100vw"
             className="object-cover"
           />
         </div>

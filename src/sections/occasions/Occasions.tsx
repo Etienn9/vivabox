@@ -1,5 +1,9 @@
 "use client";
 
+import Image from "next/image";
+
+const CARD_IMAGE_SIZES = "(min-width: 1280px) 16vw, (min-width: 640px) 320px, 78vw";
+
 export default function Occasions() {
 
   const occasions = [
@@ -66,10 +70,12 @@ export default function Occasions() {
               aria-label={item.ariaLabel}
             >
 
-              <img
+              <Image
                 src={item.image}
                 alt={item.name}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                fill
+                sizes={CARD_IMAGE_SIZES}
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />

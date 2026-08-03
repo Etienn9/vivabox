@@ -17,6 +17,7 @@ export default function ProximamentePage() {
           alt=""
           fill
           priority
+          sizes="100vw"
           className="object-cover scale-105 blur-md"
         />
         <div className="absolute inset-0 bg-ink/45" />
