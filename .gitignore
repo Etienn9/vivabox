@@ -26,6 +26,9 @@ vivabox-coming-soon/.next/
 .DS_Store
 *.pem
 
+# raw/unprocessed media masters (not shipped)
+/assets-raw
+
 # debug
 npm-debug.log*
 yarn-debug.log*

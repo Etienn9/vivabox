@@ -1,15 +1,29 @@
 "use client"
 
+import { useEffect, useRef } from "react"
 import BrandRibbon from "@/components/ui/BrandRibbon"
 
 export default function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    // iOS Safari checks the `muted` attribute at parse time, before React
+    // hydration has a chance to set it as a JS property — without this,
+    // autoplay can silently fail on iPhone.
+    video.muted = true
+    video.play().catch(() => {})
+  }, [])
+
   return (
     <section className="relative h-[78vh] md:h-[82vh] min-h-[620px] overflow-hidden">
 
       {/* VIDEO */}
 
       <video
-        src="/videos/hero/hero.mp4"
+        ref={videoRef}
         autoPlay
         muted
         loop
@@ -22,12 +36,15 @@ export default function Hero() {
           object-cover
           object-center
         "
-      />
+      >
+        <source src="/videos/hero/hero-mobile.mp4" media="(max-width: 767px)" />
+        <source src="/videos/hero/hero.mp4" />
+      </video>
 
       {/* SUBTLE READABILITY GRADIENT */}
 
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background:
             "linear-gradient(90deg, rgba(0,0,0,.40) 0%, rgba(0,0,0,.15) 30%, rgba(0,0,0,0) 55%)",
@@ -42,6 +59,7 @@ export default function Hero() {
           inset-x-0
           top-0
           h-[130px]
+          pointer-events-none
           bg-gradient-to-b
           from-ink/25
           via-ink/5
@@ -51,7 +69,7 @@ export default function Hero() {
 
       {/* CONTENT */}
 
-      <div className="relative h-full max-w-[1200px] mx-auto px-7 md:px-10 flex flex-col">
+      <div className="relative h-full max-w-[1200px] mx-auto px-7 md:px-10 flex flex-col pointer-events-none">
 
         {/* FLEXIBLE SPACE */}
 
@@ -89,7 +107,7 @@ export default function Hero() {
 
         {/* CTA */}
 
-        <div className="relative z-10 mt-4 pb-6 md:pb-8">
+        <div className="relative z-10 mt-4 pb-6 md:pb-8 pointer-events-auto">
 
           <div className="flex items-center gap-3">
 

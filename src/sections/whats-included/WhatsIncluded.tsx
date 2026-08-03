@@ -77,9 +77,9 @@ function IncludedCard({
 }
 
 const CATEGORIES = [
-  { label: "Gastronomía", src: "/images/box-includes/Gastronomía.svg", size: "w-[50px] h-[50px] sm:w-[68px] sm:h-[68px] md:w-[92px] md:h-[92px]", offset: "translate-y-3 md:translate-y-4" },
-  { label: "Aventura", src: "/images/box-includes/Aventura.svg", size: "w-[46px] h-[46px] sm:w-[62px] sm:h-[62px] md:w-[80px] md:h-[80px]", offset: "-translate-y-3 md:-translate-y-4" },
   { label: "Bienestar", src: "/images/box-includes/Bienestar.svg", size: "w-11 h-11 sm:w-[58px] sm:h-[58px] md:w-[72px] md:h-[72px]", offset: "translate-y-3 md:translate-y-4" },
+  { label: "Aventura", src: "/images/box-includes/Aventura.svg", size: "w-[46px] h-[46px] sm:w-[62px] sm:h-[62px] md:w-[80px] md:h-[80px]", offset: "-translate-y-3 md:-translate-y-4" },
+  { label: "Gastronomía", src: "/images/box-includes/Gastronomía.svg", size: "w-[50px] h-[50px] sm:w-[68px] sm:h-[68px] md:w-[92px] md:h-[92px]", offset: "translate-y-3 md:translate-y-4" },
   { label: "Estancias", src: "/images/box-includes/Estancias.svg", size: "w-[50px] h-[50px] sm:w-[68px] sm:h-[68px] md:w-[92px] md:h-[92px]", offset: "-translate-y-3 md:-translate-y-4" },
   { label: "Cultura", src: "/images/box-includes/Cultura.svg", size: "w-10 h-10 sm:w-[52px] sm:h-[52px] md:w-[68px] md:h-[68px]", offset: "translate-y-3 md:translate-y-4" },
 ] as const
@@ -307,7 +307,7 @@ export default function WhatsIncluded() {
 
           {/* CATALOGUE CONTINUATION — categories read as an extension of "Para elegir.", not a new section */}
 
-          <div className="max-w-[720px]">
+          <div className="max-w-[720px] mx-auto text-center">
 
             <p className="text-ink text-[clamp(15px,4.5vw,22px)] sm:text-[26px] md:text-[32px] font-semibold tracking-tight whitespace-nowrap">
               ¿Qué experiencias podrá elegir?
@@ -321,7 +321,7 @@ export default function WhatsIncluded() {
 
               {CATEGORIES.map((cat) => (
                 <div key={cat.label} className={`flex flex-col items-center text-center ${cat.offset}`} aria-label={`Categoría ${cat.label}`}>
-                  <div className="h-[50px] sm:h-[68px] md:h-[92px] flex items-end justify-center mb-2 md:mb-3">
+                  <div className="h-[50px] sm:h-[68px] md:h-[92px] flex items-end justify-center mb-0.5 md:mb-1">
                     <div className={`relative ${cat.size}`}>
                       <Image src={cat.src} alt={`Categoría ${cat.label}`} fill className="object-contain" />
                     </div>
