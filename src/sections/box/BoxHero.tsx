@@ -43,7 +43,7 @@ export default function BoxHero({
   }
 
   return (
-    <section className="relative overflow-hidden py-20 md:py-24">
+    <section className="relative overflow-hidden pt-20 md:pt-24 pb-10 md:pb-12">
 
       {/* BACKGROUND IMAGE */}
       <div className="absolute inset-0 -z-10">
@@ -76,7 +76,7 @@ export default function BoxHero({
                 alt={name}
                 width={320}
                 height={320}
-                className="w-full h-auto object-contain drop-shadow-[0_40px_50px_rgba(0,0,0,0.5)]"
+                className="w-full h-auto object-contain drop-shadow-[0_40px_50px_rgba(0,0,0,0.5)] scale-125"
               />
             </div>
 
@@ -133,9 +133,6 @@ export default function BoxHero({
             <div className="w-px h-8 bg-white/15" />
 
             <div className="min-w-0">
-              <p className="text-[12px] text-white/60 leading-tight">
-                Subtotal
-              </p>
               <p className="text-[17px] font-semibold leading-tight whitespace-nowrap">
                 ${formatPrice(subtotal)} COP
               </p>
@@ -151,10 +148,9 @@ export default function BoxHero({
             Comprar ahora
           </button>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-4 text-[13px] text-white/60">
-            <span>Compra segura</span>
-            <span>Pago protegido</span>
-          </div>
+          <p className="text-center sm:text-left mt-4 text-[13px] text-white/60">
+            Pago 100% seguro
+          </p>
 
         </div>
 

@@ -21,13 +21,13 @@ const items = [
 
 export default function BoxWhyItWorks() {
   return (
-    <section className="bg-white py-16 md:py-20">
+    <section className="bg-white py-10 md:py-14">
 
       <div className="max-w-[640px] mx-auto px-6">
 
         <BrandDots />
 
-        <h2 className="h2 mb-6 md:mb-8">
+        <h2 className="h2 mb-4 md:mb-6">
           ¿Por qué funciona tan bien como regalo?
         </h2>
 
@@ -36,17 +36,17 @@ export default function BoxWhyItWorks() {
           {items.map(({ image, title, text }, i) => (
             <div
               key={title}
-              className={`flex items-start gap-4 py-5 border-t border-border ${
+              className={`flex items-center gap-4 py-5 border-t border-border ${
                 i === items.length - 1 ? "border-b" : ""
               }`}
             >
 
-              <div className="shrink-0 relative w-[52px] h-[52px] rounded-full overflow-hidden">
+              <div className="shrink-0 relative w-[76px] h-[76px] sm:w-[88px] sm:h-[88px] rounded-full overflow-hidden">
                 <Image
                   src={image}
                   alt=""
                   fill
-                  sizes="52px"
+                  sizes="88px"
                   className="object-cover"
                 />
               </div>

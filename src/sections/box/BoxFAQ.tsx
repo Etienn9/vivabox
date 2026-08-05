@@ -44,11 +44,11 @@ export default function BoxFAQ({ validityMonths }: Props) {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section className="bg-surface py-16 md:py-20">
+    <section className="bg-surface py-10 md:py-14">
 
       <div className="max-w-[720px] mx-auto px-6">
 
-        <h2 className="h2 text-center mb-8">
+        <h2 className="h2 text-center mb-6">
           Preguntas frecuentes
         </h2>
 

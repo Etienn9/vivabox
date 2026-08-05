@@ -10,6 +10,8 @@ import BoxExperienceExamples from "@/sections/box/BoxExperienceExamples"
 import BoxFAQ from "@/sections/box/BoxFAQ"
 import BoxFinalCTA from "@/sections/box/BoxFinalCTA"
 
+import BrandRibbon from "@/components/ui/BrandRibbon"
+
 import { boxes } from "@/data/boxes"
 
 type PageProps = {
@@ -44,13 +46,19 @@ export default async function BoxPage({ params }: PageProps) {
           slug={box.slug}
         />
 
+        <BrandRibbon />
+
         <BoxWhyItWorks />
 
         <BoxExperienceExamples />
 
+        <BrandRibbon />
+
         <BoxFAQ validityMonths={box.validityMonths} />
 
         <BoxFinalCTA price={box.price} slug={box.slug} />
+
+        <BrandRibbon />
 
       </main>
 
