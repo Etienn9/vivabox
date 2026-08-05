@@ -69,7 +69,7 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="bg-ink py-16 md:py-20">
+    <section className="bg-ink py-8 md:py-10">
 
       <div className="container max-w-[760px]">
 

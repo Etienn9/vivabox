@@ -148,7 +148,7 @@ export default function WhatsIncluded() {
           <ArrowRight size={16} strokeWidth={1.5} className="shrink-0 text-white md:w-5 md:h-5" />
 
           <div className="shrink-0 flex flex-col md:flex-row items-center gap-2 md:gap-3 text-center md:text-left">
-            <CalendarCheck size={28} strokeWidth={2} className="text-white shrink-0 md:w-8 md:h-8" />
+            <CalendarCheck size={32} strokeWidth={2} className="text-white shrink-0 md:w-8 md:h-8" />
             <p className="md:hidden w-[110px] text-white font-semibold text-[13px] leading-snug">
               Gestionamos la reserva.
             </p>

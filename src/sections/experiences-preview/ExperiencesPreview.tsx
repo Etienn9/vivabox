@@ -10,7 +10,7 @@ async function ExperiencesGridLoader() {
 
 export default function ExperiencesPreview() {
   return (
-    <section id="experiencias" className="py-16 md:py-20">
+    <section id="experiencias" className="py-8 md:py-10">
 
       <div className="max-w-[1200px] mx-auto px-6">
 
