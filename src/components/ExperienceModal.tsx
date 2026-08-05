@@ -1,6 +1,7 @@
 "use client";
 
-import { X, MapPin, Clock } from "lucide-react";
+import { useEffect, useState } from "react";
+import { X, MapPin, Clock, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import {
   CATEGORY_COLORS,
@@ -18,6 +19,7 @@ type Experience = {
   city?: string
   category: string
   image?: string
+  gallery?: string[]
   shortDescription?: string
   duration?: string
   ambiance?: string
@@ -33,6 +35,12 @@ type Props = {
 
 export default function ExperienceModal({ experience, onClose }: Props) {
 
+  const [photoIndex, setPhotoIndex] = useState(0)
+
+  useEffect(() => {
+    setPhotoIndex(0)
+  }, [experience])
+
   if (!experience) return null
 
   const categoryKey = experience.category?.toLowerCase() || ""
@@ -47,11 +55,14 @@ export default function ExperienceModal({ experience, onClose }: Props) {
   const whyVivabox = experience.vivanote?.trim() || CATEGORY_WHY_VIVABOX[categoryKey] || DEFAULT_WHY_VIVABOX
   const duration = formatDuration(experience.duration)
 
-  const imageSrc =
-    experience.image?.includes("images.pexels.com") ||
-    experience.image?.includes("images.unsplash.com")
-      ? experience.image
-      : "/images/box-includes/vivabox-caja-regalo.png"
+  const images = experience.gallery?.length
+    ? experience.gallery
+    : [experience.image || "/images/box-includes/vivabox-caja-regalo.png"]
+
+  const showNav = images.length > 1
+
+  const goToPrev = () => setPhotoIndex((i) => (i - 1 + images.length) % images.length)
+  const goToNext = () => setPhotoIndex((i) => (i + 1) % images.length)
 
   return (
 
@@ -77,7 +88,7 @@ export default function ExperienceModal({ experience, onClose }: Props) {
         <div className="relative w-full h-[160px] overflow-hidden">
 
           <Image
-            src={imageSrc}
+            src={images[photoIndex]}
             alt={experience.title}
             fill
             sizes="(min-width: 576px) 576px, 100vw"
@@ -99,6 +110,35 @@ export default function ExperienceModal({ experience, onClose }: Props) {
             </span>
 
           </div>
+
+          {showNav && (
+            <>
+              <button
+                onClick={goToPrev}
+                aria-label="Foto anterior"
+                className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-1.5 shadow z-20"
+              >
+                <ChevronLeft size={16} strokeWidth={1.5} />
+              </button>
+
+              <button
+                onClick={goToNext}
+                aria-label="Foto siguiente"
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-1.5 shadow z-20"
+              >
+                <ChevronRight size={16} strokeWidth={1.5} />
+              </button>
+
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-20">
+                {images.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`w-1.5 h-1.5 rounded-full ${i === photoIndex ? "bg-white" : "bg-white/50"}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
 
         </div>
 

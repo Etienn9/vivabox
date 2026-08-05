@@ -59,6 +59,12 @@ export default function DeliveryStep({ box }: Props) {
 
   const firstPurchaseEmail = useCheckoutStore(s => s.firstPurchaseEmail)
   const firstPurchaseApplied = useCheckoutStore(s => s.firstPurchaseApplied)
+  const setFirstPurchase = useCheckoutStore(s => s.setFirstPurchase)
+
+  const promoCode = useCheckoutStore(s => s.promoCode)
+  const promoApplied = useCheckoutStore(s => s.promoApplied)
+  const setPromo = useCheckoutStore(s => s.setPromo)
+  const codes = useCheckoutStore(s => s.codes)
 
   const setVentaId = useCheckoutStore(s => s.setVentaId)
   const setPricing = useCheckoutStore(s => s.setPricing)
@@ -106,6 +112,11 @@ export default function DeliveryStep({ box }: Props) {
         !!city &&
         (deliveryDestination !== "recipient" || (!!recipientName && !!recipientPhone))))
 
+  // Une seule promo à la fois : le code tapé à la main a priorité, sinon le
+  // code du bénéfice première commande (les deux sont mutuellement
+  // exclusifs dans le store, voir setPromo/setFirstPurchase).
+  const activePromoCode = promoApplied ? promoCode : (firstPurchaseApplied ? codes[0] : null)
+
   async function handleGoToPayment() {
     if (loading || !canSubmit) return
 
@@ -125,6 +136,7 @@ export default function DeliveryStep({ box }: Props) {
             phone: "",
           },
           delivery: toLegacyDelivery(deliveryMethod),
+          promoCode: activePromoCode || undefined,
         }),
       })
 
@@ -134,6 +146,15 @@ export default function DeliveryStep({ box }: Props) {
         alert("No pudimos iniciar la compra")
         setLoading(false)
         return
+      }
+
+      // Le code n'a pas survécu à la validation finale (expiré, épuisé...) —
+      // on ne bloque jamais l'achat pour ça, mais l'UI ne doit plus prétendre
+      // qu'une remise s'applique.
+      if (activePromoCode && !data.promoApplied) {
+        setPromo("", false)
+        setFirstPurchase("", false)
+        alert("Tu código ya no es válido — continuamos sin el descuento.")
       }
 
       setVentaId(data.ventaId)

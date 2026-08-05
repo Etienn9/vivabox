@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server"
 import { boxes } from "@/data/boxes"
 import { getSupabase } from "@/services/supabase"
+import { validatePromoCode } from "@/features/promotions/validatePromoCode"
+import { checkRateLimit, getClientIp } from "@/utils/rateLimit"
+
+const RATE_LIMIT_MAX_ATTEMPTS = 5
+const RATE_LIMIT_WINDOW_MINUTES = 15
+const GLOBAL_RATE_LIMIT_MAX_ATTEMPTS = 100
+const GLOBAL_RATE_LIMIT_WINDOW_MINUTES = 10
 
 function computeDelivery(type: string, speed: string | null) {
   if (type === "physical" && speed === "outside") return 15000
@@ -11,7 +18,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json()
 
-    const { box: boxSlug, quantity, buyer, delivery } = body
+    const { box: boxSlug, quantity, buyer, delivery, promoCode } = body
 
     if (!boxSlug || typeof boxSlug !== "string") {
       return NextResponse.json({ ok: false, error: "INVALID_BOX" })
@@ -36,10 +43,44 @@ export async function POST(req: Request) {
     }
 
     const subtotal = box.price * quantity
-    const deliveryPrice = computeDelivery(delivery.type, delivery.speed || null)
-    const total = subtotal + deliveryPrice
+    const originalDeliveryPrice = computeDelivery(delivery.type, delivery.speed || null)
+    let deliveryPrice = originalDeliveryPrice
+    let discount = 0
 
     const supabase = getSupabase()
+
+    // Le code promo n'est jamais bloquant : un code invalide/expiré/déjà
+    // utilisé fait juste tomber le panier au prix plein, il ne casse jamais
+    // l'achat (docs/09_checkout.md — la promo est additive, jamais requise).
+    let promoCodeInput: string | null = null
+    let promoWarning: string | null = null
+
+    if (typeof promoCode === "string" && promoCode.trim()) {
+      const normalizedPromo = promoCode.trim().toUpperCase()
+      const ip = getClientIp(req)
+
+      const [ipAllowed, codeAllowed, globalAllowed] = await Promise.all([
+        checkRateLimit(supabase, `ip:${ip}`, "promo", RATE_LIMIT_MAX_ATTEMPTS, RATE_LIMIT_WINDOW_MINUTES),
+        checkRateLimit(supabase, `code:${normalizedPromo}`, "promo", RATE_LIMIT_MAX_ATTEMPTS, RATE_LIMIT_WINDOW_MINUTES),
+        checkRateLimit(supabase, "global", "promo", GLOBAL_RATE_LIMIT_MAX_ATTEMPTS, GLOBAL_RATE_LIMIT_WINDOW_MINUTES),
+      ])
+
+      if (!ipAllowed || !codeAllowed || !globalAllowed) {
+        promoWarning = "TOO_MANY_ATTEMPTS"
+      } else {
+        const result = await validatePromoCode(supabase, normalizedPromo, buyer.email)
+
+        if (result.valid) {
+          deliveryPrice = 0
+          discount = originalDeliveryPrice
+          promoCodeInput = normalizedPromo
+        } else {
+          promoWarning = result.error
+        }
+      }
+    }
+
+    const total = subtotal + deliveryPrice
 
     const { data, error } = await supabase
       .from("ventas")
@@ -57,6 +98,9 @@ export async function POST(req: Request) {
         subtotal,
         delivery_price: deliveryPrice,
         total,
+
+        promo_code_input: promoCodeInput,
+        discount,
       })
       .select("id")
       .single()
@@ -69,7 +113,9 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       ventaId: data.id,
-      pricing: { subtotal, delivery: deliveryPrice, total },
+      pricing: { subtotal, delivery: deliveryPrice, total, discount },
+      promoApplied: promoCodeInput !== null,
+      promoWarning,
     })
 
   } catch (error) {

@@ -54,7 +54,8 @@ async function main() {
   const csv = await res.text();
 
   const { data: rows } = Papa.parse(csv, { header: true, skipEmptyLines: true });
-  const urls = [...new Set(rows.map((r) => r.image).filter(isCacheableImage))];
+  // "imagen" is the sheet's real (Spanish) column name -- see HEADER_MAP in src/services/sheet.ts
+  const urls = [...new Set(rows.map((r) => r.imagen).filter(isCacheableImage))];
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 

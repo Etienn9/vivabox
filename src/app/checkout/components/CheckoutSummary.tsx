@@ -8,6 +8,7 @@ type Pricing = {
   subtotal: number
   delivery: number
   total: number
+  discount?: number
 }
 
 type Props = {
@@ -42,11 +43,17 @@ export default function CheckoutSummary({ estimatedPricing }: Props) {
 
   const finalPricing = pricing ?? estimatedPricing
   const isEstimated = !pricing
-  const hasBenefit = isEstimated && (promoApplied || firstPurchaseApplied) && deliveryMethod === "domicilio"
+
+  // Avant `start` : aperçu optimiste basé sur les indicateurs client (pas
+  // encore validé serveur). Après `start` : la remise vient du backend
+  // (pricing.discount), jamais devinée — total inclut déjà la remise.
+  const hasBenefit = isEstimated
+    ? (promoApplied || firstPurchaseApplied) && deliveryMethod === "domicilio"
+    : (finalPricing.discount ?? 0) > 0
 
   const { subtotal, delivery, total } = finalPricing
-  const discount = hasBenefit ? delivery : 0
-  const displayTotal = total - discount
+  const discount = isEstimated ? (hasBenefit ? delivery : 0) : (finalPricing.discount ?? 0)
+  const displayTotal = isEstimated ? total - discount : total
 
   return (
     <div className="checkout-card p-4 sticky top-24 space-y-3">

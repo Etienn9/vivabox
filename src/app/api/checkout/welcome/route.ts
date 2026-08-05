@@ -1,14 +1,11 @@
 import { NextResponse } from "next/server"
 import { getSupabase } from "@/services/supabase"
 import { generateWelcomeCode } from "@/features/promotions/generateWelcomeCode"
+import { isValidEmail } from "@/utils/isValidEmail"
 
 const EXPIRATION_DAYS = 30
 const MAX_ATTEMPTS = 5
 const UNIQUE_VIOLATION = "23505"
-
-function isValidEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-}
 
 export async function POST(req: Request) {
   try {
@@ -56,6 +53,7 @@ export async function POST(req: Request) {
           type: "free_shipping",
           source: "first_purchase_welcome",
           contact_email: email,
+          max_uses: 1,
           expires_at: expiresAt,
         })
 

@@ -14,6 +14,7 @@ type Pricing = {
   subtotal: number
   delivery: number
   total: number
+  discount?: number
 }
 
 type CheckoutState = {

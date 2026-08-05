@@ -36,6 +36,8 @@ export default function ProductStep({ box }: Props) {
   const router = useRouter()
   const [welcomeOpen, setWelcomeOpen] = useState(false)
   const [promoInput, setPromoInput] = useState("")
+  const [promoChecking, setPromoChecking] = useState(false)
+  const [promoError, setPromoError] = useState("")
 
   // ======================
   // STORE
@@ -94,12 +96,47 @@ export default function ProductStep({ box }: Props) {
   }
 
   // ======================
-  // PROMO (MOCK)
+  // PROMO
   // ======================
 
-  function handleApplyPromo() {
-    if (!promoInput.trim()) return
-    setPromo(promoInput.trim(), true)
+  const PROMO_ERROR_LABEL: Record<string, string> = {
+    INVALID_CODE: "Código inválido",
+    EXPIRED: "Este código expiró",
+    USED_UP: "Este código ya no está disponible",
+    TOO_MANY_ATTEMPTS: "Demasiados intentos, intenta más tarde",
+    SERVER_ERROR: "No pudimos validar el código",
+  }
+
+  // Chequeo temprano (el email del comprador aún no existe en este paso —
+  // la validación completa, con verificación de propiedad, ocurre en
+  // start/route.ts una vez llegado a /entrega).
+  async function handleApplyPromo() {
+    const code = promoInput.trim()
+    if (!code || promoChecking) return
+
+    setPromoChecking(true)
+    setPromoError("")
+
+    try {
+      const res = await fetch("/api/checkout/promo/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      })
+
+      const data = await res.json()
+
+      if (!data.ok) {
+        setPromoError(PROMO_ERROR_LABEL[data.error] || "Código inválido")
+        return
+      }
+
+      setPromo(code, true)
+    } catch {
+      setPromoError("No pudimos validar el código")
+    } finally {
+      setPromoChecking(false)
+    }
   }
 
   function handleWelcomeSuccess(email: string, code: string) {
@@ -220,16 +257,24 @@ export default function ProductStep({ box }: Props) {
                         type="text"
                         placeholder="Código"
                         value={promoInput}
-                        onChange={(e) => setPromoInput(e.target.value)}
+                        onChange={(e) => {
+                          setPromoInput(e.target.value)
+                          if (promoError) setPromoError("")
+                        }}
+                        onKeyDown={(e) => e.key === "Enter" && handleApplyPromo()}
                         className="checkout-input flex-1 text-sm"
                       />
                       <button
                         onClick={handleApplyPromo}
-                        className="px-4 rounded-2xl border border-[#ECECEC] text-sm font-medium text-ink transition hover:bg-black/[0.02] active:scale-[0.98]"
+                        disabled={promoChecking || !promoInput.trim()}
+                        className="px-4 rounded-2xl border border-[#ECECEC] text-sm font-medium text-ink transition hover:bg-black/[0.02] active:scale-[0.98] disabled:opacity-50"
                       >
-                        Aplicar
+                        {promoChecking ? "..." : "Aplicar"}
                       </button>
                     </div>
+                    {promoError && (
+                      <p className="text-xs text-accent-red mt-1.5">{promoError}</p>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-3 text-xs text-[#6B6B6B]/70">

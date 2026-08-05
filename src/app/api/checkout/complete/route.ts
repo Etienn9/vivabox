@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { getSupabase } from "@/services/supabase"
+import { sendOrderReadyEmail } from "@/services/email"
 
 function normalizeDeliveryType(type: any) {
   if (!type) return null
@@ -74,7 +75,7 @@ export async function POST(req: Request) {
 
     const item = items[0]
 
-    const { error: updateError } = await supabase
+    const { data: updatedVenta, error: updateError } = await supabase
       .from("ventas")
       .update({
         status: "completed",
@@ -96,10 +97,39 @@ export async function POST(req: Request) {
         scheduled_time: item.hora_envio || null,
       })
       .eq("id", ventaId)
+      .select("id, box_slug, quantity, buyer_name, buyer_email, delivery_type, recipient_name, recipient_contact, delivery_direccion, delivery_ciudad, delivery_detalles")
+      .single()
 
-    if (updateError) {
+    if (updateError || !updatedVenta) {
       console.error("SUPABASE UPDATE ERROR:", updateError)
       return NextResponse.json({ ok: false, error: "SERVER_ERROR" })
+    }
+
+    // Notifie l'équipe pour préparer la commande — best-effort, ne bloque
+    // jamais la confirmation d'achat même si Resend est indisponible.
+    const { data: activationCodeRow } = await supabase
+      .from("activation_codes")
+      .select("code")
+      .eq("venta_id", ventaId)
+      .maybeSingle()
+
+    if (activationCodeRow) {
+      await sendOrderReadyEmail({
+        ventaId: updatedVenta.id,
+        boxSlug: updatedVenta.box_slug,
+        quantity: updatedVenta.quantity,
+        buyerName: updatedVenta.buyer_name,
+        buyerEmail: updatedVenta.buyer_email,
+        deliveryType: updatedVenta.delivery_type,
+        activationCode: activationCodeRow.code,
+        recipientName: updatedVenta.recipient_name,
+        recipientContact: updatedVenta.recipient_contact,
+        address: updatedVenta.delivery_direccion,
+        city: updatedVenta.delivery_ciudad,
+        addressExtra: updatedVenta.delivery_detalles,
+      })
+    } else {
+      console.error("ORDER READY EMAIL SKIPPED: no activation_codes row for venta", ventaId)
     }
 
     return NextResponse.json({ ok: true })

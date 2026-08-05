@@ -12,7 +12,6 @@ type BoxHeroProps = {
   price: number
   experiences: number
   image: string
-  signatureColor: string
   slug: string
 }
 
@@ -21,15 +20,10 @@ export default function BoxHero({
   price,
   experiences,
   image,
-  signatureColor,
   slug,
 }: BoxHeroProps) {
 
   const router = useRouter()
-
-  const parts = name.split(" ")
-  const brand = parts[0]
-  const boxName = parts.slice(1).join(" ")
 
   const quantity = useCheckoutStore((s) => s.quantity)
   const setQuantity = useCheckoutStore((s) => s.setQuantity)
@@ -64,101 +58,89 @@ export default function BoxHero({
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      <div className="max-w-[1150px] mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+      <div className="max-w-[720px] mx-auto px-6">
 
         {/* TEXT */}
         <div className="text-white">
 
-          <h1 className="h1 mb-4 max-w-[440px]">
+          <h1 className="h1 mb-6 max-w-[440px]">
             Tu regalo ya casi está listo.
           </h1>
 
-          {/* PRODUCT SUMMARY */}
-          <div className="flex items-center flex-wrap gap-x-3 gap-y-1 mb-6">
-            <span className="text-[19px] font-semibold">
-              {brand}{" "}
-              <span
-                className="font-accent font-bold"
-                style={{ color: signatureColor }}
-              >
-                {boxName}
-              </span>
-            </span>
-            <span className="text-white/40">·</span>
-            <span className="text-[19px] font-semibold">
-              ${formatPrice(price)} COP
-            </span>
+          {/* BOX + CHECKLIST */}
+          <div className="flex items-center gap-6 sm:gap-10 mb-8">
+
+            <div className="shrink-0 w-[190px] sm:w-[260px] md:w-[320px]">
+              <Image
+                src={image}
+                alt={name}
+                width={320}
+                height={320}
+                className="w-full h-auto object-contain drop-shadow-[0_40px_50px_rgba(0,0,0,0.5)]"
+              />
+            </div>
+
+            <div className="space-y-2.5 text-[14px] sm:text-[15px] text-white/80">
+              <div className="flex items-center gap-2">
+                <Check size={18} strokeWidth={1.5} className="text-primary-hover shrink-0" />
+                Más de {experiences} experiencias
+              </div>
+              <div className="flex items-center gap-2">
+                <Check size={18} strokeWidth={1.5} className="text-primary-hover shrink-0" />
+                La persona elige la experiencia
+              </div>
+              <div className="flex items-center gap-2">
+                <Check size={18} strokeWidth={1.5} className="text-primary-hover shrink-0" />
+                Vigencia 6 meses
+              </div>
+              <div className="flex items-center gap-2">
+                <Check size={18} strokeWidth={1.5} className="text-primary-hover shrink-0" />
+                Caja física incluida
+              </div>
+            </div>
+
           </div>
 
-          {/* BOX MOBILE */}
-          <div className="flex justify-center my-2 md:hidden">
-            <Image
-              src={image}
-              alt={name}
-              width={220}
-              height={220}
-              className="object-contain drop-shadow-[0_50px_70px_rgba(0,0,0,0.55)]"
-            />
-          </div>
+          {/* GIFT CONFIGURATION */}
+          <p className="text-[13px] font-medium text-white/70 mb-2">
+            ¿Cuántas Vivabox quieres regalar?
+          </p>
 
-          {/* GIFT CONFIGURATION CARD */}
-          <div className="bg-white/95 text-foreground rounded-2xl p-5 md:p-6 mb-6 shadow-2xl">
+          <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md border border-white/15 text-white rounded-2xl px-5 py-3.5 mb-6 shadow-[0_8px_30px_rgba(0,0,0,0.2)]">
 
-            <p className="text-[14px] font-medium text-muted mb-3">
-              ¿Cuántas Vivabox quieres regalar?
-            </p>
-
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-3">
               <button
                 onClick={decrease}
                 aria-label="Restar"
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-[18px] font-semibold hover:bg-surface transition"
+                className="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-[16px] font-semibold hover:bg-white/10 transition"
               >
                 –
               </button>
 
-              <span className="text-[20px] font-semibold w-6 text-center">
+              <span className="text-[17px] font-semibold w-5 text-center">
                 {quantity}
               </span>
 
               <button
                 onClick={increase}
                 aria-label="Sumar"
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-[18px] font-semibold hover:bg-surface transition"
+                className="w-8 h-8 rounded-full border border-white/25 flex items-center justify-center text-[16px] font-semibold hover:bg-white/10 transition"
               >
                 +
               </button>
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-border">
-              <span className="text-[14px] text-muted">
+            <div className="w-px h-8 bg-white/15" />
+
+            <div className="min-w-0">
+              <p className="text-[12px] text-white/60 leading-tight">
                 Subtotal
-              </span>
-              <span className="text-[18px] font-semibold">
+              </p>
+              <p className="text-[17px] font-semibold leading-tight whitespace-nowrap">
                 ${formatPrice(subtotal)} COP
-              </span>
+              </p>
             </div>
 
-          </div>
-
-          {/* CHECKLIST */}
-          <div className="space-y-2 mb-8 text-[15px] text-white/80">
-            <div className="flex items-center gap-2">
-              <Check size={18} strokeWidth={1.5} className="text-primary-hover" />
-              Más de {experiences} experiencias
-            </div>
-            <div className="flex items-center gap-2">
-              <Check size={18} strokeWidth={1.5} className="text-primary-hover" />
-              La persona elige la experiencia
-            </div>
-            <div className="flex items-center gap-2">
-              <Check size={18} strokeWidth={1.5} className="text-primary-hover" />
-              Vigencia 6 meses
-            </div>
-            <div className="flex items-center gap-2">
-              <Check size={18} strokeWidth={1.5} className="text-primary-hover" />
-              Envío gratis
-            </div>
           </div>
 
           {/* CTA */}
@@ -172,20 +154,8 @@ export default function BoxHero({
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-4 text-[13px] text-white/60">
             <span>Compra segura</span>
             <span>Pago protegido</span>
-            <span>Envío gratis</span>
           </div>
 
-        </div>
-
-        {/* BOX DESKTOP */}
-        <div className="hidden md:flex justify-center">
-          <Image
-            src={image}
-            alt={name}
-            width={420}
-            height={420}
-            className="object-contain drop-shadow-[0_60px_80px_rgba(0,0,0,0.55)]"
-          />
         </div>
 
       </div>

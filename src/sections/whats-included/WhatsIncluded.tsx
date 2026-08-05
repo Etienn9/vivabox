@@ -29,16 +29,32 @@ function FitLine({
     const text = textRef.current
     if (!container || !text) return
 
+    const measureAt = (size: number) => {
+      text.style.fontSize = `${size}px`
+      return text.scrollWidth
+    }
+
     const fit = () => {
       const containerWidth = container.clientWidth
-      text.style.fontSize = `${max}px`
-      const naturalWidth = text.scrollWidth
+      if (containerWidth === 0) return
+
+      const naturalWidth = measureAt(max)
       if (naturalWidth === 0) return
-      const scale = containerWidth / naturalWidth
-      setFontSize(Math.min(max, Math.max(min, max * scale)))
+      let size = Math.min(max, Math.max(min, max * (containerWidth / naturalWidth)))
+
+      // Re-measure at the computed size and correct any residual mismatch
+      // (font metrics can shift slightly between sizes, especially right
+      // after a web font swaps in), so the line never overflows its box.
+      const measuredWidth = measureAt(size)
+      if (measuredWidth > 0) {
+        size = Math.min(max, Math.max(min, size * (containerWidth / measuredWidth)))
+      }
+
+      setFontSize(size)
     }
 
     fit()
+    document.fonts?.ready.then(fit)
     const ro = new ResizeObserver(fit)
     ro.observe(container)
     return () => ro.disconnect()
@@ -153,7 +169,7 @@ export default function WhatsIncluded() {
 
           <h2 className="text-ink font-semibold leading-[1.1] tracking-tight mb-2">
             <div className="sm:hidden">
-              <FitLine max={34} min={18}>
+              <FitLine max={40} min={18}>
                 Todo en una sola{" "}
                 <span className="text-primary">c</span>
                 <span className="text-accent-red">a</span>
@@ -162,13 +178,15 @@ export default function WhatsIncluded() {
                 <span className="text-violet-500">.</span>
               </FitLine>
             </div>
-            <div className="hidden sm:block text-[42px] md:text-[52px] whitespace-nowrap">
-              Todo en una sola{" "}
-              <span className="text-primary">c</span>
-              <span className="text-accent-red">a</span>
-              <span className="text-accent-green">j</span>
-              <span className="text-accent-blue">a</span>
-              <span className="text-violet-500">.</span>
+            <div className="hidden sm:block">
+              <FitLine max={110} min={42}>
+                Todo en una sola{" "}
+                <span className="text-primary">c</span>
+                <span className="text-accent-red">a</span>
+                <span className="text-accent-green">j</span>
+                <span className="text-accent-blue">a</span>
+                <span className="text-violet-500">.</span>
+              </FitLine>
             </div>
           </h2>
 
@@ -180,14 +198,14 @@ export default function WhatsIncluded() {
 
         {/* PRODUCT SHOT — full-bleed breakout: box and cards read at maximum scale, the two end cards nearly touching the viewport edges */}
 
-        <div className="relative w-screen left-1/2 -translate-x-1/2 px-4 sm:px-6 md:px-10">
+        <div className="relative w-screen left-1/2 -translate-x-1/2 px-4 sm:px-6 md:px-10 mt-3 md:mt-5">
 
           <div className="relative w-full max-w-[1440px] mx-auto pt-0 md:pt-1">
 
             <div className="relative w-full aspect-[10/13.5]">
 
               {/* Lista para regalar. — to the left of the box, vertically centered on it, drawn in closer so it reads as tied to the box */}
-              <p className="absolute z-40 left-[4%] top-[16%] w-[13%] text-right font-hand text-ink/90 text-[16px] sm:text-[20px] md:text-[26px] leading-snug -rotate-2">
+              <p className="absolute z-40 left-[4%] top-[16%] w-[13%] text-right font-hand text-ink/90 text-[20px] sm:text-[25px] md:text-[32px] leading-snug -rotate-2">
                 Lista para regalar.
               </p>
 
@@ -261,38 +279,29 @@ export default function WhatsIncluded() {
               </div>
 
               {/* Dentro encontrarás — small section lead-in, centered between the box and the three cards */}
-              <p className="absolute z-40 inset-x-0 top-[51.2%] text-center text-accent-red font-hand text-[18px] sm:text-[22px] md:text-[27px] leading-snug">
+              <p className="absolute z-40 inset-x-0 top-[51.2%] text-center text-accent-red font-hand text-[23px] sm:text-[28px] md:text-[34px] leading-snug">
                 Dentro <span className="underline">encontrará</span>:
               </p>
 
-              {/* Catálogo / De experiencias. — close above the catalogue card (card spans 2%-36%) */}
+              {/* Catálogo — close above the catalogue card (card spans 2%-36%) */}
               <div className="absolute z-40 left-[2%] top-[59.5%] w-[34%] text-center leading-snug">
-                <h3 className="font-sans font-semibold text-ink text-[13px] sm:text-[15px] md:text-[17px] tracking-tight">
+                <h3 className="font-sans font-semibold text-ink text-[17px] sm:text-[19px] md:text-[22px] tracking-tight">
                   Catálogo
                 </h3>
-                <p className="font-sans text-ink/55 text-[11px] sm:text-[12px] md:text-[13px] font-normal mt-0.5 md:mt-1">
-                  De experiencias.
-                </p>
               </div>
 
-              {/* Mensaje / Personal. — close above the message card (card spans 33%-67%) */}
+              {/* Mensaje — close above the message card (card spans 33%-67%) */}
               <div className="absolute z-40 left-[33%] top-[59.5%] w-[34%] text-center leading-snug">
-                <h3 className="font-sans font-semibold text-ink text-[13px] sm:text-[15px] md:text-[17px] tracking-tight">
+                <h3 className="font-sans font-semibold text-ink text-[17px] sm:text-[19px] md:text-[22px] tracking-tight">
                   Mensaje
                 </h3>
-                <p className="font-sans text-ink/55 text-[11px] sm:text-[12px] md:text-[13px] font-normal mt-0.5 md:mt-1">
-                  Personal.
-                </p>
               </div>
 
-              {/* Activación / Código único. — close above the activation card (card spans 64%-98%) */}
+              {/* Activación — close above the activation card (card spans 64%-98%) */}
               <div className="absolute z-40 left-[64%] top-[59.5%] w-[34%] text-center leading-snug">
-                <h3 className="font-sans font-semibold text-ink text-[13px] sm:text-[15px] md:text-[17px] tracking-tight">
+                <h3 className="font-sans font-semibold text-ink text-[17px] sm:text-[19px] md:text-[22px] tracking-tight">
                   Activación
                 </h3>
-                <p className="font-sans text-ink/55 text-[11px] sm:text-[12px] md:text-[13px] font-normal mt-0.5 md:mt-1">
-                  Código único.
-                </p>
               </div>
 
             </div>
@@ -307,7 +316,7 @@ export default function WhatsIncluded() {
 
         {/* GROUPING CONTAINER — border only, groups the categories title + grid */}
 
-        <div className="-mt-6 sm:-mt-10 md:-mt-14 border-2 border-[#3A2E22] rounded-[28px] sm:rounded-[36px] md:rounded-[48px] px-4 pt-3 pb-6 sm:px-8 sm:pt-5 sm:pb-8 md:px-12 md:pt-6 md:pb-10">
+        <div className="-mt-2 sm:-mt-6 md:-mt-9 border-2 border-[#3A2E22] rounded-[28px] sm:rounded-[36px] md:rounded-[48px] px-4 pt-3 pb-6 sm:px-8 sm:pt-5 sm:pb-8 md:px-12 md:pt-6 md:pb-10">
 
           {/* CATALOGUE CONTINUATION — categories read as an extension of "Para elegir.", not a new section */}
 
@@ -319,7 +328,7 @@ export default function WhatsIncluded() {
 
           </div>
 
-          <div className="mt-3 md:mt-5">
+          <div className="mt-4 md:mt-6">
 
             <div className="grid grid-cols-5 gap-x-1 sm:gap-x-6 md:gap-x-10">
 
@@ -342,13 +351,13 @@ export default function WhatsIncluded() {
 
         </div>
 
-        <p className="mt-3 md:mt-4 text-muted text-[14px] sm:text-[15px] md:text-[16px] text-center">
+        <p className="mt-5 md:mt-6 text-muted text-[14px] sm:text-[15px] md:text-[16px] text-center">
           Más de 20 experiencias en Bogotá y Cundinamarca.
         </p>
 
         {/* CTA — editorial, no price shown here */}
 
-        <div className="mt-6 md:mt-8 flex flex-col items-center text-center">
+        <div className="mt-8 md:mt-10 flex flex-col items-center text-center">
 
           <div className="w-10 h-px bg-ink/10 mb-3 md:mb-4" />
 

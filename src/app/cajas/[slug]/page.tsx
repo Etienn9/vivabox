@@ -5,8 +5,9 @@ import Footer from "@/components/Footer"
 import WhatsappButton from "@/components/WhatsappButton"
 
 import BoxHero from "@/sections/box/BoxHero"
-import Occasions from "@/sections/occasions/Occasions"
-import BoxReassurance from "@/sections/box/BoxReassurance"
+import BoxWhyItWorks from "@/sections/box/BoxWhyItWorks"
+import BoxExperienceExamples from "@/sections/box/BoxExperienceExamples"
+import BoxFAQ from "@/sections/box/BoxFAQ"
 import BoxFinalCTA from "@/sections/box/BoxFinalCTA"
 
 import { boxes } from "@/data/boxes"
@@ -40,13 +41,14 @@ export default async function BoxPage({ params }: PageProps) {
           price={box.price}
           experiences={box.experiences}
           image={box.image}
-          signatureColor={box.signatureColor}
           slug={box.slug}
         />
 
-        <Occasions />
+        <BoxWhyItWorks />
 
-        <BoxReassurance />
+        <BoxExperienceExamples />
+
+        <BoxFAQ validityMonths={box.validityMonths} />
 
         <BoxFinalCTA price={box.price} slug={box.slug} />
 

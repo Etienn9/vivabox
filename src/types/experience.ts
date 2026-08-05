@@ -3,6 +3,7 @@ export type Experience = {
   city?: string
   category: string
   image?: string
+  gallery?: string[]
 
   duration?: string
   zone?: string
