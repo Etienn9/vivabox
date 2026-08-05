@@ -18,7 +18,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json()
 
-    const { box: boxSlug, quantity, buyer, delivery, promoCode } = body
+    const { box: boxSlug, quantity, buyer, delivery, destination, recipient, address, promoCode } = body
 
     if (!boxSlug || typeof boxSlug !== "string") {
       return NextResponse.json({ ok: false, error: "INVALID_BOX" })
@@ -34,6 +34,24 @@ export async function POST(req: Request) {
 
     if (!delivery?.type || !["physical", "digital"].includes(delivery.type)) {
       return NextResponse.json({ ok: false, error: "INVALID_DELIVERY_TYPE" })
+    }
+
+    if (delivery.type === "physical") {
+      if (!["self", "recipient"].includes(destination)) {
+        return NextResponse.json({ ok: false, error: "MISSING_DESTINATION" })
+      }
+
+      if (!address?.address || !address?.city) {
+        return NextResponse.json({ ok: false, error: "MISSING_ADDRESS" })
+      }
+
+      if (destination === "recipient" && (!recipient?.name || !recipient?.phone)) {
+        return NextResponse.json({ ok: false, error: "MISSING_RECIPIENT" })
+      }
+
+      if (destination === "self" && !buyer.phone) {
+        return NextResponse.json({ ok: false, error: "MISSING_BUYER_PHONE" })
+      }
     }
 
     const box = boxes.find((b) => b.slug === boxSlug)
@@ -82,6 +100,9 @@ export async function POST(req: Request) {
 
     const total = subtotal + deliveryPrice
 
+    const isPhysical = delivery.type === "physical"
+    const isRecipient = isPhysical && destination === "recipient"
+
     const { data, error } = await supabase
       .from("ventas")
       .insert({
@@ -94,6 +115,13 @@ export async function POST(req: Request) {
 
         delivery_type: delivery.type,
         delivery_speed: delivery.speed || null,
+
+        recipient_name: isPhysical ? (isRecipient ? recipient.name : buyer.name) : "",
+        recipient_contact: isPhysical ? (isRecipient ? recipient.phone : buyer.phone) : "",
+
+        delivery_direccion: isPhysical ? address.address : "",
+        delivery_ciudad: isPhysical ? address.city : "",
+        delivery_detalles: isPhysical ? (address.addressExtra || "") : "",
 
         subtotal,
         delivery_price: deliveryPrice,

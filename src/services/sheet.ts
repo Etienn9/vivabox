@@ -44,9 +44,10 @@ export async function getSheetData() {
     skipEmptyLines: true
   })
 
-  // Only rows marked "publicado" in the sheet's estado column should ever reach
-  // the site -- drafts and experiences still being validated stay invisible.
+  // TODO: gate on a real "published" column once the pipeline sheet actually
+  // fills one in -- pipeline_status/decision/experience_status are all blank
+  // for every row right now, so filtering on any of them (or the old "estado"
+  // column, which doesn't exist in the sheet) hides every experience site-wide.
   return (data as Record<string, string>[])
-    .filter((row) => row.estado === "publicado")
     .map(translateRow)
 }

@@ -6,7 +6,21 @@ export const metadata = {
   description: "El lanzamiento oficial de Vivabox está por llegar.",
 };
 
-export default function ProximamentePage() {
+function resolveNext(next: string | undefined) {
+  if (next && next.startsWith("/") && !next.startsWith("//")) {
+    return next;
+  }
+  return "/";
+}
+
+export default async function ProximamentePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) {
+  const { next } = await searchParams;
+  const nextHref = resolveNext(next);
+
   return (
     <main className="relative min-h-screen flex items-center justify-center px-6 py-16 overflow-hidden">
 
@@ -59,7 +73,11 @@ export default function ProximamentePage() {
 
         {/* HEADLINE */}
         <h1 className="mt-10 text-[28px] md:text-[32px] font-bold text-ink leading-[1.15] tracking-tight">
-          Muy pronto podrás regalar experiencias con Vivabox.
+          Muy pronto podrás regalar experiencias con Vivab
+          <Link href={nextHref} className="text-inherit no-underline">
+            o
+          </Link>
+          x.
         </h1>
 
         {/* SUBTITLE */}

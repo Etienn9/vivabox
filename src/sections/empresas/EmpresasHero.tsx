@@ -4,7 +4,7 @@ export default function EmpresasHero() {
   return (
     <section className="relative w-full overflow-hidden bg-ink">
 
-      <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-2 items-center gap-10 md:gap-14 py-16 md:py-0 md:h-[70vh]">
+      <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-2 items-center gap-10 md:gap-14 pt-28 pb-16 md:pt-24 md:pb-0 md:min-h-[70vh]">
 
         {/* TEXT */}
         <div className="text-white">

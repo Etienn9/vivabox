@@ -1,9 +1,9 @@
 import { boxes } from "@/data/boxes"
 import { notFound } from "next/navigation"
-import ProductStep from "@/app/checkout/components/ProductStep"
+import CheckoutStep from "@/app/checkout/components/CheckoutStep"
 import CheckoutProgress from "../CheckoutProgress"
 
-export default async function CheckoutProductPage({
+export default async function CheckoutPage({
   params,
 }: {
   params: { slug: string }
@@ -27,18 +27,16 @@ export default async function CheckoutProductPage({
     name: box.name,
     price: box.price,
     image: box.image ?? "",
-    experiences: box.experiences,
-    validityMonths: box.validityMonths,
   }
 
   return (
     <>
       {/* Progress bar */}
-      <CheckoutProgress current="elegir" subStep={1} />
+      <CheckoutProgress current="elegir" />
 
       {/* Content */}
       <div className="max-w-[1100px] mx-auto px-4 py-6">
-        <ProductStep box={checkoutBox} />
+        <CheckoutStep box={checkoutBox} />
       </div>
     </>
   )

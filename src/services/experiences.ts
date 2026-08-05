@@ -110,28 +110,6 @@ export async function getExperiencesPreview():Promise<Experience[]> {
   return ordered
 }
 
-// Shown only when the sheet has no published row for a category yet (see the
-// "estado" filter in services/sheet.ts) -- keeps the section from rendering
-// empty while that pipeline is being finished.
-const FALLBACK_EXAMPLES: Record<string, { title: string; city: string; image: string }[]> = {
-  gastronomia: [
-    { title: "Cena con cócteles de autor", city: "Bogotá", image: "/images/experiences/d0f7e6d2bdc4165a.jpeg" },
-    { title: "Cata de vinos", city: "Bogotá", image: "/images/experiences/d414628f3844f5c1.jpeg" },
-  ],
-  bienestar: [
-    { title: "Clase de yoga en grupo", city: "Bogotá", image: "/images/experiences/966ad0fefc7cd231.jpeg" },
-    { title: "Día de spa", city: "Bogotá", image: "/images/experiences/eb83b6b7863c21a1.jpeg" },
-  ],
-  aventura: [
-    { title: "Buceo guiado", city: "Cartagena", image: "/images/experiences/6321c99cffffb3dc.jpeg" },
-    { title: "Circuito en carro deportivo", city: "Bogotá", image: "/images/experiences/8fa789055c36c3df.jpeg" },
-  ],
-  estancias: [
-    { title: "Noche de glamping", city: "Cundinamarca", image: "/images/experiences/260fa8a6b0eaba11.jpeg" },
-    { title: "Cabaña de cristal en el bosque", city: "Cundinamarca", image: "/images/experiences/c5f76d7001a5fedc.jpeg" },
-  ],
-}
-
 // Two experiences per category, for the product page's "algunas experiencias
 // que podría elegir" section. Only 4 categories (per docs/08_product-page.md)
 // to keep the section shorter than the homepage's -- "cultura" intentionally
@@ -155,7 +133,7 @@ export async function getExperienceExamples():Promise<Experience[]> {
       r => categoryMap[r.category?.toLowerCase()] === cat
     )
 
-    const picked:Experience[] = shuffle(activities).slice(0,2).map(row => ({
+    grouped[cat] = shuffle(activities).slice(0,2).map(row => ({
       title: row.title,
       city: row.city,
       category: cat,
@@ -173,14 +151,6 @@ export async function getExperienceExamples():Promise<Experience[]> {
       engagement: row.engagement,
       vivanote: row.vivanote
     }))
-
-    // Top up with fallbacks when the sheet doesn't have two published rows yet.
-    const fallbacks = FALLBACK_EXAMPLES[cat] || []
-    for(let i = picked.length; i < 2 && i < fallbacks.length; i++){
-      picked.push({ title: fallbacks[i].title, city: fallbacks[i].city, category: cat, image: fallbacks[i].image })
-    }
-
-    grouped[cat] = picked
   }
 
   const ordered:Experience[] = []

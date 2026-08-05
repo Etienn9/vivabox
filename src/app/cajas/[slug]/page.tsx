@@ -9,6 +9,7 @@ import BoxWhyItWorks from "@/sections/box/BoxWhyItWorks"
 import BoxExperienceExamples from "@/sections/box/BoxExperienceExamples"
 import BoxFAQ from "@/sections/box/BoxFAQ"
 import BoxFinalCTA from "@/sections/box/BoxFinalCTA"
+import BoxStickyCTA from "@/sections/box/BoxStickyCTA"
 
 import BrandRibbon from "@/components/ui/BrandRibbon"
 
@@ -62,7 +63,12 @@ export default async function BoxPage({ params }: PageProps) {
 
       </main>
 
+      <BoxStickyCTA price={box.price} slug={box.slug} />
+
       <Footer />
+
+      {/* Clears the mobile sticky CTA so it never covers the footer's last rows */}
+      <div className="lg:hidden h-[76px] bg-ink" />
 
       <WhatsappButton />
     </>

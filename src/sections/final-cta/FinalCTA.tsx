@@ -1,4 +1,7 @@
 import Image from "next/image";
+import { boxes } from "@/data/boxes";
+
+const vivabox = boxes[0];
 
 export default function FinalCTA() {
   return (
@@ -43,7 +46,7 @@ export default function FinalCTA() {
           </p>
 
           <a
-            href="/proximamente"
+            href={`/proximamente?next=/cajas/${vivabox.slug}`}
             aria-label="Comprar Vivabox"
             className="px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-xl bg-primary text-white text-[15px] sm:text-[16px] md:text-[17px] font-semibold inline-flex items-center justify-center text-center leading-snug transition hover:bg-primary-hover shadow-[0_10px_35px_rgba(254,132,47,.35)]"
           >

@@ -43,7 +43,7 @@ export default function BoxHero({
   }
 
   return (
-    <section className="relative overflow-hidden pt-20 md:pt-24 pb-6 md:pb-8">
+    <section id="box-hero" className="relative overflow-hidden pt-20 md:pt-24 pb-6 md:pb-8">
 
       {/* BACKGROUND IMAGE */}
       <div className="absolute inset-0 -z-10">
@@ -63,9 +63,13 @@ export default function BoxHero({
         {/* TEXT */}
         <div className="text-white">
 
-          <h1 className="h1 mb-6 max-w-[440px]">
+          <h1 className="h1 mb-3 max-w-[440px]">
             Tu regalo ya casi está listo.
           </h1>
+
+          <p className="text-[22px] sm:text-[26px] font-semibold mb-6">
+            ${formatPrice(price)} COP
+          </p>
 
           {/* BOX + CHECKLIST */}
           <div className="flex items-center gap-6 sm:gap-10 mb-8">

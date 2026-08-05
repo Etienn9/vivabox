@@ -6,7 +6,7 @@ export type PromoValidation =
 
 // Read-only check — never consumes a use (redeem_promo_code() does that,
 // atomically, at pay time). Full validation (email match) only happens when
-// buyerEmail is known; earlier in the funnel (ProductStep, before the buyer
+// buyerEmail is known; earlier in the funnel (CheckoutStep, before the buyer
 // has entered their email) call with null and accept that a welcome code's
 // ownership can't be confirmed yet — it's re-checked for real at `start`.
 export async function validatePromoCode(

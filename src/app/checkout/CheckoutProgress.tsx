@@ -12,10 +12,9 @@ const steps: { key: Step; label: string }[] = [
 
 type Props = {
   current: Step
-  subStep?: 1 | 2
 }
 
-export default function CheckoutProgress({ current, subStep }: Props) {
+export default function CheckoutProgress({ current }: Props) {
 
   const order: Step[] = ["elegir", "pagar", "enviar"]
 
@@ -73,12 +72,6 @@ export default function CheckoutProgress({ current, subStep }: Props) {
                   >
                     {step.label}
                   </span>
-
-                  {step.key === "elegir" && current === "elegir" && subStep && (
-                    <span className="text-[11px] text-[#6B6B6B]">
-                      Paso {subStep} de 2
-                    </span>
-                  )}
                 </div>
 
               </div>

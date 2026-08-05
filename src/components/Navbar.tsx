@@ -1,16 +1,40 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { usePathname } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { ShoppingCart, QrCode, Menu, X } from "lucide-react"
+import { useCheckoutStore } from "@/features/checkout/checkoutStore"
 
 export default function Navbar() {
 
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const box = useCheckoutStore((s) => s.box)
+  const quantity = useCheckoutStore((s) => s.quantity)
+  const hasHydrated = useCheckoutStore((s) => s.hasHydrated)
+
+  const cartHref = box ? `/checkout/${box.slug}` : "/#incluye"
+  const cartCount = hasHydrated && box ? quantity : 0
+
+  // Brief pulse whenever the count changes, so adding/adjusting a box gives
+  // visible feedback on the nav icon without a toast.
+  const [bump, setBump] = useState(false)
+  const prevCount = useRef(cartCount)
+
+  useEffect(() => {
+    if (cartCount !== prevCount.current) {
+      prevCount.current = cartCount
+      if (cartCount > 0) {
+        setBump(true)
+        const t = setTimeout(() => setBump(false), 300)
+        return () => clearTimeout(t)
+      }
+    }
+  }, [cartCount])
 
   const isCheckout = pathname.startsWith("/checkout")
 
@@ -19,7 +43,6 @@ export default function Navbar() {
     pathname.startsWith("/experiencias") ||
     pathname.startsWith("/carrito") ||
     pathname.startsWith("/activar") ||
-    pathname.startsWith("/empresas") ||
     pathname.startsWith("/nuestra-historia")
 
   useEffect(() => {
@@ -52,14 +75,16 @@ export default function Navbar() {
           {/* LEFT */}
           <div className="flex items-center gap-3">
 
-            <button
-              onClick={() => setMenuOpen(true)}
-              className={`md:hidden transition hover:scale-105 translate-y-[2px] ${
-                solid ? "text-foreground" : "text-white"
-              }`}
-            >
-              <Menu size={28} strokeWidth={1.5} />
-            </button>
+            {!isCheckout && (
+              <button
+                onClick={() => setMenuOpen(true)}
+                className={`md:hidden transition hover:scale-105 translate-y-[2px] ${
+                  solid ? "text-foreground" : "text-white"
+                }`}
+              >
+                <Menu size={28} strokeWidth={1.5} />
+              </button>
+            )}
 
             <Link
               href="/"
@@ -95,17 +120,19 @@ export default function Navbar() {
           </div>
 
           {/* NAV DESKTOP */}
-          <div
-            className={`hidden md:flex gap-8 text-[15px] transition-colors ${
-              solid ? "text-ink" : "text-white"
-            }`}
-          >
-            <Link href="/#incluye">Cómo funciona</Link>
-            <Link href="/#incluye">Cajas</Link>
-            <Link href="/#experiencias">Experiencias</Link>
-            <Link href="/proximamente">Empresas</Link>
-            <Link href="/proximamente">Nuestra historia</Link>
-          </div>
+          {!isCheckout && (
+            <div
+              className={`hidden md:flex gap-8 text-[15px] transition-colors ${
+                solid ? "text-ink" : "text-white"
+              }`}
+            >
+              <Link href="/#incluye">Cómo funciona</Link>
+              <Link href="/#incluye">Cajas</Link>
+              <Link href="/#experiencias">Experiencias</Link>
+              <Link href="/proximamente?next=/empresas">Empresas</Link>
+              <Link href="/proximamente?next=/nuestra-historia">Nuestra historia</Link>
+            </div>
+          )}
 
           {/* ACTIONS */}
           {!isCheckout && (
@@ -135,14 +162,23 @@ export default function Navbar() {
 
               {/* CART */}
               <Link
-                href="/proximamente"
-                className={`p-2 rounded-full transition ${
+                href={cartHref}
+                className={`relative p-2 rounded-full transition ${
                   solid
                     ? "text-ink hover:bg-black/5"
                     : "text-white hover:bg-white/20"
                 }`}
               >
                 <ShoppingCart size={24} strokeWidth={1.5} />
+                {cartCount > 0 && (
+                  <span
+                    className={`absolute top-0.5 right-0.5 flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-white text-[10px] font-semibold leading-none transition-transform duration-300 ${
+                      bump ? "scale-125" : "scale-100"
+                    }`}
+                  >
+                    {cartCount}
+                  </span>
+                )}
               </Link>
 
             </div>
@@ -238,7 +274,7 @@ export default function Navbar() {
           Experiencias
         </Link>
 
-        <Link href="/proximamente" onClick={() => setMenuOpen(false)}>
+        <Link href="/proximamente?next=/empresas" onClick={() => setMenuOpen(false)}>
           Empresas
         </Link>
 
@@ -250,13 +286,22 @@ export default function Navbar() {
       {/* SECONDARY */}
       <div className="flex flex-col gap-5 text-[15px] text-gray-500">
 
-        <Link href="/proximamente" onClick={() => setMenuOpen(false)}>
+        <Link href="/proximamente?next=/nuestra-historia" onClick={() => setMenuOpen(false)}>
           Nuestra historia
         </Link>
 
         {!isCheckout && (
-          <Link href="/proximamente" onClick={() => setMenuOpen(false)}>
+          <Link
+            href={cartHref}
+            onClick={() => setMenuOpen(false)}
+            className="flex items-center gap-2"
+          >
             Carrito
+            {cartCount > 0 && (
+              <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-white text-[10px] font-semibold leading-none">
+                {cartCount}
+              </span>
+            )}
           </Link>
         )}
 

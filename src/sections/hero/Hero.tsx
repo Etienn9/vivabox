@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, useState } from "react"
 import BrandRibbon from "@/components/ui/BrandRibbon"
+import { boxes } from "@/data/boxes"
 
 const DESKTOP_SRC = "/videos/hero/hero.mp4"
 const MOBILE_SRC = "/videos/hero/hero-mobile.mp4"
+
+const vivabox = boxes[0]
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -130,7 +133,7 @@ export default function Hero() {
             {/* PRIMARY */}
 
             <a
-              href="/proximamente"
+              href={`/proximamente?next=/cajas/${vivabox.slug}`}
               className="
                 flex-[1.25] md:flex-none
                 h-[54px]

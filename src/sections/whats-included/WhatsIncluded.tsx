@@ -5,6 +5,9 @@ import { useEffect, useRef, useState } from "react"
 import { ArrowRight, CalendarCheck, User } from "lucide-react"
 import BrandRibbon from "@/components/ui/BrandRibbon"
 import BenefitsBar from "@/components/BenefitsBar"
+import { boxes } from "@/data/boxes"
+
+const vivabox = boxes[0]
 
 // Scales its content to the exact font-size that fills the container width
 // on a single line — measured live, so it always fits regardless of glyph
@@ -366,7 +369,7 @@ export default function WhatsIncluded() {
           </p>
 
           <a
-            href="/proximamente"
+            href={`/proximamente?next=/cajas/${vivabox.slug}`}
             className="h-[54px] px-10 rounded-xl bg-primary text-white text-[17px] font-semibold inline-flex items-center justify-center transition hover:bg-primary-hover shadow-[0_10px_35px_rgba(254,132,47,.35)]"
           >
             Comprar Vivabox
@@ -516,7 +519,7 @@ export default function WhatsIncluded() {
             </p>
 
             <a
-              href="/proximamente"
+              href={`/proximamente?next=/cajas/${vivabox.slug}`}
               className="h-[54px] px-10 rounded-xl bg-primary text-white text-[17px] font-semibold inline-flex items-center justify-center transition hover:bg-primary-hover shadow-[0_10px_35px_rgba(254,132,47,.35)]"
             >
               Comprar Vivabox
