@@ -61,7 +61,16 @@ export default function Navbar() {
               <Menu size={28} strokeWidth={1.5} />
             </button>
 
-            <Link href="/" className="flex items-center gap-2 py-2 pr-2 group">
+            <Link
+              href="/"
+              onClick={(e) => {
+                if (pathname === "/") {
+                  e.preventDefault()
+                  window.scrollTo({ top: 0, behavior: "smooth" })
+                }
+              }}
+              className="flex items-center gap-2 py-2 pr-2 group"
+            >
 
               <Image
                 src={solid ? "/icons/logo.png" : "/icons/logo-white.png"}

@@ -43,7 +43,7 @@ export default function BoxHero({
   }
 
   return (
-    <section className="relative overflow-hidden pt-20 md:pt-24 pb-10 md:pb-12">
+    <section className="relative overflow-hidden pt-20 md:pt-24 pb-6 md:pb-8">
 
       {/* BACKGROUND IMAGE */}
       <div className="absolute inset-0 -z-10">
