@@ -1,51 +1,47 @@
-import { Building2, Gift } from "lucide-react";
 import Reveal from "@/components/ui/Reveal";
 
-const CARDS = [
+const COLUMNS = [
   {
-    icon: Building2,
-    title: "Para tu empresa",
-    items: ["Fácil de organizar", "Entrega física o digital", "Nosotros gestionamos las reservas"],
+    eyebrow: "Para tu empresa",
+    statement: "Un solo pedido, cero complicaciones",
+    text: "Coordinas todo en un solo lugar, sin adivinar qué le gusta a cada persona.",
   },
   {
-    icon: Gift,
-    title: "Para quien recibe",
-    items: ["Elige su experiencia", "Cuando quiera", "Vive un momento inolvidable"],
+    eyebrow: "Para quien recibe",
+    statement: "Un regalo que se siente personal",
+    text: "Cada quien elige la experiencia que más le llama, cuando mejor le quede.",
   },
 ] as const;
 
 export default function EmpresasBenefits() {
   return (
-    <section className="bg-white py-24 md:py-28">
+    <section className="bg-white py-14 md:py-20">
 
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-4xl mx-auto px-6">
 
         <Reveal>
-          <h2 className="text-3xl md:text-4xl font-semibold text-center tracking-[-0.01em] mb-16">
+          <h2 className="text-3xl md:text-4xl font-semibold text-center tracking-[-0.01em] mb-8 md:mb-12">
             Un solo regalo.<br />Miles de gustos.
           </h2>
         </Reveal>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-black/10">
 
-          {CARDS.map((card, index) => {
-            const Icon = card.icon;
-            return (
-              <Reveal key={card.title} delay={index * 120}>
-                <div className="h-full bg-[#F7F7F7] p-10 rounded-2xl shadow-[0_8px_22px_rgba(0,0,0,0.05)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.1)] hover:-translate-y-[2px] transition-all duration-300">
-                  <Icon size={40} strokeWidth={1.5} className="text-primary mb-6" />
-                  <h3 className="font-semibold text-xl mb-5">
-                    {card.title}
-                  </h3>
-                  <ul className="space-y-3 text-[#6B6B6B]">
-                    {card.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            );
-          })}
+          {COLUMNS.map((col, index) => (
+            <Reveal key={col.eyebrow} delay={index * 120}>
+              <div className={`py-5 md:py-0 ${index === 0 ? "md:pr-12" : "md:pl-12 pt-6 md:pt-0"}`}>
+                <p className="text-primary text-[13px] uppercase tracking-[0.14em] font-semibold mb-4">
+                  {col.eyebrow}
+                </p>
+                <h3 className="text-2xl font-semibold tracking-[-0.01em] mb-3">
+                  {col.statement}
+                </h3>
+                <p className="text-[#6B6B6B] leading-relaxed">
+                  {col.text}
+                </p>
+              </div>
+            </Reveal>
+          ))}
 
         </div>
 

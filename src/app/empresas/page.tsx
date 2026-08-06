@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsappButton from "@/components/WhatsappButton";
+import BrandRibbon from "@/components/ui/BrandRibbon";
 
 import EmpresasHero from "@/sections/empresas/EmpresasHero";
 import EmpresasQuickBenefits from "@/sections/empresas/EmpresasQuickBenefits";
@@ -17,6 +18,7 @@ export default function EmpresasPage() {
 
       <main>
         <EmpresasHero />
+        <BrandRibbon />
         <EmpresasQuickBenefits />
         <EmpresasBenefits />
         <EmpresasCustomization />

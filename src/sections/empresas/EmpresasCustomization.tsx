@@ -13,7 +13,7 @@ export default function EmpresasCustomization() {
   return (
     <section className="bg-ink">
 
-      <div className="max-w-6xl mx-auto px-6 py-24 md:py-28 grid md:grid-cols-2 items-center gap-14 md:gap-16">
+      <div className="max-w-6xl mx-auto px-6 py-14 md:py-20 grid md:grid-cols-2 items-center gap-14 md:gap-16">
 
         {/* TEXT */}
         <Reveal>
@@ -33,16 +33,16 @@ export default function EmpresasCustomization() {
               aún más especial.
             </p>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2.5">
               {CHIPS.map((chip) => {
                 const Icon = chip.icon;
                 return (
                   <div
                     key={chip.text}
-                    className="flex items-center gap-2 bg-white/10 rounded-full pl-3 pr-4 py-2"
+                    className="flex items-center gap-1.5 bg-white/10 rounded-full pl-2.5 pr-3.5 py-1.5"
                   >
-                    <Icon size={16} strokeWidth={1.5} className="text-primary" />
-                    <span className="text-white text-sm font-medium">
+                    <Icon size={14} strokeWidth={1.5} className="text-primary" />
+                    <span className="text-white text-[13px] font-medium">
                       {chip.text}
                     </span>
                   </div>
@@ -55,28 +55,23 @@ export default function EmpresasCustomization() {
 
         {/* MOCKUP */}
         <Reveal delay={120}>
-          <div className="relative w-full aspect-square max-w-[440px] mx-auto">
+          <div className="relative w-full max-w-[360px] mx-auto aspect-square">
 
-            <div
-              className="absolute left-[10%] top-[6%] w-[80%] aspect-square"
-              style={{ transform: "perspective(1400px) rotateX(6deg) rotateY(-8deg) rotate(-2deg)" }}
-            >
-              <Image
-                src="/images/box-includes/vivabox-caja-regalo.png"
-                alt="Vivabox personalizable para empresas"
-                fill
-                sizes="(min-width: 440px) 352px, 80vw"
-                className="object-contain drop-shadow-[18px_10px_20px_rgba(0,0,0,0.45)]"
-              />
-            </div>
+            <Image
+              src="/images/box-includes/vivabox-caja-regalo.png"
+              alt="Vivabox personalizable para empresas"
+              fill
+              sizes="(min-width: 360px) 360px, 80vw"
+              className="object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.45)]"
+            />
 
             {/* CALLOUT — logo */}
-            <div className="absolute right-[2%] top-[10%] bg-white/95 rounded-xl px-3 py-2 shadow-lg">
+            <div className="absolute right-[8%] top-[16%] bg-white/95 rounded-xl px-3 py-2 shadow-lg">
               <span className="text-ink text-xs font-semibold">Logo aquí</span>
             </div>
 
             {/* CALLOUT — colors */}
-            <div className="absolute left-0 top-[48%] flex items-center gap-1.5 bg-white/95 rounded-xl px-3 py-2 shadow-lg">
+            <div className="absolute left-[2%] top-1/2 -translate-y-1/2 flex items-center gap-1.5 bg-white/95 rounded-xl px-3 py-2 shadow-lg">
               <span className="h-2.5 w-2.5 rounded-full bg-primary" />
               <span className="h-2.5 w-2.5 rounded-full bg-accent-blue" />
               <span className="h-2.5 w-2.5 rounded-full bg-accent-green" />
@@ -84,7 +79,7 @@ export default function EmpresasCustomization() {
             </div>
 
             {/* CALLOUT — message */}
-            <div className="absolute right-[6%] bottom-[6%] bg-white/95 rounded-xl px-3 py-2 shadow-lg">
+            <div className="absolute right-[6%] bottom-[16%] bg-white/95 rounded-xl px-3 py-2 shadow-lg">
               <span className="text-ink text-xs font-semibold">Mensaje personal</span>
             </div>
 

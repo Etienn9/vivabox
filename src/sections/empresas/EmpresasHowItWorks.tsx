@@ -3,8 +3,8 @@ import Reveal from "@/components/ui/Reveal";
 import BrandRibbon from "@/components/ui/BrandRibbon";
 
 const STEPS = [
-  { icon: Building2, text: "Empresa" },
-  { icon: Gift, text: "Elige una Vivabox" },
+  { icon: Building2, text: "Compra la Vivabox" },
+  { icon: Gift, text: "Personaliza el regalo" },
   { icon: Truck, text: "Entrega física o digital" },
   { icon: MousePointerClick, text: "Cada persona elige" },
   { icon: CalendarCheck, text: "Vivabox gestiona la reserva" },
@@ -14,10 +14,10 @@ export default function EmpresasHowItWorks() {
   return (
     <section id="como-funciona-empresas" className="bg-ink">
 
-      <div className="max-w-6xl mx-auto px-6 py-24 md:py-28">
+      <div className="max-w-6xl mx-auto px-6 py-14 md:py-20">
 
         <Reveal>
-          <h2 className="text-3xl md:text-4xl font-semibold text-center tracking-[-0.01em] text-white mb-20">
+          <h2 className="text-3xl md:text-4xl font-semibold text-center tracking-[-0.01em] text-white mb-10 md:mb-14">
             Cómo funciona
           </h2>
         </Reveal>
